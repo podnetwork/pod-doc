@@ -22,7 +22,8 @@
 	<div class="fixed left-0 top-0 hidden h-screen w-72 flex-none overflow-y-auto border-r lg:block">
 		<div class="flex h-14 gap-3 p-3 px-6">
 			<div>
-				<img src="/pod-logo.svg" alt="Pod network" class="w-10" />
+				<img src="/pod-logo.svg" alt="Pod network" class="w-10 dark:hidden" />
+				<img src="/pod-logo-white.svg" alt="Pod network" class="hidden w-10 dark:inline-block" />
 				<div class="text-sm">Pod network</div>
 			</div>
 
@@ -43,7 +44,13 @@
 			<div class="lg:hidden">
 				<SidebarMobile />
 			</div>
+
 			<VersionController />
+
+			<!-- <div class="mr-auto">
+				<ClerkLogin />
+			</div> -->
+
 			<ProfileMenu />
 		</div>
 
