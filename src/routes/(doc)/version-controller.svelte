@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 	import * as Select from '$lib/components/ui/select';
 
 	const versions = [
@@ -10,7 +12,15 @@
 	let selected = $state(versions[0].value);
 </script>
 
-<Select.Root type="single" bind:value={selected}>
+<Select.Root
+	type="single"
+	bind:value={selected}
+	onValueChange={(value) => {
+		const p = page.url.pathname;
+		const path = p.replace(p.split('/')[1], value);
+		goto(path, { keepFocus: true });
+	}}
+>
 	<Select.Trigger class="mr-auto w-[180px]">
 		{selected}
 	</Select.Trigger>

@@ -20,6 +20,9 @@ export class SidebarMenuStore {
 		return getContext<SidebarMenuStore>(this.sid);
 	}
 
+	// version reference to url
+	pageVersion = $derived(page.url.pathname.split('/')[1] || 'v1');
+
 	// TOC tracking
 	visibleId = $state<string>();
 
@@ -63,23 +66,28 @@ export class SidebarMenuStore {
 		};
 	}
 
-	items: SidebarItem[] = [
-		{ href: '/', label: 'Welcome to pod' },
-		{ href: '/getting-started', label: 'Getting Started' },
-		{ heading: 'How to guides' },
-		{ href: '/how-to-guides/payments', label: 'Payments' },
-		{ href: '/how-to-guides/auctions', label: 'Auctions' },
-		{ href: '/how-to-guides/feed-layer', label: 'Feed Layer' },
-		{ heading: 'Reference' },
-		{
-			href: '/reference/rpc-api',
-			label: 'RPC API',
-			children: [
-				{ href: '/reference/rpc-api#base-url', label: 'General' },
-				{ href: '/reference/rpc-api#eth_blocknumber', label: 'eth_blocknumber' }
-			]
-		}
-	];
+	items: SidebarItem[] = $derived.by(() => {
+		const v = this.pageVersion;
+		const u = (p: string) => `/${v}${p}`;
+
+		return [
+			{ href: u('/'), label: 'Welcome to pod' },
+			{ href: u('/getting-started'), label: 'Getting Started' },
+			{ heading: 'How to guides' },
+			{ href: u('/how-to-guides/payments'), label: 'Payments' },
+			{ href: u('/how-to-guides/auctions'), label: 'Auctions' },
+			{ href: u('/how-to-guides/feed-layer'), label: 'Feed Layer' },
+			{ heading: 'Reference' },
+			{
+				href: u('/reference/rpc-api'),
+				label: 'RPC API',
+				children: [
+					{ href: u('/reference/rpc-api#base-url'), label: 'General' },
+					{ href: u('/reference/rpc-api#eth_blocknumber'), label: 'eth_blocknumber' }
+				]
+			}
+		];
+	});
 
 	itemIDs = $derived(
 		this.items.flatMap((item) => {
@@ -96,7 +104,7 @@ export class SidebarMenuStore {
 
 	isActive(item: SidebarItem) {
 		if (item.heading) return false;
-		if (item.href === '/') return page.url.pathname === '/';
+		if (item.href === `/${this.pageVersion}/`) return page.url.pathname === `/${this.pageVersion}/`;
 
 		if (item.href?.includes('#')) {
 			const str = `${page.url.pathname}${page.url.hash}`;
