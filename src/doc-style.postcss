@@ -1,0 +1,172 @@
+/* https://shiki.style/guide/dual-themes */
+
+/* @media (prefers-color-scheme: dark) {
+	.shiki,
+	.shiki span {
+		color: var(--shiki-dark) !important;
+		background-color: var(--shiki-dark-bg) !important;
+
+		font-style: var(--shiki-dark-font-style) !important;
+		font-weight: var(--shiki-dark-font-weight) !important;
+		text-decoration: var(--shiki-dark-text-decoration) !important;
+	}
+} */
+
+/* Class-based Dark Mode */
+.shiki,
+.shiki span {
+	color: var(--shiki-light) !important;
+	background-color: var(--shiki-light-bg) !important;
+	font-style: var(--shiki-light-font-style) !important;
+	font-weight: var(--shiki-light-font-weight) !important;
+	text-decoration: var(--shiki-light-text-decoration) !important;
+}
+
+.dark {
+	.shiki,
+	.shiki span {
+		color: var(--shiki-dark) !important;
+		background-color: var(--shiki-dark-bg) !important;
+		font-style: var(--shiki-dark-font-style) !important;
+		font-weight: var(--shiki-dark-font-weight) !important;
+		text-decoration: var(--shiki-dark-text-decoration) !important;
+	}
+}
+
+.card2 {
+	@apply border border-input shadow-sm;
+	@apply rounded-md;
+	@apply bg-background dark:bg-accent;
+	@apply border-border dark:border-accent/[1%];
+}
+
+/* doc style */
+.doc-style {
+	@apply text-sm;
+	@apply antialiased;
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5 {
+		@apply font-medium tracking-wide;
+		/* this help anchor scroll the page padding heading */
+		scroll-margin-top: calc(theme('spacing.14') + 2rem);
+	}
+
+	h1 {
+		@apply text-4xl font-bold;
+
+		&:not(:last-child) {
+			@apply mb-8;
+		}
+
+		&:not(:first-child) {
+			@apply mt-12;
+		}
+	}
+
+	h2 {
+		@apply text-xl;
+
+		&:not(:last-child) {
+			@apply mb-4;
+		}
+
+		&:not(:first-child) {
+			@apply mt-12;
+		}
+	}
+
+	h3 {
+		@apply text-lg;
+
+		&:not(:last-child) {
+			@apply mb-4;
+		}
+
+		&:not(:first-child) {
+			@apply mt-12;
+		}
+	}
+
+	h4 {
+		&:not(:last-child) {
+			@apply mb-1;
+		}
+
+		&:not(:first-child) {
+			@apply mt-2;
+		}
+	}
+
+	p,
+	ul,
+	ol {
+		@apply mb-4;
+	}
+
+	ul,
+	ol {
+		@apply ml-3 list-outside list-disc;
+		li {
+			&:not(:last-child) {
+				@apply mb-2;
+			}
+		}
+	}
+
+	a {
+		@apply underline underline-offset-4;
+		@apply text-pretty text-accent-foreground;
+	}
+
+	blockquote {
+		@apply rounded-lg bg-foreground/10 p-4;
+
+		*:last-child {
+			@apply mb-0;
+		}
+	}
+
+	/* code block normal (not shiki) */
+	p > code,
+	table code {
+		@apply rounded-sm bg-foreground/20 px-1.5 py-0.5;
+		@apply font-mono;
+	}
+
+	/* table */
+	table {
+		@apply w-full;
+
+		thead {
+			tr {
+				th {
+					@apply px-4 py-2 text-left;
+					&:first-child {
+						@apply pl-0;
+					}
+					&:last-child {
+						@apply pr-0;
+					}
+				}
+			}
+		}
+
+		tbody {
+			tr {
+				td {
+					@apply px-4 py-2 text-left;
+					&:first-child {
+						@apply pl-0;
+					}
+					&:last-child {
+						@apply pr-0;
+					}
+				}
+			}
+		}
+	}
+}
