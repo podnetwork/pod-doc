@@ -102,6 +102,22 @@ export class SidebarMenuStore {
 		})
 	);
 
+	currentItem = $derived.by(() => {
+		const id = this.visibleId;
+		// Recursive search through items and their children
+		const findItem = (items: SidebarItem[]): SidebarItem | null => {
+			for (const item of items) {
+				if (item.href?.split('#')[1] === id) return item;
+				if (item.children?.length) {
+					const found = findItem(item.children);
+					if (found) return found;
+				}
+			}
+			return null;
+		};
+		return findItem(this.items);
+	});
+
 	isActive(item: SidebarItem) {
 		if (item.heading) return false;
 		if (item.href === `/${this.pageVersion}/`) return page.url.pathname === `/${this.pageVersion}/`;
