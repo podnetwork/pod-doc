@@ -8,11 +8,11 @@
 
 <style lang="postcss">
 	.mlayout-simple {
-		@apply grid grid-cols-1 gap-4 md:grid-cols-2;
+		@apply grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-4;
 
 		/* special hr acts like a divider */
 		:global(> hr) {
-			@apply col-span-2;
+			@apply lg:col-span-2;
 		}
 
 		&:not(:last-child) {
@@ -20,18 +20,25 @@
 		}
 
 		:global(> div:nth-child(2)) {
-			@apply relative;
+			@apply lg:relative;
 		}
 
 		:global(> div) {
-			@apply p-12;
+			@apply empty:hidden lg:block;
 
-			&:nth-child(odd of div) {
-				@apply pr-2;
+			@apply p-12 pb-0 lg:pb-12;
+
+			:global(&:last-child),
+			:global(&:has(+ hr)) {
+				@apply pb-12;
 			}
 
-			&:nth-child(even of div) {
-				@apply pl-2;
+			:global(&:nth-child(odd of div)) {
+				@apply lg:pr-2;
+			}
+
+			:global(&:nth-child(even of div)) {
+				@apply lg:pl-2;
 			}
 		}
 	}
