@@ -11,9 +11,8 @@ import remarkTransformDirective from './remark/remark-transform-directive.js';
 // having other version of shiki instance defined in $lib and used within app
 const highlighter = await createHighlighterCore({
 	themes: [
-		import('@shikijs/themes/github-light'),
-		import('@shikijs/themes/github-dark')
-		// ...
+		import('@shikijs/themes/one-light'),
+		import('@shikijs/themes/ayu-dark')
 	],
 	langs: [
 		import('@shikijs/langs/typescript'),
@@ -25,7 +24,6 @@ const highlighter = await createHighlighterCore({
 		import('@shikijs/langs/python'),
 		import('@shikijs/langs/bash'),
 		import('@shikijs/langs/rust')
-		// ...
 	],
 	engine: createJavaScriptRegexEngine()
 });
@@ -49,8 +47,8 @@ const config = {
 							lang,
 							defaultColor: false,
 							themes: {
-								light: 'github-light',
-								dark: 'github-dark'
+								light: 'one-light',
+								dark: 'ayu-dark'
 							},
 							structure: 'classic'
 						})

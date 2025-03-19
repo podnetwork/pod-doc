@@ -6,9 +6,8 @@ import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
 // having other version of shiki instance defined in svelte.config.js
 export const shikiEngine = createHighlighterCore({
 	themes: [
-		import('@shikijs/themes/github-light'),
-		import('@shikijs/themes/github-dark')
-		// ...
+		import('@shikijs/themes/one-light'),
+		import('@shikijs/themes/ayu-dark')
 	],
 	langs: [
 		import('@shikijs/langs/typescript'),
@@ -20,13 +19,15 @@ export const shikiEngine = createHighlighterCore({
 		import('@shikijs/langs/python'),
 		import('@shikijs/langs/bash'),
 		import('@shikijs/langs/rust')
-		// ...
 	],
 	engine: createJavaScriptRegexEngine()
 });
 
 export class Shiki {
-	static themes = { light: 'github-light', dark: 'github-dark' };
+	static themes = {
+		light: 'one-light',
+		dark: 'ayu-dark'
+	};
 
 	static engine$ = defer(() => from(shikiEngine)).pipe(shareReplay(1));
 
