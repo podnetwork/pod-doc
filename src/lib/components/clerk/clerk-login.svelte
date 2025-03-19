@@ -17,7 +17,7 @@
 	</Drawer.Trigger>
 	<Drawer.Content>
 		<div class="mx-auto flex w-full max-w-md flex-col gap-4 p-4">
-			<SignIn redirectUrl={page.url.toString()} fallbackRedirectUrl={page.url.toString()} />
+			<SignIn forceRedirectUrl={page.url.toString()} fallbackRedirectUrl={page.url.toString()} />
 		</div>
 	</Drawer.Content>
 </Drawer.Root>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import ClerkLogin from '$lib/components/clerk/clerk-login.svelte';
 	import ThemeToggle from '$lib/components/theme-toggle.svelte';
 	import ProfileMenu from './profile-menu.svelte';
 	import { SidebarMenuStore } from './sidebar-menu-store.svelte';
@@ -39,7 +40,7 @@
 
 	<div class="relative flex flex-1 flex-col">
 		<div
-			class="sticky top-0 z-[2] flex h-14 flex-none items-center justify-end gap-2 border-b bg-background px-3"
+			class="sticky top-0 z-[2] flex h-14 flex-none items-center justify-start gap-2 border-b bg-background px-3"
 		>
 			<div class="lg:hidden">
 				<SidebarMobile />
@@ -47,11 +48,11 @@
 
 			<VersionController />
 
-			<!-- <div class="mr-auto">
-				<ClerkLogin />
-			</div> -->
-
-			<ProfileMenu />
+			<ClerkLogin />
+			
+			<div class="ml-auto">
+				<ProfileMenu />
+			</div>
 		</div>
 
 		<div class="flex flex-1 flex-col" bind:this={pageContentEl}>
