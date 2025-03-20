@@ -1,4 +1,3 @@
-import { goto } from '$app/navigation';
 import { page } from '$app/state';
 import { getContext, setContext } from 'svelte';
 
@@ -18,6 +17,12 @@ export class SidebarMenuStore {
 
 	static get() {
 		return getContext<SidebarMenuStore>(this.sid);
+	}
+
+	constructor() {
+		$effect(() => {
+			this.makeItems();
+		});
 	}
 
 	// version reference to url
@@ -43,7 +48,12 @@ export class SidebarMenuStore {
 						// update url
 						if (this.itemIDs.includes(entry.target.id)) {
 							this.visibleId = entry.target.id;
-							goto(`#${entry.target.id}`, { keepFocus: true, replaceState: true, noScroll: true });
+
+							const curl = window.location.href;
+							// Update the URL hash without reloading the page
+							const url = new URL(curl);
+							url.hash = `#${entry.target.id}`;
+							history.replaceState(null, '', url.toString());
 						}
 					} else {
 						// console.log(`Heading ${entry.target.id} is not in viewport`);
@@ -51,7 +61,7 @@ export class SidebarMenuStore {
 				});
 			},
 			{
-				rootMargin: '-50% 0px -50% 0px',
+				rootMargin: '-20% 0px -80% 0px',
 				threshold: 0
 			}
 		);
@@ -66,28 +76,44 @@ export class SidebarMenuStore {
 		};
 	}
 
-	items: SidebarItem[] = $derived.by(() => {
-		const v = this.pageVersion;
-		const u = (p: string) => `/${v}${p}`;
+	// items
+	hashMap = $state<Record<string, Record<string, string>>>({});
 
-		return [
-			{ href: u('/'), label: 'Welcome to pod' },
-			{ href: u('/getting-started'), label: 'Getting Started' },
-			{ heading: 'How to guides' },
-			{ href: u('/how-to-guides/payments'), label: 'Payments' },
-			{ href: u('/how-to-guides/auctions'), label: 'Auctions' },
-			{ href: u('/how-to-guides/feed-layer'), label: 'Feed Layer' },
-			{ heading: 'Reference' },
-			{
-				href: u('/reference/rpc-api'),
-				label: 'RPC API',
-				children: [
-					{ href: u('/reference/rpc-api#base-url'), label: 'General' },
-					{ href: u('/reference/rpc-api#eth_blocknumber'), label: 'eth_blocknumber' }
-				]
+	headings(url: string, hashes: Record<string, string>) {
+		this.hashMap[url] = hashes;
+	}
+
+	u(p: string) {
+		return `/${this.pageVersion}${p}`;
+	}
+
+	items = $state<SidebarItem[]>([
+		{ href: this.u('/'), label: 'Welcome to pod' },
+		{ href: this.u('/getting-started'), label: 'Getting Started' },
+		{ heading: 'How to guides' },
+		{ href: this.u('/how-to-guides/payments'), label: 'Payments' },
+		{ href: this.u('/how-to-guides/auctions'), label: 'Auctions' },
+		{ href: this.u('/how-to-guides/feed-layer'), label: 'Feed Layer' },
+		{ heading: 'Reference' },
+		{
+			href: this.u('/reference/rpc-api'),
+			label: 'RPC API'
+		}
+	]);
+
+	makeItems() {
+		Object.entries(this.hashMap).forEach(([urlPartial, hashes]) => {
+			const url = this.u(urlPartial);
+			const item = this.items.find((i) => i.href === url);
+
+			if (item) {
+				item.children = Object.entries(hashes).map(([hash, label]) => ({
+					href: `${url}#${hash}`,
+					label: label
+				}));
 			}
-		];
-	});
+		});
+	}
 
 	itemIDs = $derived(
 		this.items.flatMap((item) => {
@@ -120,13 +146,21 @@ export class SidebarMenuStore {
 
 	isActive(item: SidebarItem) {
 		if (item.heading) return false;
-		if (item.href === `/${this.pageVersion}/`) return page.url.pathname === `/${this.pageVersion}/`;
 
-		if (item.href?.includes('#')) {
-			const str = `${page.url.pathname}${page.url.hash}`;
-			return str.startsWith(item.href ?? '');
+		const home = `/${this.pageVersion}`;
+
+		const ihref = (item.href ?? '').trim().replace(/\/$/, '');
+		const phref = page.url.pathname.trim().replace(/\/$/, '');
+
+		if (ihref === home) {
+			return ihref === phref;
 		}
 
-		return page.url.pathname.startsWith(item.href ?? '');
+		if (ihref.includes('#')) {
+			const str = `${phref}${page.url.hash}`;
+			return str.startsWith(ihref);
+		}
+
+		return phref.startsWith(ihref);
 	}
 }

@@ -1,6 +1,13 @@
 ---
 title: Welcome to pod
 layout: simple
+
+url: /
+
+toc:
+  welcome-to-pod: Welcome to pod
+  what-makes-pod-different: What Makes pod Different?
+  key-features: Key Features
 ---
 
 <div>
