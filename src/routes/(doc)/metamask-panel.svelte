@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import { MetaMask } from '$lib/metamask/metamask.svelte';
-	import { LucideCircleDashed } from '@lucide/svelte';
+	import { LucideCircleDashed, LucideEllipsis } from '@lucide/svelte';
 	import { catchError, delayWhen, EMPTY, switchMap, tap } from 'rxjs';
 	import { SignedIn } from 'svelte-clerk';
 	import { toast } from 'svelte-sonner';
@@ -60,7 +60,14 @@
 
 				<div>
 					<div class="text-xs text-muted-foreground">
-						Your wallet address | Balance: {mm.walletBalanceAmount} ETH
+						Your wallet address | Balance:
+						<span class="font-bold text-foreground">
+							{#if mm.requestingWalletBalance}
+								<LucideEllipsis size={14} class="animate-ping inline-block" />
+							{:else}
+								{mm.walletBalanceAmount} ETH
+							{/if}
+						</span>
 					</div>
 					<div class="font-mono text-xs">{mm.walletAddressHashId}</div>
 				</div>

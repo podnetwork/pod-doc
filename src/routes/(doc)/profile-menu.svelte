@@ -23,7 +23,7 @@
 		<DropdownMenu.Trigger>
 			<Avatar.Root>
 				<!-- <Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" /> -->
-				<Avatar.Fallback>CN</Avatar.Fallback>
+				<Avatar.Fallback class="bg-primary text-primary-foreground">CN</Avatar.Fallback>
 			</Avatar.Root>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content side="top" align="end">

@@ -1,6 +1,16 @@
 import { PUBLIC_POD_NETWORK_NAME } from '$env/static/public';
 import { PodApi } from '$lib/pod/pod-api';
-import { catchError, finalize, from, map, switchMap, tap, throwError } from 'rxjs';
+import {
+    catchError,
+    finalize,
+    from,
+    map,
+    Subject,
+    switchMap,
+    takeUntil,
+    tap,
+    throwError
+} from 'rxjs';
 import { ajax, AjaxError } from 'rxjs/ajax';
 import { getContext, setContext } from 'svelte';
 import { useClerkContext } from 'svelte-clerk';
@@ -30,18 +40,29 @@ export class MetaMask {
 
 	constructor() {
 		$effect(() => {
-			if (!this.clerk.user) {
+			if (!this.clerk.isLoaded) return;
+			if (!window.localStorage) return;
+
+			if (!this.clerk.auth.userId) {
 				this.walletAddressHashId = void 0;
 				this.maxAmountPerDay = 0;
 				this.totalReceived24h = 0;
 				this.txHash = '';
 				this.walletBalanceAmount = '0';
-			} else if (window.localStorage) {
-				this.walletAddressHashId =
-					window.localStorage.getItem(this.walletAddressHashIdCacheName) ?? void 0;
+
+				window.localStorage.removeItem(this.walletAddressHashIdCacheName);
+				return;
 			}
 
-			if (!this.inited && this.clerk.isLoaded) this.inited = true;
+			this.walletAddressHashId =
+				window.localStorage.getItem(this.walletAddressHashIdCacheName) ?? void 0;
+
+			if (!this.inited) this.inited = true;
+		});
+
+		$effect(() => {
+			if (!this.inited) return;
+			this.requestLatestWalletBalance().subscribe();
 		});
 	}
 
@@ -217,11 +238,15 @@ export class MetaMask {
 
 	requestingWalletBalance = $state(false);
 
+	requestWalletCancel = new Subject<void>();
+
 	requestLatestWalletBalance() {
 		const provider = this.getMetaMaskProvider();
 		if (!provider) {
 			return throwError(() => new Error('Please install MetaMask'));
 		}
+
+		this.requestWalletCancel.next();
 
 		this.requestingWalletBalance = true;
 
@@ -236,7 +261,8 @@ export class MetaMask {
 			tap((i) => (this.walletBalanceAmount = i)),
 			finalize(() => {
 				this.requestingWalletBalance = false;
-			})
+			}),
+			takeUntil(this.requestWalletCancel)
 		);
 	}
 }
