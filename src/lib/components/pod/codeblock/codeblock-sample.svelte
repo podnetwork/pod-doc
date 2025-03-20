@@ -21,7 +21,8 @@
 
 	function copyCode() {
 		// copy code in element pre.code
-		const code = ref?.querySelector('pre code')?.textContent;
+		const code = ref?.querySelector('pre code')?.textContent?.trim();
+		console.log(ref, code);
 		if (code) {
 			navigator.clipboard.writeText(code);
 			toast.success('Copied to clipboard');
@@ -82,7 +83,7 @@
 	});
 </script>
 
-<CodeblockContainer {title} {children}>
+<CodeblockContainer {title} >
     {#snippet actions()}
         {#if run}
             <Button variant="secondary" class="h-6 py-1" size="sm" type="button" onclick={run}>
@@ -99,6 +100,12 @@
             <LucideClipboardCopy size={16} />
         </Button>
     {/snippet}
+
+	{#snippet children()}
+		<div bind:this={ref}>
+			{@render children?.()}
+		</div>
+	{/snippet}
 </CodeblockContainer>
 
 {#if run && runRes.response}
