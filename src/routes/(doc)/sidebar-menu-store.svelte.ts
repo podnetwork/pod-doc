@@ -1,3 +1,4 @@
+import { goto } from '$app/navigation';
 import { page } from '$app/state';
 import { getContext, setContext } from 'svelte';
 
@@ -49,11 +50,17 @@ export class SidebarMenuStore {
 						if (this.itemIDs.includes(entry.target.id)) {
 							this.visibleId = entry.target.id;
 
-							const curl = window.location.href;
+							// const curl = window.location.href;
 							// Update the URL hash without reloading the page
-							const url = new URL(curl);
-							url.hash = `#${entry.target.id}`;
-							history.replaceState(null, '', url.toString());
+							// const url = new URL(curl);
+							// url.hash = `#${entry.target.id}`;
+							// history.replaceState(null, '', url.toString());
+
+							const id = entry.target.id;
+							const newUrl = new URL(window.location.href);
+							newUrl.hash = `#${id}`;
+							// Use goto to update URL without page reload
+							goto(newUrl.toString(), { replaceState: true, noScroll: true });
 						}
 					} else {
 						// console.log(`Heading ${entry.target.id} is not in viewport`);

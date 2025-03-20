@@ -7,7 +7,6 @@
 
 	$effect(() => {
 		if (toc && url) {
-			console.log('give', url, toc)
 			s.headings(url, toc);
 		}
 	});

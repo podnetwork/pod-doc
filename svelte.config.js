@@ -38,7 +38,8 @@ const config = {
 			extensions: ['.md', '.svx'],
 			layout: {
 				simple: './src/lib/mdlayouts/simple.svelte',
-				single: './src/lib/mdlayouts/single.svelte'
+				single: './src/lib/mdlayouts/single.svelte',
+				blank: './src/lib/mdlayouts/blank.svelte'
 			},
 			highlight: {
 				highlighter: async (code, lang = 'text') => {
