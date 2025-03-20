@@ -36,8 +36,8 @@
 	};
 </script>
 
-{#if mm.inited}
-	<SignedIn>
+<SignedIn>
+	{#if mm.inited}
 		{#if mm.walletAddressHashId === undefined}
 			<Button
 				variant="default"
@@ -63,7 +63,7 @@
 						Your wallet address | Balance:
 						<span class="font-bold text-foreground">
 							{#if mm.requestingWalletBalance}
-								<LucideEllipsis size={14} class="animate-ping inline-block" />
+								<LucideEllipsis size={14} class="inline-block animate-ping" />
 							{:else}
 								{mm.walletBalanceAmount} ETH
 							{/if}
@@ -73,10 +73,10 @@
 				</div>
 			</div>
 		{/if}
-	</SignedIn>
-{:else}
-	<div class="flex items-center gap-2 px-3">
-		<LucideCircleDashed size={16} class="animate-spin" />
-		<div class="text-xs text-muted-foreground">Connecting to MetaMask...</div>
-	</div>
-{/if}
+	{:else}
+		<div class="flex items-center gap-2 px-3">
+			<LucideCircleDashed size={16} class="animate-spin" />
+			<div class="text-xs text-muted-foreground">Connecting to MetaMask...</div>
+		</div>
+	{/if}
+</SignedIn>
