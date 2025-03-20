@@ -1,6 +1,6 @@
 import { replaceState } from '$app/navigation';
-import { page } from '$app/state';
-import { getContext, setContext } from 'svelte';
+import { page, updated } from '$app/state';
+import { getContext, setContext, tick } from 'svelte';
 
 export interface SidebarItem {
 	href?: string;
@@ -55,8 +55,9 @@ export class SidebarMenuStore {
 							const url = new URL(curl);
 							url.hash = `#${entry.target.id}`;
 							// history.replaceState(null, '', url.toString());
-							
-							replaceState(url.toString(), history.state);
+
+							replaceState(url.toString(), {});
+							tick().then(() => updated.check());
 
 							// const id = entry.target.id;
 							// const newUrl = new URL(window.location.href);

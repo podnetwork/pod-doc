@@ -44,7 +44,7 @@ Returns the latest past perfection pod timestamp in microseconds.
 
 <Code.Sample title="POST: https://rpc.dev.pod.network/" runCode={play}>
 
-```bash
+```bash:curl
 curl -L \
   --request POST \
   --url 'https://rpc.dev.pod.network/' \
@@ -55,6 +55,21 @@ curl -L \
     "params": [],
     "id": 1
   }'
+```
+
+```javascript:javascript
+await fetch('https://rpc.dev.pod.network/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    jsonrpc: '2.0',
+    method: 'eth_blockNumber',
+    params: [],
+    id: 1
+  })
+});
 ```
 
 </Code.Sample>

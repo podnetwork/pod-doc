@@ -10,10 +10,7 @@ import remarkTransformDirective from './remark/remark-transform-directive.js';
 // note:
 // having other version of shiki instance defined in $lib and used within app
 const highlighter = await createHighlighterCore({
-	themes: [
-		import('@shikijs/themes/one-light'),
-		import('@shikijs/themes/ayu-dark')
-	],
+	themes: [import('@shikijs/themes/one-light'), import('@shikijs/themes/ayu-dark')],
 	langs: [
 		import('@shikijs/langs/typescript'),
 		import('@shikijs/langs/javascript'),
@@ -43,6 +40,13 @@ const config = {
 			},
 			highlight: {
 				highlighter: async (code, lang = 'text') => {
+					let cls = '';
+					if (lang.includes(':')) {
+						const [realLange, customId] = lang.split(':');
+						lang = realLange;
+						cls = customId;
+					}
+
 					const html = escapeSvelte(
 						highlighter.codeToHtml(code, {
 							lang,
@@ -51,7 +55,10 @@ const config = {
 								light: 'one-light',
 								dark: 'ayu-dark'
 							},
-							structure: 'classic'
+							structure: 'classic',
+							meta: {
+								'data-lang': cls
+							}
 						})
 					);
 					return `{@html \`${html}\` }`;
@@ -60,6 +67,7 @@ const config = {
 			remarkPlugins: [remarkAbbr, remarkTransformDirective],
 			rehypePlugins: [
 				rehypeSlug
+				// codeTitle
 				// [
 				// 	rehypeAutolinkHeadings,
 				// 	{

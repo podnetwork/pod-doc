@@ -7,16 +7,18 @@
 		children,
 		title,
 		actions,
+		underTitle
 	}: {
 		class?: ClassValue;
 		children?: Snippet;
 		title?: string;
 		actions?: Snippet;
+		underTitle?: Snippet;
 	} = $props();
 </script>
 
 <div class={['codeblock-container card2', className]}>
-	<div class="codeblock-title">
+	<div class="codeblock-title border-b">
 		{#if title}
 			{title}
 		{/if}
@@ -27,6 +29,12 @@
 			</div>
 		{/if}
 	</div>
+
+	{#if underTitle}
+		<div class="flex h-10 items-center border-b bg-muted px-2 empty:hidden">
+			{@render underTitle()}
+		</div>
+	{/if}
 
 	{#if children}
 		<div class="codeblock-code">
