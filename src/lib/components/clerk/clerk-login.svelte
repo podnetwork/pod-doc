@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import * as Drawer from '$lib/components/ui/drawer';
+	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { SignIn, SignedOut } from 'svelte-clerk';
 	import { Button } from '../ui/button';
 
@@ -12,14 +12,12 @@
 </script>
 
 <SignedOut>
-	<Drawer.Root bind:open>
-		<Drawer.Trigger>
+	<Dialog.Root>
+		<Dialog.Trigger>
 			<Button variant="outline">Login</Button>
-		</Drawer.Trigger>
-		<Drawer.Content>
-			<div class="mx-auto flex w-full max-w-md flex-col gap-4 p-4">
-				<SignIn forceRedirectUrl={page.url.toString()} fallbackRedirectUrl={page.url.toString()} />
-			</div>
-		</Drawer.Content>
-	</Drawer.Root>
+		</Dialog.Trigger>
+		<Dialog.Content class="w-fit bg-transparent border-none">
+			<SignIn forceRedirectUrl={page.url.toString()} fallbackRedirectUrl={page.url.toString()} />
+		</Dialog.Content>
+	</Dialog.Root>
 </SignedOut>

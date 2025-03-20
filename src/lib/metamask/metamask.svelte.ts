@@ -1,18 +1,8 @@
 import { PUBLIC_POD_NETWORK_NAME } from '$env/static/public';
-import {
-    catchError,
-    delayWhen,
-    EMPTY,
-    finalize,
-    from,
-    map,
-    switchMap,
-    tap,
-    throwError
-} from 'rxjs';
+import { finalize, from, map, switchMap, tap, throwError } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { getContext, setContext } from 'svelte';
-import { toast } from 'svelte-sonner';
+import { useClerkContext } from 'svelte-clerk';
 
 declare global {
 	interface Window {
@@ -33,6 +23,16 @@ export class MetaMask {
 	static get() {
 		return getContext(this.sid);
 	}
+
+	constructor() {
+		$effect(() => {
+			if (!this.clerk.user) {
+				this.walletAddressHashId = void 0;
+			}
+		});
+	}
+
+	clerk = useClerkContext();
 
 	version = $state('dev');
 
@@ -74,10 +74,6 @@ export class MetaMask {
 					}
 				]
 			})
-		).pipe(
-			catchError((e) => {
-				return throwError(() => e);
-			})
 		);
 	}
 
@@ -90,24 +86,24 @@ export class MetaMask {
 		this.connecting = true;
 
 		return this.addPodNetwork(chainId, rpcUrl).pipe(
-			delayWhen(() => {
-				return provider.request({
-					method: 'wallet_switchEthereumChain',
-					params: [{ chainId }]
-				});
+			switchMap(() => {
+				return from(
+					provider.request({
+						method: 'wallet_switchEthereumChain',
+						params: [{ chainId }]
+					})
+				);
 			}),
 			switchMap(() => {
-				return provider.request({
-					method: 'eth_requestAccounts'
-				});
+				return from(
+					provider.request({
+						method: 'eth_requestAccounts'
+					})
+				);
 			}),
 			map((res) => res[0]),
 			tap((i) => {
 				this.walletAddressHashId = i;
-			}),
-			catchError((e) => {
-				toast.error(e.message);
-				return EMPTY;
 			}),
 			finalize(() => {
 				this.connecting = false;
