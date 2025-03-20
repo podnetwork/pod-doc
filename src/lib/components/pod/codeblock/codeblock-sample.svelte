@@ -10,7 +10,7 @@
 	let {
 		title,
 		children,
-		runCode,
+		runCode
 	}: {
 		title?: string;
 		children?: Snippet;
@@ -22,7 +22,6 @@
 	function copyCode() {
 		// copy code in element pre.code
 		const code = ref?.querySelector('pre code')?.textContent?.trim();
-		console.log(ref, code);
 		if (code) {
 			navigator.clipboard.writeText(code);
 			toast.success('Copied to clipboard');
@@ -83,33 +82,31 @@
 	});
 </script>
 
-<CodeblockContainer {title} >
-    {#snippet actions()}
-        {#if run}
-            <Button variant="secondary" class="h-6 py-1" size="sm" type="button" onclick={run}>
-                {#if runningCode}
-                    <LucideCircleDashed size={16} class="animate-spin" />
-                {:else}
-                    <LucidePlay size={16} />
-                {/if}
-                Run sample
-            </Button>
-        {/if}
+<CodeblockContainer {title}>
+	{#snippet actions()}
+		{#if run}
+			<Button variant="secondary" class="h-6 py-1" size="sm" type="button" onclick={run}>
+				{#if runningCode}
+					<LucideCircleDashed size={16} class="animate-spin" />
+				{:else}
+					<LucidePlay size={16} />
+				{/if}
+				Run sample
+			</Button>
+		{/if}
 
-        <Button variant="secondary" class="size-6 py-1" size="icon" type="button" onclick={copyCode}>
-            <LucideClipboardCopy size={16} />
-        </Button>
-    {/snippet}
-
-	{#snippet children()}
-		<div bind:this={ref}>
-			{@render children?.()}
-		</div>
+		<Button variant="secondary" class="size-6 py-1" size="icon" type="button" onclick={copyCode}>
+			<LucideClipboardCopy size={16} />
+		</Button>
 	{/snippet}
+
+	<div bind:this={ref}>
+		{@render children?.()}
+	</div>
 </CodeblockContainer>
 
 {#if run && runRes.response}
-    <CodeblockContainer title={'Response'} class="mt-2">
-        <div bind:this={runBoardEl}></div>
-    </CodeblockContainer>
+	<CodeblockContainer title={'Response'} class="mt-2">
+		<div bind:this={runBoardEl}></div>
+	</CodeblockContainer>
 {/if}
