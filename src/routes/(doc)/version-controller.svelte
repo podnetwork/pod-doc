@@ -21,7 +21,7 @@
 		goto(path, { keepFocus: true });
 	}}
 >
-	<Select.Trigger class="w-[180px]">
+	<Select.Trigger class="w-[5rem]">
 		{selected}
 	</Select.Trigger>
 	<Select.Content>

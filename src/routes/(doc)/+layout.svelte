@@ -1,13 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import ClerkLogin from '$lib/components/clerk/clerk-login.svelte';
 	import ThemeToggle from '$lib/components/theme-toggle.svelte';
-	import { Button, buttonVariants } from '$lib/components/ui/button';
 	import { MetaMask } from '$lib/metamask/metamask.svelte';
-	import { PodApi } from '$lib/pod/pod-api';
-	import { catchError, EMPTY, switchMap, tap } from 'rxjs';
-	import { SignedIn, SignOutButton } from 'svelte-clerk';
-	import { toast } from 'svelte-sonner';
+	import MetamaskPanel from './metamask-panel.svelte';
 	import ProfileMenu from './profile-menu.svelte';
 	import { SidebarMenuStore } from './sidebar-menu-store.svelte';
 	import SidebarMenu from './sidebar-menu.svelte';
@@ -26,24 +21,7 @@
 		return sidebar.tocTracking(pageContentEl, page.url);
 	});
 
-	const connectMetaMask = () => {
-		const rpcUrl = PodApi.getRpcEndpoint('dev');
-
-		return mm.getChainId('dev', 1).pipe(
-			switchMap((chainId) => mm.connectWallet(chainId, rpcUrl)),
-			tap(() => {
-				toast.success('Connected to MetaMask');
-			}),
-			catchError((e) => {
-				toast.error(e.message);
-				return EMPTY;
-			})
-		);
-	};
-
-	$effect(() => {
-		console.log(mm.connecting);
-	});
+	
 </script>
 
 <div class="flex min-h-screen">
@@ -52,7 +30,7 @@
 			<div>
 				<img src="/pod-logo.svg" alt="Pod network" class="w-10 dark:hidden" />
 				<img src="/pod-logo-white.svg" alt="Pod network" class="hidden w-10 dark:inline-block" />
-				<div class="text-sm">Pod network</div>
+				<div class="text-sm text-primary">Pod network</div>
 			</div>
 
 			<div class="ml-auto">
@@ -75,28 +53,7 @@
 
 			<VersionController />
 
-			<ClerkLogin />
-
-			<SignedIn>
-				{#if mm.walletAddressHashId === undefined}
-					<Button
-						variant="outline"
-						onclick={() => connectMetaMask().subscribe()}
-						disabled={mm.connecting}
-					>
-						{mm.connecting ? 'Connecting...' : 'Connect metamask'}
-					</Button>
-				{:else}
-					<div>
-						<div class="text-xs text-muted-foreground">Your wallet address</div>
-						<div class="font-mono text-xs">{mm.walletAddressHashId}</div>
-					</div>
-				{/if}
-
-				<SignOutButton>
-					<span class={buttonVariants({ variant: 'ghost' })}>Logout</span>
-				</SignOutButton>
-			</SignedIn>
+			<MetamaskPanel />
 
 			<div class="ml-auto">
 				<ProfileMenu />
