@@ -2,11 +2,19 @@
 	import { page } from '$app/state';
 	import ClerkLogin from '$lib/components/clerk/clerk-login.svelte';
 	import ThemeToggle from '$lib/components/theme-toggle.svelte';
+	import { Button } from '$lib/components/ui/button';
+	import { MetaMask } from '$lib/metamask/metamask.svelte';
+	import { PodApi } from '$lib/pod/pod-api';
+	import { catchError, EMPTY, switchMap, tap } from 'rxjs';
+	import { SignedIn } from 'svelte-clerk';
+	import { toast } from 'svelte-sonner';
 	import ProfileMenu from './profile-menu.svelte';
 	import { SidebarMenuStore } from './sidebar-menu-store.svelte';
 	import SidebarMenu from './sidebar-menu.svelte';
 	import SidebarMobile from './sidebar-mobile.svelte';
 	import VersionController from './version-controller.svelte';
+
+	const mm = MetaMask.create();
 
 	let { children } = $props();
 
@@ -17,6 +25,21 @@
 	$effect(() => {
 		return sidebar.tocTracking(pageContentEl, page.url);
 	});
+
+	const connectMetaMask = () => {
+		const rpcUrl = PodApi.getRpcEndpoint('dev');
+
+		return mm.getChainId('dev', 1).pipe(
+			switchMap((chainId) => mm.connectWallet(chainId, rpcUrl)),
+			tap(() => {
+				toast.success('Connected to MetaMask');
+			}),
+			catchError((e) => {
+				toast.error(e.message);
+				return EMPTY;
+			})
+		);
+	};
 </script>
 
 <div class="flex min-h-screen">
@@ -49,7 +72,24 @@
 			<VersionController />
 
 			<ClerkLogin />
-			
+
+			<SignedIn>
+				{#if mm.walletAddressHashId === undefined}
+					<Button
+						variant="outline"
+						onclick={() => connectMetaMask().subscribe()}
+						disabled={mm.connecting}
+					>
+						{mm.connecting ? 'Connecting...' : 'Connect metamask'}
+					</Button>
+				{:else}
+					<div>
+						<div class="text-xs text-muted-foreground">Your wallet address</div>
+						<div class="font-mono text-xs">{mm.walletAddressHashId}</div>
+					</div>
+				{/if}
+			</SignedIn>
+
 			<div class="ml-auto">
 				<ProfileMenu />
 			</div>

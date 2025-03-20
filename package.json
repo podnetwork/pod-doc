@@ -54,7 +54,8 @@
 		"@shikijs/langs": "^3.2.1",
 		"@shikijs/themes": "^3.2.1",
 		"rxjs": "^7.8.2",
-		"svelte-clerk": "^0.10.3"
+		"svelte-clerk": "^0.10.3",
+		"web3": "^4.16.0"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [
