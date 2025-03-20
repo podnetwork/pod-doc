@@ -54,7 +54,7 @@
 						onclick={() => requestFund().subscribe()}
 						disabled={mm.requestFundLoading || mm.requestingWalletBalance}
 					>
-						{mm.requestFundLoading || mm.requestingWalletBalance ? 'Requesting...' : 'Request Fund'}
+						{mm.requestFundLoading || mm.requestingWalletBalance ? 'Requesting...' : 'Fund Wallet'}
 					</Button>
 				</div>
 
@@ -65,7 +65,7 @@
 							{#if mm.requestingWalletBalance}
 								<LucideEllipsis size={14} class="inline-block animate-ping" />
 							{:else}
-								{mm.walletBalanceAmount} ETH
+								{mm.walletBalanceAmount} podETH
 							{/if}
 						</span>
 					</div>
