@@ -57,10 +57,10 @@ export class SidebarMenuStore {
 							// history.replaceState(null, '', url.toString());
 
 							const id = entry.target.id;
-							const newUrl = new URL(window.location.href);
-							newUrl.hash = `#${id}`;
+							// const newUrl = new URL(window.location.href);
+							// newUrl.hash = `#${id}`;
 							// Use goto to update URL without page reload
-							goto(newUrl.toString(), { replaceState: true, noScroll: true });
+							goto(`#${id}`, { replaceState: true, noScroll: true, keepFocus: true });
 						}
 					} else {
 						// console.log(`Heading ${entry.target.id} is not in viewport`);

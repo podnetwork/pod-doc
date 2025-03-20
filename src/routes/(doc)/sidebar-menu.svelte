@@ -4,10 +4,6 @@
 	import { SidebarMenuStore } from './sidebar-menu-store.svelte';
 
 	const sidebar = SidebarMenuStore.get();
-
-    $effect(() => {
-        $inspect(sidebar.items)
-    })
 </script>
 
 <div class="flex flex-col gap-4 p-4">
