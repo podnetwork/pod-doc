@@ -65,7 +65,7 @@
 </script>
 
 {#if isActive}
-	<div class="absolute -left-[8px] bottom-0 top-0 w-[2px] bg-primary" />
+	<div class="absolute -left-[8px] top-0 h-[32px] w-[2px] bg-primary" />
 {/if}
 {#snippet Button({ props }: { props?: Record<string, unknown> })}
 	{@const mergedProps = mergeProps(buttonProps, props)}
