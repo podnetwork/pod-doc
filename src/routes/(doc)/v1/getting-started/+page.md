@@ -1,6 +1,15 @@
 ---
 title: Getting Started
 layout: simple
+
+url: /getting-started
+
+toc:
+  network-configuration: Network Configuration
+  wallet-setup: Wallet Setup
+  obtaining-test-tokens: Obtaining Test Tokens
+  verifying-your-setup: Verifying Your Setup
+  additional-resources: Additional Resources
 ---
 
 <div>

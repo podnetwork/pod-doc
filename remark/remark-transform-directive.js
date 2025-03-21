@@ -14,7 +14,7 @@ export default function remarkTransformDirective() {
 	 */
 	return (tree) => {
 		visit(tree, function (node) {
-            // console.log(node.type, node)
+            console.log(node.type, node)
             // if (
             //     node.type === 'containerDirective' ||
             //     node.type === 'leafDirective' ||

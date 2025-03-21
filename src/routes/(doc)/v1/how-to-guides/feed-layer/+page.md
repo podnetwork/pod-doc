@@ -1,5 +1,16 @@
 ---
+title: Feed Layer
 layout: simple
+
+url: /how-to-guides/feed-layer
+
+toc:
+  smart-contract-definition: Smart Contract Definition
+  posting-data: Posting Data
+  voting-posts: Voting Posts
+  listing-posts: Listing Posts
+  light-client-support: Light Client Support
+  conclusion: Conclusion
 ---
 
 <script>

@@ -3,7 +3,7 @@
 	import * as Sidebar from '$lib/components/ui/sidebar';
 	import { SidebarMenuStore } from './sidebar-menu-store.svelte';
 
-	const sidebar = SidebarMenuStore.create();
+	const sidebar = SidebarMenuStore.get();
 </script>
 
 <div class="relative flex h-fit p-4">

@@ -20,8 +20,6 @@
 	$effect(() => {
 		return sidebar.tocTracking(pageContentEl, page.url);
 	});
-
-	
 </script>
 
 <div class="flex min-h-screen">

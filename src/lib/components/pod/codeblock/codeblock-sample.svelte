@@ -3,14 +3,14 @@
 	import { Shiki } from '$lib/shiki/shiki';
 	import { LucideCircleDashed, LucideClipboardCopy, LucidePlay } from '@lucide/svelte';
 	import { catchError, defer, EMPTY, finalize, tap } from 'rxjs';
-	import type { Snippet } from 'svelte';
+	import { untrack, type Snippet } from 'svelte';
 	import { toast } from 'svelte-sonner';
 	import CodeblockContainer from './codeblock-container.svelte';
 
 	let {
 		title,
 		children,
-		runCode,
+		runCode
 	}: {
 		title?: string;
 		children?: Snippet;
@@ -21,7 +21,7 @@
 
 	function copyCode() {
 		// copy code in element pre.code
-		const code = ref?.querySelector('pre code')?.textContent;
+		const code = ref?.querySelector('pre code')?.textContent?.trim();
 		if (code) {
 			navigator.clipboard.writeText(code);
 			toast.success('Copied to clipboard');
@@ -80,29 +80,85 @@
 
 		runBoardEl.innerHTML = '';
 	});
+
+	// support multi code block
+
+	let preEls = $derived(ref ? Array.from(ref.querySelectorAll('pre')) : []);
+
+	let langs = $derived(preEls.map((pre) => pre.dataset.lang).filter((i) => !!i)) as string[];
+
+	let selectedLang = $state<string>();
+
+	$effect(() => {
+		if (!langs.length) return;
+		if (!selectedLang) {
+			selectedLang = langs[0];
+		}
+	});
+
+	$effect(() => {
+		if (langs.length === 0 || !selectedLang) {
+			return;
+		}
+
+		// show only first lang
+		untrack(() => {
+			preEls.forEach((el) => {
+				if (el.dataset.lang === selectedLang) {
+					el.classList.remove('hidden');
+				} else {
+					el.classList.add('hidden');
+				}
+			});
+		});
+	});
 </script>
 
-<CodeblockContainer {title} {children}>
-    {#snippet actions()}
-        {#if run}
-            <Button variant="secondary" class="h-6 py-1" size="sm" type="button" onclick={run}>
-                {#if runningCode}
-                    <LucideCircleDashed size={16} class="animate-spin" />
-                {:else}
-                    <LucidePlay size={16} />
-                {/if}
-                Run sample
-            </Button>
-        {/if}
+<CodeblockContainer {title}>
+	{#snippet actions()}
+		{#if run}
+			<Button variant="outline" class="h-6 py-1" size="sm" type="button" onclick={run}>
+				{#if runningCode}
+					<LucideCircleDashed size={16} class="animate-spin" />
+				{:else}
+					<LucidePlay size={16} />
+				{/if}
+				Run sample
+			</Button>
+		{/if}
 
-        <Button variant="secondary" class="size-6 py-1" size="icon" type="button" onclick={copyCode}>
-            <LucideClipboardCopy size={16} />
-        </Button>
-    {/snippet}
+		<Button variant="outline" class="size-6 py-1" size="icon" type="button" onclick={copyCode}>
+			<LucideClipboardCopy size={16} />
+		</Button>
+	{/snippet}
+
+	{#snippet underTitle()}
+		{#if langs.length > 1}
+			<div class="flex gap-1.5">
+				{#each langs as lang}
+					<Button
+						variant={selectedLang === lang ? 'default' : 'outline'}
+						class="h-6 py-1"
+						size="sm"
+						type="button"
+						onclick={() => {
+							selectedLang = lang;
+						}}
+					>
+						{lang}
+					</Button>
+				{/each}
+			</div>
+		{/if}
+	{/snippet}
+
+	<div bind:this={ref}>
+		{@render children?.()}
+	</div>
 </CodeblockContainer>
 
 {#if run && runRes.response}
-    <CodeblockContainer title={'Response'} class="mt-2">
-        <div bind:this={runBoardEl}></div>
-    </CodeblockContainer>
+	<CodeblockContainer title={'Response'} class="mt-2">
+		<div bind:this={runBoardEl}></div>
+	</CodeblockContainer>
 {/if}

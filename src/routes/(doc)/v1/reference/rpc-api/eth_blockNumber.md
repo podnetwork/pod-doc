@@ -29,8 +29,8 @@ Returns the latest past perfection pod timestamp in microseconds.
 
 ### Response
 
-| Key              | Type    | Description             |
-| ---------------- | ------- | ----------------------- |
+| Key                | Type    | Description             |
+| ------------------ | ------- | ----------------------- |
 | `statusCode`       | integer | HTTP status code        |
 | `response.jsonrpc` | string  | same value as request   |
 | `response.id`      | integer | unique value as request |
@@ -44,7 +44,7 @@ Returns the latest past perfection pod timestamp in microseconds.
 
 <Code.Sample title="POST: https://rpc.dev.pod.network/" runCode={play}>
 
-```bash
+```bash:curl
 curl -L \
   --request POST \
   --url 'https://rpc.dev.pod.network/' \
@@ -57,16 +57,20 @@ curl -L \
   }'
 ```
 
-</Code.Sample>
-
-<Code.Sample title="Body">
-
-| Key     | Type     | Required | Default           |
-| ------- | -------- | -------- | ----------------- |
-| jsonrpc | string   | required | "2.0"             |
-| method  | string   | required | "eth_blockNumber" |
-| params  | string[] | required | []                |
-| id      | integer  | required | 1                 |
+```javascript:javascript
+await fetch('https://rpc.dev.pod.network/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    jsonrpc: '2.0',
+    method: 'eth_blockNumber',
+    params: [],
+    id: 1
+  })
+});
+```
 
 </Code.Sample>
 
