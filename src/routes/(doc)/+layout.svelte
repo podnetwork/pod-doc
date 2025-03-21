@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import Logo from '$lib/components/logo.svelte';
 	import ThemeToggle from '$lib/components/theme-toggle.svelte';
 	import { MetaMask } from '$lib/metamask/metamask.svelte';
 	import MetamaskPanel from './metamask-panel.svelte';
@@ -23,20 +24,15 @@
 </script>
 
 <div class="flex min-h-screen">
-	<div class="fixed left-0 top-0 hidden h-screen w-72 flex-none overflow-y-auto border-r lg:block">
-		<div class="flex h-14 gap-3 p-3 px-6">
-			<div>
-				<img src="/pod-logo.svg" alt="Pod network" class="w-10 dark:hidden" />
-				<img src="/pod-logo-white.svg" alt="Pod network" class="hidden w-10 dark:inline-block" />
-				<div class="text-sm text-primary">Pod network</div>
-			</div>
-
-			<div class="ml-auto">
-				<ThemeToggle />
-			</div>
-		</div>
-
+	<div
+		class="fixed left-0 top-0 hidden h-screen w-72 flex-none flex-col overflow-y-auto border-r lg:flex"
+	>
+		<Logo />
 		<SidebarMenu />
+		<div class="flex-1" />
+		<div class="p-4">
+			<ThemeToggle />
+		</div>
 	</div>
 
 	<div class="hidden w-72 lg:block"></div>

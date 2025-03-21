@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ThemeToggle from '$lib/components/theme-toggle.svelte';
 	import * as Collapsible from '$lib/components/ui/collapsible';
 	import * as Sidebar from '$lib/components/ui/sidebar';
 	import { SidebarMenuStore } from './sidebar-menu-store.svelte';
@@ -6,7 +7,7 @@
 	const sidebar = SidebarMenuStore.get();
 </script>
 
-<div class="relative flex h-fit p-4">
+<div class="relative flex h-fit flex-col justify-between p-4">
 	<div class="absolute bottom-4 left-4 top-4 w-[1px] bg-foreground/20" />
 	<div class="ml-2 flex h-fit flex-col gap-4">
 		<Sidebar.Menu>
