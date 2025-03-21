@@ -24,6 +24,8 @@
 		--input: 240 5.9% 90%;
 		--ring: 142.1 76.2% 36.3%;
 		--radius: 0.5rem;
+
+		--bg-sidebar-accent: 131 40% 92%;
 	}
 	.dark {
 		--background: 20 14.3% 4.1%;
