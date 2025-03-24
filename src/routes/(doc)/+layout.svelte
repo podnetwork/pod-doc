@@ -50,12 +50,19 @@
 		<div
 			class="sticky top-0 z-[2] flex h-14 flex-none items-center justify-start gap-2 border-b bg-background px-3"
 		>
-			<div class="lg:hidden">
+			<div class="flex items-center gap-2 pr-2 lg:hidden">
 				<Button
 					size="icon"
-					variant="outline"
-					onclick={() => (isMobileSidebarOpen = !isMobileSidebarOpen)}><Menu /></Button
+					variant="ghost"
+					onclick={() => (isMobileSidebarOpen = !isMobileSidebarOpen)}
 				>
+					<Menu />
+				</Button>
+				<a href="/">
+					<img src="/pod-logo.svg" alt="Pod network" class="w-8 dark:hidden" />
+					<img src="/pod-logo-white.svg" alt="Pod network" class="hidden w-8 dark:inline-block" />
+				</a>
+
 				<!-- <SidebarMobile /> -->
 			</div>
 
@@ -69,7 +76,7 @@
 		</div>
 
 		{#if isMobileSidebarOpen}
-			<div class="fixed bottom-0 left-0 right-0 top-14 z-[999] bg-background">
+			<div class="fixed bottom-0 left-0 right-0 top-14 z-[20] bg-background">
 				<SidebarMenu />
 			</div>
 		{/if}
