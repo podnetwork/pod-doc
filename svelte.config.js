@@ -5,7 +5,7 @@ import rehypeSlug from 'rehype-slug';
 import remarkAbbr from 'remark-abbr';
 import { createHighlighterCore } from 'shiki/core';
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
-import remarkTransformDirective from './remark/remark-transform-directive.js';
+// import remarkTransformDirective from './remark/remark-transform-directive.js';
 
 // note:
 // having other version of shiki instance defined in $lib and used within app
@@ -64,7 +64,10 @@ const config = {
 					return `{@html \`${html}\` }`;
 				}
 			},
-			remarkPlugins: [remarkAbbr, remarkTransformDirective],
+			remarkPlugins: [
+				remarkAbbr
+				// remarkTransformDirective
+			],
 			rehypePlugins: [
 				rehypeSlug
 				// codeTitle
