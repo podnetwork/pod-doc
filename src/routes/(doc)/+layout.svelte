@@ -76,8 +76,11 @@
 		</div>
 
 		{#if isMobileSidebarOpen}
-			<div class="fixed bottom-0 left-0 right-0 top-14 z-[20] bg-background">
+			<div class="fixed bottom-0 left-0 right-0 top-14 z-[20] flex flex-col bg-background">
 				<SidebarMenu />
+				<div class="p-4">
+					<ThemeToggle />
+				</div>
 			</div>
 		{/if}
 
