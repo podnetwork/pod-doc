@@ -14,13 +14,14 @@
 		<Sidebar.Menu>
 			{#each sidebar.items as item}
 				{#if item.heading}
-					<Sidebar.GroupLabel class=" mt-4 mb-2 border-t pt-4 font-aplha text-[1rem] text-foreground"
+					<Sidebar.GroupLabel
+						class=" font-aplha mb-2 mt-4 border-t pb-2 pt-8 text-[14px] text-foreground"
 						>{item.heading}</Sidebar.GroupLabel
 					>
 				{:else if item.children}
 					<Collapsible.Root open={sidebar.isActive(item)} class="group/collapsible ">
 						<Sidebar.MenuItem>
-							<Sidebar.MenuButton  isActive={sidebar.isActive(item)}>
+							<Sidebar.MenuButton isActive={sidebar.isActive(item)}>
 								<a href={item.href} class="flex w-full justify-between text-sidebar-foreground"
 									>{item.label}
 									<ChevronRight
@@ -50,7 +51,7 @@
 					</Collapsible.Root>
 				{:else}
 					<Sidebar.MenuItem>
-						<Sidebar.MenuButton  isActive={sidebar.isActive(item)}>
+						<Sidebar.MenuButton isActive={sidebar.isActive(item)}>
 							<a href={item.href} class="w-full text-sidebar-foreground">{item.label}</a>
 						</Sidebar.MenuButton>
 					</Sidebar.MenuItem>
