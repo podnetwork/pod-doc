@@ -33,20 +33,19 @@
 	});
 
 	const navigationItems = [
-		{ id: 'get-started', label: 'GET STARTED', href: '/get-started', active: true },
-		{ id: 'payments', label: 'PAYMENTS', href: '/payments', active: false },
-		{ id: 'finance-automation', label: 'FINANCE AUTOMATION', href: '/finance-automation', active: false },
-		{ id: 'platforms', label: 'PLATFORMS AND MARKETPLACES', href: '/platforms', active: false },
-		{ id: 'banking', label: 'BANKING AS A SERVICE', href: '/banking', active: false },
-		{ id: 'developer', label: 'DEVELOPER TOOLS', href: '/developer', active: false }
-	]
+		{ id: 'get-started', label: 'GET STARTED', href: '/get-started', active: true }
+		// { id: 'payments', label: 'PAYMENTS', href: '/payments', active: false },
+		// { id: 'finance-automation', label: 'FINANCE AUTOMATION', href: '/finance-automation', active: false },
+		// { id: 'platforms', label: 'PLATFORMS AND MARKETPLACES', href: '/platforms', active: false },
+		// { id: 'banking', label: 'BANKING AS A SERVICE', href: '/banking', active: false },
+		// { id: 'developer', label: 'DEVELOPER TOOLS', href: '/developer', active: false }
+	];
 </script>
 
-
 <div
-	class="sticky top-0 z-[2] flex flex-col h-14 flex-none items-center justify-start gap-2 border-b bg-secondary px-3 md:h-[15vh]"
+	class="sticky top-0 z-[2] flex h-14 flex-none flex-col items-center justify-start gap-2 border-b bg-secondary px-3 md:h-[15vh]"
 >
-	<div class="flex flex-1 w-full items-center">
+	<div class="flex w-full flex-1 items-center">
 		<div class="flex items-center gap-2 pr-2 lg:hidden">
 			<Button
 				size="icon"
@@ -73,22 +72,24 @@
 		<div class="ml-auto flex items-center gap-4">
 			<div class="relative hidden md:block">
 				<Search class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-				<Input 
-					type="search" 
-					placeholder="Search..." 
-					class="w-[300px] !bg-white pl-9 !text-[0.8rem] bg-muted/30"
+				<Input
+					type="search"
+					placeholder="Search..."
+					class="w-[300px] !bg-white bg-muted/30 pl-9 !text-[0.8rem]"
 				/>
 			</div>
 			<ProfileMenu />
 		</div>
 	</div>
-	
-	<div class="hidden md:flex w-full justify-start">
+
+	<div class="hidden w-full justify-start md:flex">
 		<nav class="flex items-center gap-8 px-6">
 			{#each navigationItems as item}
-				<a 
+				<a
 					href={'#'}
-					class="relative pb-4 px-1 text-xs font-semibold tracking-wide {item.active ? 'text-foreground' : 'text-muted-foreground hover:text-foreground/80'}"
+					class="relative px-1 pb-4 text-xs font-semibold tracking-wide {item.active
+						? 'text-foreground'
+						: 'text-muted-foreground hover:text-foreground/80'}"
 				>
 					{item.label}
 					{#if item.active}
