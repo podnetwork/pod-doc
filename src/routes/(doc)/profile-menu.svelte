@@ -11,7 +11,7 @@
 <SignedOut>
 	<Dialog.Root>
 		<Dialog.Trigger>
-			<Button variant="outline">Login</Button>
+			<Button variant="outline" class="w-full">Login</Button>
 		</Dialog.Trigger>
 		<Dialog.Content class="w-fit border-none bg-transparent">
 			<SignIn forceRedirectUrl={page.url.toString()} fallbackRedirectUrl={page.url.toString()} />
