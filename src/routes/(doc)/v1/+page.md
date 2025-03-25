@@ -1,6 +1,6 @@
 ---
 title: Welcome to pod
-layout: simple
+layout: single
 
 url: /
 
