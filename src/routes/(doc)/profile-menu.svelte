@@ -4,6 +4,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
+	import { ChevronsUpDown } from '@lucide/svelte';
 	import { SignedIn, SignedOut, SignIn, SignOutButton } from 'svelte-clerk';
 </script>
 
@@ -20,11 +21,17 @@
 
 <SignedIn>
 	<DropdownMenu.Root>
-		<DropdownMenu.Trigger>
-			<Avatar.Root>
+		<DropdownMenu.Trigger class="flex items-center gap-2 rounded-md pr-2 hover:bg-foreground/5">
+			<Avatar.Root class="rounded-md">
 				<!-- <Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" /> -->
-				<Avatar.Fallback class="bg-primary text-primary-foreground">CN</Avatar.Fallback>
+				<Avatar.Fallback class="rounded-sm bg-primary text-primary-foreground">CN</Avatar.Fallback>
 			</Avatar.Root>
+			<div class="flex flex-col items-start">
+				<span class="text-sm font-bold">Shadcn</span>
+				<span class="text-xs">m@example.con</span>
+			</div>
+			<div class="flex-1" />
+			<ChevronsUpDown class="h-4 w-4 opacity-60" />
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content side="top" align="end">
 			<DropdownMenu.Group>
