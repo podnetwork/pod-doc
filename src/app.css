@@ -13,6 +13,17 @@
 		font-named-instance: 'Regular';
 	}
 }
+
+@supports (font-variation-settings: normal) {
+	@font-face {
+		font-family: 'Alpha';
+		font-style: normal;
+		font-weight: 500;
+		font-display: swap;
+		src: url('/fonts/AlphaLyrae.woff2') format('woff2');
+		font-named-instance: 'Regular';
+	}
+}
  
 
 @layer base {

@@ -2,6 +2,7 @@
 	import ThemeToggle from '$lib/components/theme-toggle.svelte';
 	import * as Collapsible from '$lib/components/ui/collapsible';
 	import * as Sidebar from '$lib/components/ui/sidebar';
+	import { ChevronRight } from '@lucide/svelte';
 	import { SidebarMenuStore } from './sidebar-menu-store.svelte';
 
 	const sidebar = SidebarMenuStore.get();
@@ -13,12 +14,22 @@
 		<Sidebar.Menu>
 			{#each sidebar.items as item}
 				{#if item.heading}
-					<Sidebar.GroupLabel class="mt-4">{item.heading}</Sidebar.GroupLabel>
+					<Sidebar.GroupLabel class=" mt-4 mb-2 border-t pt-4 font-aplha text-[1rem] text-foreground"
+						>{item.heading}</Sidebar.GroupLabel
+					>
 				{:else if item.children}
-					<Collapsible.Root open={sidebar.isActive(item)} class="group/collapsible">
+					<Collapsible.Root open={sidebar.isActive(item)} class="group/collapsible ">
 						<Sidebar.MenuItem>
-							<Sidebar.MenuButton isActive={sidebar.isActive(item)}>
-								<a href={item.href} class="w-full">{item.label}</a>
+							<Sidebar.MenuButton  isActive={sidebar.isActive(item)}>
+								<a href={item.href} class="flex w-full justify-between text-sidebar-foreground"
+									>{item.label}
+									<ChevronRight
+										size={16}
+										class="text-muted-foreground {sidebar.isActive(item)
+											? 'rotate-90'
+											: ''} transition-all"
+									/></a
+								>
 							</Sidebar.MenuButton>
 
 							<Collapsible.Content>
@@ -39,8 +50,8 @@
 					</Collapsible.Root>
 				{:else}
 					<Sidebar.MenuItem>
-						<Sidebar.MenuButton isActive={sidebar.isActive(item)}>
-							<a href={item.href} class="w-full">{item.label}</a>
+						<Sidebar.MenuButton  isActive={sidebar.isActive(item)}>
+							<a href={item.href} class="w-full text-sidebar-foreground">{item.label}</a>
 						</Sidebar.MenuButton>
 					</Sidebar.MenuItem>
 				{/if}

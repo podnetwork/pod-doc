@@ -68,7 +68,8 @@ const config: Config = {
 			},
 			fontFamily: {
 				sans: [...fontFamily.sans],
-				inter: ['Inter']
+				inter: ['Inter'],
+				aplha: ['Alpha']
 			},
 			keyframes: {
 				"accordion-down": {
