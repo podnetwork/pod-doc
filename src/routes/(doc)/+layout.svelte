@@ -34,7 +34,7 @@
 
 <div class="flex min-h-screen">
 	<div
-		class="fixed left-0 top-0 hidden h-screen w-72 flex-none flex-col overflow-y-auto border-r lg:flex"
+		class="fixed left-0 top-0 hidden h-screen w-72 flex-none flex-col overflow-y-auto border-r bg-secondary lg:flex"
 	>
 		<Logo />
 		<SidebarMenu />
