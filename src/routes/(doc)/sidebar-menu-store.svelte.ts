@@ -3,174 +3,184 @@ import { page, updated } from '$app/state';
 import { getContext, setContext, tick } from 'svelte';
 
 export interface SidebarItem {
-  href?: string;
-  label?: string;
-  children?: SidebarItem[];
-  heading?: string;
+	href?: string;
+	label?: string;
+	children?: SidebarItem[];
+	heading?: string;
 }
 
 export class SidebarMenuStore {
-  static sid = Symbol.for('sidebar');
+	constructor() {
+		$effect(() => {
+			this.makeItems();
+		});
 
-  static create() {
-    return setContext(this.sid, new SidebarMenuStore());
-  }
+		// auto update internal current url follow system page url
+		$effect(() => {
+			this.currentUrl = page.url;
+		});
+	}
 
-  static get() {
-    return getContext<SidebarMenuStore>(this.sid);
-  }
+	static sid = Symbol.for('sidebar');
 
-  constructor() {
-    $effect(() => {
-      this.makeItems();
-    });
-  }
+	static create() {
+		return setContext(this.sid, new SidebarMenuStore());
+	}
 
-  // version reference to url
-  pageVersion = $derived(page.url.pathname.split('/')[1] || 'v1');
+	static get() {
+		return getContext<SidebarMenuStore>(this.sid);
+	}
 
-  // TOC tracking
-  visibleId = $state<string>();
+	// version reference to url
+	pageVersion = $derived(page.url.pathname.split('/')[1] || 'v1');
 
-  tocTracking(pageContentEl?: HTMLDivElement, url?: URL) {
-    url ??= page.url;
+	// keep alternative current section/anchor point to, because limit of svelte page state
+	// not reactive when manual change url
+	currentUrl = $state<URL>(page.url);
 
-    // if pagecontent not ready then silent
-    if (!pageContentEl) return;
+	// TOC tracking
+	visibleId = $state<string>();
 
-    // listen dom, collect heading h2
-    const h2s = pageContentEl.querySelectorAll('h2');
+	tocTracking(pageContentEl?: HTMLDivElement, url?: URL) {
+		url ??= page.url;
 
-    // use observable
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // update url
-            if (this.itemIDs.includes(entry.target.id)) {
-              this.visibleId = entry.target.id;
+		// if pagecontent not ready then silent
+		if (!pageContentEl) return;
 
-              const curl = window.location.href;
-              // Update the URL hash without reloading the page
-              const url = new URL(curl);
-              url.hash = `#${entry.target.id}`;
-              // history.replaceState(null, '', url.toString());
+		// listen dom, collect heading h2
+		const h2s = pageContentEl.querySelectorAll('h2');
 
-              replaceState(url.toString(), {});
-              tick().then(() => updated.check());
+		// use observable
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						// update url
+						if (this.itemIDs.includes(entry.target.id)) {
+							this.visibleId = entry.target.id;
 
-              // const id = entry.target.id;
-              // const newUrl = new URL(window.location.href);
-              // newUrl.hash = `#${id}`;
-              // Use goto to update URL without page reload
-              // goto(`#${id}`, { replaceState: true, noScroll: true, keepFocus: true });
-            }
-          } else {
-            // console.log(`Heading ${entry.target.id} is not in viewport`);
-          }
-        });
-      },
-      {
-        rootMargin: '-20% 0px -80% 0px',
-        threshold: 0
-      }
-    );
+							const curl = window.location.href;
+							// Update the URL hash without reloading the page
+							const url = new URL(curl);
+							url.hash = `#${entry.target.id}`;
+							// history.replaceState(null, '', url.toString());
 
-    // start observer
-    h2s.forEach((h2) => {
-      observer.observe(h2);
-    });
+							replaceState(url.toString(), {});
+							this.currentUrl = url;
+							tick().then(() => updated.check());
 
-    return () => {
-      observer.disconnect();
-    };
-  }
+							// const id = entry.target.id;
+							// const newUrl = new URL(window.location.href);
+							// newUrl.hash = `#${id}`;
+							// Use goto to update URL without page reload
+							// goto(`#${id}`, { replaceState: true, noScroll: true, keepFocus: true });
+						}
+					} else {
+						// console.log(`Heading ${entry.target.id} is not in viewport`);
+					}
+				});
+			},
+			{
+				rootMargin: '-56px 0px -70% 0px',
+				threshold: 0
+			}
+		);
 
-  // items
-  hashMap = $state<Record<string, Record<string, string>>>({});
+		// start observer
+		h2s.forEach((h2) => {
+			observer.observe(h2);
+		});
 
-  headings(url: string, hashes: Record<string, string>) {
-    this.hashMap[url] = hashes;
-  }
+		return () => {
+			observer.disconnect();
+		};
+	}
 
-  u(p: string) {
-    return `/${this.pageVersion}${p}`;
-  }
+	// items
+	hashMap = $state<Record<string, Record<string, string>>>({});
 
-  items = $state<SidebarItem[]>([
-    { href: this.u('/'), label: 'Welcome to pod' },
-    { href: this.u('/getting-started'), label: 'Getting Started' },
-    { heading: 'How to guides' },
-    { href: this.u('/how-to-guides/payments'), label: 'Payments' },
-    { href: this.u('/how-to-guides/auctions'), label: 'Auctions' },
-    { href: this.u('/how-to-guides/feed-layer'), label: 'Feed Layer' },
-    { heading: 'Reference' },
-    {
-      href: this.u('/reference/rpc-api'),
-      label: 'RPC API'
-    }
-  ]);
+	headings(url: string, hashes: Record<string, string>) {
+		this.hashMap[url] = hashes;
+	}
 
-  makeItems() {
-    Object.entries(this.hashMap).forEach(([urlPartial, hashes]) => {
-      const url = this.u(urlPartial);
-      const item = this.items.find((i) => i.href === url);
+	u(p: string) {
+		return `/${this.pageVersion}${p}`;
+	}
 
-      if (item) {
-        item.children = Object.entries(hashes).map(([hash, label]) => ({
-          href: `${url}#${hash}`,
-          label: label
-        }));
-      }
-    });
-  }
+	items = $state<SidebarItem[]>([
+		{ href: this.u('/'), label: 'Welcome to pod' },
+		{ href: this.u('/getting-started'), label: 'Getting Started' },
+		{ heading: 'How to guides' },
+		{ href: this.u('/how-to-guides/payments'), label: 'Payments' },
+		{ href: this.u('/how-to-guides/auctions'), label: 'Auctions' },
+		{ href: this.u('/how-to-guides/feed-layer'), label: 'Feed Layer' },
+		{ heading: 'Reference' },
+		{
+			href: this.u('/reference/rpc-api'),
+			label: 'RPC API'
+		}
+	]);
 
-  itemIDs = $derived(
-    this.items.flatMap((item) => {
-      // Get IDs from current level
-      const ids = item.href?.split('#')[1] ? [item.href.split('#')[1]] : [];
-      // Recursively get IDs from children
-      const childIds =
-        item.children?.flatMap((child) =>
-          child.href?.split('#')[1] ? [child.href.split('#')[1]] : []
-        ) || [];
-      return [...ids, ...childIds];
-    })
-  );
+	makeItems() {
+		Object.entries(this.hashMap).forEach(([urlPartial, hashes]) => {
+			const url = this.u(urlPartial);
+			const item = this.items.find((i) => i.href === url);
 
-  currentItem = $derived.by(() => {
-    const id = this.visibleId;
-    // Recursive search through items and their children
-    const findItem = (items: SidebarItem[]): SidebarItem | null => {
-      for (const item of items) {
-        if (item.href?.split('#')[1] === id) return item;
-        if (item.children?.length) {
-          const found = findItem(item.children);
-          if (found) return found;
-        }
-      }
-      return null;
-    };
-    return findItem(this.items);
-  });
+			if (item) {
+				item.children = Object.entries(hashes).map(([hash, label]) => ({
+					href: `${url}#${hash}`,
+					label: label
+				}));
+			}
+		});
+	}
 
-  isActive(item: SidebarItem) {
-    if (item.heading) return false;
+	itemIDs = $derived(
+		this.items.flatMap((item) => {
+			// Get IDs from current level
+			const ids = item.href?.split('#')[1] ? [item.href.split('#')[1]] : [];
+			// Recursively get IDs from children
+			const childIds =
+				item.children?.flatMap((child) =>
+					child.href?.split('#')[1] ? [child.href.split('#')[1]] : []
+				) || [];
+			return [...ids, ...childIds];
+		})
+	);
 
-    const home = `/${this.pageVersion}`;
+	currentItem = $derived.by(() => {
+		const id = this.visibleId;
+		// Recursive search through items and their children
+		const findItem = (items: SidebarItem[]): SidebarItem | null => {
+			for (const item of items) {
+				if (item.href?.split('#')[1] === id) return item;
+				if (item.children?.length) {
+					const found = findItem(item.children);
+					if (found) return found;
+				}
+			}
+			return null;
+		};
+		return findItem(this.items);
+	});
 
-    const ihref = (item.href ?? '').trim().replace(/\/$/, '');
-    const phref = page.url.pathname.trim().replace(/\/$/, '');
+	isActive(item: SidebarItem) {
+		if (item.heading) return false;
 
-    if (ihref === home) {
-      return ihref === phref;
-    }
+		const home = `/${this.pageVersion}`;
 
-    if (ihref.includes('#')) {
-      const str = `${phref}${page.url.hash}`;
-      return str.startsWith(ihref);
-    }
+		const ihref = (item.href ?? '').trim().replace(/\/$/, '');
+		const phref = this.currentUrl.pathname.trim().replace(/\/$/, '');
 
-    return phref.startsWith(ihref);
-  }
+		if (ihref === home) {
+			return ihref === phref;
+		}
+
+		if (ihref.includes('#')) {
+			const str = `${phref}${this.currentUrl.hash}`;
+			return str.startsWith(ihref);
+		}
+
+		return phref.startsWith(ihref);
+	}
 }
