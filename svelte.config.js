@@ -4,6 +4,7 @@ import { mdsvex } from 'mdsvex';
 import rehypeSlug from 'rehype-slug';
 import remarkAbbr from 'remark-abbr';
 import { highlighter, rehypeCodeBlock } from './src/lib/components/pod/codeblock/plugin.js';
+import { rehypeGridstack } from './src/lib/components/pod/gridstack/plugin.js';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -22,7 +23,7 @@ const config = {
 				highlighter: highlighter
 			},
 			remarkPlugins: [remarkAbbr],
-			rehypePlugins: [rehypeSlug, rehypeCodeBlock]
+			rehypePlugins: [rehypeSlug, rehypeGridstack, rehypeCodeBlock]
 		})
 	],
 
