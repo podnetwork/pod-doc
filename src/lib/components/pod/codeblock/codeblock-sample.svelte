@@ -1,24 +1,32 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import { Shiki } from '$lib/shiki/shiki';
+	import * as Tabs from '$lib/components/ui/tabs';
 	import { LucideCircleDashed, LucideClipboardCopy, LucidePlay } from '@lucide/svelte';
 	import { catchError, defer, EMPTY, finalize, tap } from 'rxjs';
-	import { untrack, type Snippet } from 'svelte';
 	import { toast } from 'svelte-sonner';
+	import CodeblockCode from './codeblock-code.svelte';
 	import CodeblockContainer from './codeblock-container.svelte';
+	import CodeblockSampleResponse from './codeblock-sample-response.svelte';
+
+	type CodeBlock = {
+		lang: string;
+		code: string;
+		alias?: string;
+	};
 
 	let {
 		title,
-		children,
-		runCode
+		runCode,
+		codeblocks = []
 	}: {
 		title?: string;
-		children?: Snippet;
 		runCode?: () => Promise<Response>;
+		codeblocks?: CodeBlock[];
 	} = $props();
 
 	let ref = $state<HTMLDivElement>();
 
+	// replace raw input
 	function copyCode() {
 		// copy code in element pre.code
 		const code = ref?.querySelector('pre code')?.textContent?.trim();
@@ -39,7 +47,7 @@
 
 	let runRes = $state<RunResult>({});
 
-	let runBoardEl = $state<HTMLDivElement>();
+	let runResStr = $derived.by(() => JSON.stringify(runRes, null, 2));
 
 	let run = $derived(
 		runCode
@@ -64,30 +72,13 @@
 			: undefined
 	);
 
-	$effect(() => {
-		if (!runBoardEl) return;
-
-		if (runRes.response) {
-			const str = JSON.stringify(runRes, null, 2);
-			const sub = Shiki.render('json', str)
-				.pipe(tap((html) => (runBoardEl!.innerHTML = html)))
-				.subscribe();
-
-			return () => {
-				sub.unsubscribe();
-			};
-		}
-
-		runBoardEl.innerHTML = '';
-	});
-
 	// support multi code block
 
-	let preEls = $derived(ref ? Array.from(ref.querySelectorAll('pre')) : []);
-
-	let langs = $derived(preEls.map((pre) => pre.dataset.lang).filter((i) => !!i)) as string[];
+	let langs = $derived(codeblocks.map((i) => i.lang)) as string[];
 
 	let selectedLang = $state<string>();
+
+	let selectedCodeblock = $derived(codeblocks.find((i) => i.lang === selectedLang));
 
 	$effect(() => {
 		if (!langs.length) return;
@@ -95,70 +86,65 @@
 			selectedLang = langs[0];
 		}
 	});
-
-	$effect(() => {
-		if (langs.length === 0 || !selectedLang) {
-			return;
-		}
-
-		// show only first lang
-		untrack(() => {
-			preEls.forEach((el) => {
-				if (el.dataset.lang === selectedLang) {
-					el.classList.remove('hidden');
-				} else {
-					el.classList.add('hidden');
-				}
-			});
-		});
-	});
 </script>
+
+{#snippet tabs()}
+	<Tabs.Root
+		value={selectedLang}
+		onValueChange={(value) => (selectedLang = value)}
+		class="mx-0 flex-1 px-0"
+	>
+		<Tabs.List class="px-0">
+			{#each codeblocks as codeblock}
+				<Tabs.Trigger value={codeblock.lang} class="text-xs">
+					{codeblock.alias ?? codeblock.lang}
+				</Tabs.Trigger>
+			{/each}
+		</Tabs.List>
+	</Tabs.Root>
+{/snippet}
+
+{#snippet runCodeButton()}
+	<Button variant="outline" class="size-8" size="icon" type="button" onclick={run}>
+		{#if runningCode}
+			<LucideCircleDashed size={16} class="animate-spin" />
+		{:else}
+			<LucidePlay size={16} />
+		{/if}
+	</Button>
+{/snippet}
+
+{#snippet copyCodeButton()}
+	<Button variant="outline" class="size-8 py-1" size="icon" type="button" onclick={copyCode}>
+		<LucideClipboardCopy size={16} />
+	</Button>
+{/snippet}
 
 <CodeblockContainer {title}>
 	{#snippet actions()}
 		{#if run}
-			<Button variant="outline" class="h-6 py-1" size="sm" type="button" onclick={run}>
-				{#if runningCode}
-					<LucideCircleDashed size={16} class="animate-spin" />
-				{:else}
-					<LucidePlay size={16} />
-				{/if}
-				Run sample
-			</Button>
+			{@render runCodeButton()}
+		{:else if codeblocks.length <= 1}
+			{@render copyCodeButton()}
 		{/if}
-
-		<Button variant="outline" class="size-6 py-1" size="icon" type="button" onclick={copyCode}>
-			<LucideClipboardCopy size={16} />
-		</Button>
 	{/snippet}
 
 	{#snippet underTitle()}
-		{#if langs.length > 1}
-			<div class="flex gap-1.5">
-				{#each langs as lang}
-					<Button
-						variant={selectedLang === lang ? 'default' : 'outline'}
-						class="h-6 py-1"
-						size="sm"
-						type="button"
-						onclick={() => {
-							selectedLang = lang;
-						}}
-					>
-						{lang}
-					</Button>
-				{/each}
-			</div>
-		{/if}
+		<div class="flex justify-end gap-1.5 px-1">
+			{#if codeblocks.length > 1}
+				{@render tabs()}
+				{@render copyCodeButton()}
+			{/if}
+		</div>
 	{/snippet}
 
 	<div bind:this={ref}>
-		{@render children?.()}
+		{#if selectedCodeblock}
+			<CodeblockCode code={selectedCodeblock.code} lang={selectedCodeblock.lang} />
+		{/if}
 	</div>
 </CodeblockContainer>
 
-{#if run && runRes.response}
-	<CodeblockContainer title={'Response'} class="mt-2">
-		<div bind:this={runBoardEl}></div>
-	</CodeblockContainer>
+{#if run && runRes.response && runResStr !== '{}'}
+	<CodeblockSampleResponse value={runResStr} />
 {/if}

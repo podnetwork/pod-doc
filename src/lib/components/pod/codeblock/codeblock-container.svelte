@@ -18,28 +18,26 @@
 </script>
 
 <div class={['codeblock-container card2', className]}>
-	<div class="codeblock-title border-b">
+	<div class="codeblock-title">
 		{#if title}
-			{title}
+			<div class="codeblock-title-text">
+				{title}
+			</div>
 		{/if}
 
 		{#if actions}
-			<div class="ml-auto">
+			<div class="flex-none">
 				{@render actions()}
 			</div>
 		{/if}
 	</div>
 
 	{#if underTitle}
-		<div class="flex h-10 items-center border-b bg-muted px-2 empty:hidden">
-			{@render underTitle()}
-		</div>
+		{@render underTitle()}
 	{/if}
 
 	{#if children}
-		<div class="codeblock-code">
-			{@render children()}
-		</div>
+		{@render children()}
 	{/if}
 </div>
 
@@ -49,20 +47,12 @@
 		max-height: calc(100vh - theme(spacing.20) - theme(spacing.1));
 
 		.codeblock-title {
-			@apply rounded-t-sm bg-muted px-2.5 py-2 text-xs uppercase;
-			@apply flex items-center gap-2;
-		}
+			@apply rounded-t-sm px-1 py-1 text-xs;
+			@apply flex gap-1;
 
-		.codeblock-code {
-			@apply flex-1 overflow-auto;
-			@apply rounded-b-sm;
-
-			:global(pre) {
-				@apply overflow-auto p-2 px-2.5 text-sm;
-			}
-
-			:global(> table) {
-				@apply mx-2.5;
+			.codeblock-title-text {
+				@apply flex h-8 flex-1 items-center px-2 text-xs;
+				@apply rounded-md bg-background font-medium;
 			}
 		}
 	}
