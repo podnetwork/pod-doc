@@ -1,3 +1,4 @@
+import { Subdomain } from '$lib/subdomain';
 import type { Reroute } from '@sveltejs/kit';
 
 // const reroutes: Record<string, string> = {
@@ -28,10 +29,8 @@ export const reroute: Reroute = ({ url }) => {
 	console.log('REROUTE HOOK origin: ', url.origin);
 	console.log('REROUTE HOOK pathname: ', url.pathname);
 
-	const origin = url.origin;
-
 	// match domain pod-doc-svelte-{version}.vercel.app
-	const version = origin.match(/pod-doc-svelte-(v\d+)\.vercel\.app/)?.[1];
+	const version = Subdomain.test(url);
 
 	if (version) {
 		console.log('Rerouted to version: ', version);
