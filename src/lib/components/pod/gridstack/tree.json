@@ -1,11 +1,11 @@
 [
   {
     "type": "raw",
-    "value": "<script context=\"module\">\n\texport const metadata = {\"title\":\"Grid stack\",\"layout\":\"simple\"};\n\tconst { title, layout } = metadata;\n</script>"
+    "value": "<script context=\"module\">\n\texport const metadata = {\"layout\":\"simple\"};\n\tconst { layout } = metadata;\n</script>"
   },
   {
     "type": "raw",
-    "value": "<script>\n\timport Layout_MDSVEX_DEFAULT from '/Users/trunglevutran/Dev/tapforce/pod-doc-sveltekit/src/lib/mdlayouts/simple.svelte';\n    import {Code} from '$lib'\n</script>"
+    "value": "\n<script>\n\timport Layout_MDSVEX_DEFAULT from '/Users/trunglevutran/Dev/tapforce/pod-doc-sveltekit/src/lib/mdlayouts/simple.svelte';\n</script>\n"
   },
   {
     "type": "raw",
@@ -16,49 +16,67 @@
     "value": "<div>",
     "position": {
       "start": {
-        "line": 10,
+        "line": 5,
         "column": 1,
-        "offset": 92
+        "offset": 24
       },
       "end": {
-        "line": 10,
+        "line": 5,
         "column": 6,
-        "offset": 97
+        "offset": 29
       }
     }
   },
   {
     "type": "element",
-    "tagName": "p",
-    "properties": {},
+    "tagName": "h1",
+    "properties": {
+      "id": "payments"
+    },
     "children": [
       {
         "type": "text",
-        "value": "[gridstack]",
+        "value": "Payments",
         "position": {
           "start": {
-            "line": 12,
-            "column": 2,
-            "offset": 100
+            "line": 7,
+            "column": 3,
+            "offset": 33
           },
           "end": {
-            "line": 12,
+            "line": 7,
             "column": 11,
-            "offset": 109
+            "offset": 41
           }
         }
       }
     ],
     "position": {
       "start": {
-        "line": 12,
+        "line": 7,
         "column": 1,
-        "offset": 99
+        "offset": 31
       },
       "end": {
-        "line": 12,
-        "column": 12,
-        "offset": 110
+        "line": 7,
+        "column": 11,
+        "offset": 41
+      }
+    }
+  },
+  {
+    "type": "text",
+    "value": "Payments",
+    "position": {
+      "start": {
+        "line": 7,
+        "column": 3,
+        "offset": 33
+      },
+      "end": {
+        "line": 7,
+        "column": 11,
+        "offset": 41
       }
     }
   },
@@ -69,84 +87,324 @@
     "children": [
       {
         "type": "text",
-        "value": "[grid]",
+        "value": "One of the key applications that can take advantage of Pod’s lightning-fast nature is processing payment transactions.",
         "position": {
           "start": {
-            "line": 14,
-            "column": 2,
-            "offset": 113
+            "line": 9,
+            "column": 1,
+            "offset": 43
           },
           "end": {
-            "line": 14,
-            "column": 6,
-            "offset": 117
+            "line": 9,
+            "column": 119,
+            "offset": 161
           }
         }
       }
     ],
     "position": {
       "start": {
-        "line": 14,
+        "line": 9,
         "column": 1,
-        "offset": 112
+        "offset": 43
       },
       "end": {
-        "line": 14,
-        "column": 7,
-        "offset": 118
+        "line": 9,
+        "column": 119,
+        "offset": 161
+      }
+    }
+  },
+  {
+    "type": "text",
+    "value": "One of the key applications that can take advantage of Pod’s lightning-fast nature is processing payment transactions.",
+    "position": {
+      "start": {
+        "line": 9,
+        "column": 1,
+        "offset": 43
+      },
+      "end": {
+        "line": 9,
+        "column": 119,
+        "offset": 161
       }
     }
   },
   {
     "type": "element",
-    "tagName": "h3",
+    "tagName": "p",
+    "properties": {},
+    "children": [
+      {
+        "type": "text",
+        "value": "This guide demonstrates how to make payments on the POD Network using the Pod Rust SDK. We’ll cover the entire process, from checking balances to sending transactions and monitoring their status.",
+        "position": {
+          "start": {
+            "line": 11,
+            "column": 1,
+            "offset": 163
+          },
+          "end": {
+            "line": 11,
+            "column": 196,
+            "offset": 358
+          }
+        }
+      }
+    ],
+    "position": {
+      "start": {
+        "line": 11,
+        "column": 1,
+        "offset": 163
+      },
+      "end": {
+        "line": 11,
+        "column": 196,
+        "offset": 358
+      }
+    }
+  },
+  {
+    "type": "text",
+    "value": "This guide demonstrates how to make payments on the POD Network using the Pod Rust SDK. We’ll cover the entire process, from checking balances to sending transactions and monitoring their status.",
+    "position": {
+      "start": {
+        "line": 11,
+        "column": 1,
+        "offset": 163
+      },
+      "end": {
+        "line": 11,
+        "column": 196,
+        "offset": 358
+      }
+    }
+  },
+  {
+    "type": "element",
+    "tagName": "p",
+    "properties": {},
+    "children": [
+      {
+        "type": "text",
+        "value": "For sending and receiving payments with an ethereum-compatible wallet, see ",
+        "position": {
+          "start": {
+            "line": 13,
+            "column": 1,
+            "offset": 360
+          },
+          "end": {
+            "line": 13,
+            "column": 76,
+            "offset": 435
+          }
+        }
+      },
+      {
+        "type": "element",
+        "tagName": "a",
+        "properties": {
+          "href": "/"
+        },
+        "children": [
+          {
+            "type": "text",
+            "value": "Getting Started",
+            "position": {
+              "start": {
+                "line": 13,
+                "column": 77,
+                "offset": 436
+              },
+              "end": {
+                "line": 13,
+                "column": 92,
+                "offset": 451
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 13,
+            "column": 76,
+            "offset": 435
+          },
+          "end": {
+            "line": 13,
+            "column": 96,
+            "offset": 455
+          }
+        }
+      },
+      {
+        "type": "text",
+        "value": ".",
+        "position": {
+          "start": {
+            "line": 13,
+            "column": 96,
+            "offset": 455
+          },
+          "end": {
+            "line": 13,
+            "column": 97,
+            "offset": 456
+          }
+        }
+      }
+    ],
+    "position": {
+      "start": {
+        "line": 13,
+        "column": 1,
+        "offset": 360
+      },
+      "end": {
+        "line": 13,
+        "column": 97,
+        "offset": 456
+      }
+    }
+  },
+  {
+    "type": "text",
+    "value": "For sending and receiving payments with an ethereum-compatible wallet, see ",
+    "position": {
+      "start": {
+        "line": 13,
+        "column": 1,
+        "offset": 360
+      },
+      "end": {
+        "line": 13,
+        "column": 76,
+        "offset": 435
+      }
+    }
+  },
+  {
+    "type": "element",
+    "tagName": "a",
     "properties": {
-      "id": "transaction-hash"
+      "href": "/"
     },
     "children": [
       {
         "type": "text",
-        "value": "Transaction Hash",
+        "value": "Getting Started",
         "position": {
           "start": {
-            "line": 16,
-            "column": 5,
-            "offset": 124
+            "line": 13,
+            "column": 77,
+            "offset": 436
           },
           "end": {
-            "line": 16,
-            "column": 21,
-            "offset": 140
+            "line": 13,
+            "column": 92,
+            "offset": 451
           }
         }
       }
     ],
     "position": {
       "start": {
-        "line": 16,
-        "column": 1,
-        "offset": 120
+        "line": 13,
+        "column": 76,
+        "offset": 435
       },
       "end": {
-        "line": 16,
-        "column": 21,
-        "offset": 140
+        "line": 13,
+        "column": 96,
+        "offset": 455
       }
     }
   },
   {
     "type": "text",
-    "value": "Transaction Hash",
+    "value": "Getting Started",
     "position": {
       "start": {
-        "line": 16,
-        "column": 5,
-        "offset": 124
+        "line": 13,
+        "column": 77,
+        "offset": 436
       },
       "end": {
-        "line": 16,
-        "column": 21,
-        "offset": 140
+        "line": 13,
+        "column": 92,
+        "offset": 451
+      }
+    }
+  },
+  {
+    "type": "text",
+    "value": ".",
+    "position": {
+      "start": {
+        "line": 13,
+        "column": 96,
+        "offset": 455
+      },
+      "end": {
+        "line": 13,
+        "column": 97,
+        "offset": 456
+      }
+    }
+  },
+  {
+    "type": "element",
+    "tagName": "h2",
+    "properties": {
+      "id": "prerequisites"
+    },
+    "children": [
+      {
+        "type": "text",
+        "value": "Prerequisites",
+        "position": {
+          "start": {
+            "line": 15,
+            "column": 4,
+            "offset": 461
+          },
+          "end": {
+            "line": 15,
+            "column": 17,
+            "offset": 474
+          }
+        }
+      }
+    ],
+    "position": {
+      "start": {
+        "line": 15,
+        "column": 1,
+        "offset": 458
+      },
+      "end": {
+        "line": 15,
+        "column": 17,
+        "offset": 474
+      }
+    }
+  },
+  {
+    "type": "text",
+    "value": "Prerequisites",
+    "position": {
+      "start": {
+        "line": 15,
+        "column": 4,
+        "offset": 461
+      },
+      "end": {
+        "line": 15,
+        "column": 17,
+        "offset": 474
       }
     }
   },
@@ -157,68 +415,404 @@
     "children": [
       {
         "type": "text",
-        "value": "Lorem ipsum dolor sit amet consectetur. Turpis libero morbi eget varius etiam.",
+        "value": "Before starting, ensure you have:",
         "position": {
           "start": {
-            "line": 18,
+            "line": 17,
             "column": 1,
-            "offset": 142
+            "offset": 476
           },
           "end": {
-            "line": 18,
-            "column": 79,
-            "offset": 220
+            "line": 17,
+            "column": 34,
+            "offset": 509
           }
         }
       }
     ],
     "position": {
       "start": {
-        "line": 18,
+        "line": 17,
         "column": 1,
-        "offset": 142
+        "offset": 476
       },
       "end": {
-        "line": 18,
-        "column": 79,
-        "offset": 220
+        "line": 17,
+        "column": 34,
+        "offset": 509
       }
     }
   },
   {
     "type": "text",
-    "value": "Lorem ipsum dolor sit amet consectetur. Turpis libero morbi eget varius etiam.",
+    "value": "Before starting, ensure you have:",
     "position": {
       "start": {
-        "line": 18,
+        "line": 17,
         "column": 1,
-        "offset": 142
+        "offset": 476
       },
       "end": {
-        "line": 18,
-        "column": 79,
-        "offset": 220
+        "line": 17,
+        "column": 34,
+        "offset": 509
       }
     }
   },
   {
     "type": "element",
-    "tagName": "p",
+    "tagName": "ul",
     "properties": {},
     "children": [
       {
         "type": "text",
-        "value": "[/grid]",
+        "value": "\n"
+      },
+      {
+        "type": "element",
+        "tagName": "li",
+        "properties": {},
+        "children": [
+          {
+            "type": "text",
+            "value": "An account with funds on the pod devnet network, or use the ",
+            "position": {
+              "start": {
+                "line": 19,
+                "column": 3,
+                "offset": 513
+              },
+              "end": {
+                "line": 19,
+                "column": 63,
+                "offset": 573
+              }
+            }
+          },
+          {
+            "type": "element",
+            "tagName": "a",
+            "properties": {
+              "href": "https://faucet.dev.pod.network/",
+              "rel": [
+                "nofollow"
+              ]
+            },
+            "children": [
+              {
+                "type": "text",
+                "value": "faucet",
+                "position": {
+                  "start": {
+                    "line": 19,
+                    "column": 64,
+                    "offset": 574
+                  },
+                  "end": {
+                    "line": 19,
+                    "column": 70,
+                    "offset": 580
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 19,
+                "column": 63,
+                "offset": 573
+              },
+              "end": {
+                "line": 19,
+                "column": 104,
+                "offset": 614
+              }
+            }
+          },
+          {
+            "type": "text",
+            "value": ".",
+            "position": {
+              "start": {
+                "line": 19,
+                "column": 104,
+                "offset": 614
+              },
+              "end": {
+                "line": 19,
+                "column": 105,
+                "offset": 615
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 19,
+            "column": 1,
+            "offset": 511
+          },
+          "end": {
+            "line": 19,
+            "column": 105,
+            "offset": 615
+          }
+        }
+      },
+      {
+        "type": "text",
+        "value": "\n"
+      },
+      {
+        "type": "element",
+        "tagName": "li",
+        "properties": {},
+        "children": [
+          {
+            "type": "text",
+            "value": "pod Rust SDK installed.",
+            "position": {
+              "start": {
+                "line": 20,
+                "column": 3,
+                "offset": 618
+              },
+              "end": {
+                "line": 20,
+                "column": 26,
+                "offset": 641
+              }
+            }
+          }
+        ],
         "position": {
           "start": {
             "line": 20,
-            "column": 2,
-            "offset": 223
+            "column": 1,
+            "offset": 616
           },
           "end": {
             "line": 20,
-            "column": 7,
-            "offset": 228
+            "column": 26,
+            "offset": 641
+          }
+        }
+      },
+      {
+        "type": "text",
+        "value": "\n"
+      }
+    ],
+    "position": {
+      "start": {
+        "line": 19,
+        "column": 1,
+        "offset": 511
+      },
+      "end": {
+        "line": 20,
+        "column": 26,
+        "offset": 641
+      }
+    }
+  },
+  {
+    "type": "element",
+    "tagName": "li",
+    "properties": {},
+    "children": [
+      {
+        "type": "text",
+        "value": "An account with funds on the pod devnet network, or use the ",
+        "position": {
+          "start": {
+            "line": 19,
+            "column": 3,
+            "offset": 513
+          },
+          "end": {
+            "line": 19,
+            "column": 63,
+            "offset": 573
+          }
+        }
+      },
+      {
+        "type": "element",
+        "tagName": "a",
+        "properties": {
+          "href": "https://faucet.dev.pod.network/",
+          "rel": [
+            "nofollow"
+          ]
+        },
+        "children": [
+          {
+            "type": "text",
+            "value": "faucet",
+            "position": {
+              "start": {
+                "line": 19,
+                "column": 64,
+                "offset": 574
+              },
+              "end": {
+                "line": 19,
+                "column": 70,
+                "offset": 580
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 19,
+            "column": 63,
+            "offset": 573
+          },
+          "end": {
+            "line": 19,
+            "column": 104,
+            "offset": 614
+          }
+        }
+      },
+      {
+        "type": "text",
+        "value": ".",
+        "position": {
+          "start": {
+            "line": 19,
+            "column": 104,
+            "offset": 614
+          },
+          "end": {
+            "line": 19,
+            "column": 105,
+            "offset": 615
+          }
+        }
+      }
+    ],
+    "position": {
+      "start": {
+        "line": 19,
+        "column": 1,
+        "offset": 511
+      },
+      "end": {
+        "line": 19,
+        "column": 105,
+        "offset": 615
+      }
+    }
+  },
+  {
+    "type": "text",
+    "value": "An account with funds on the pod devnet network, or use the ",
+    "position": {
+      "start": {
+        "line": 19,
+        "column": 3,
+        "offset": 513
+      },
+      "end": {
+        "line": 19,
+        "column": 63,
+        "offset": 573
+      }
+    }
+  },
+  {
+    "type": "element",
+    "tagName": "a",
+    "properties": {
+      "href": "https://faucet.dev.pod.network/",
+      "rel": [
+        "nofollow"
+      ]
+    },
+    "children": [
+      {
+        "type": "text",
+        "value": "faucet",
+        "position": {
+          "start": {
+            "line": 19,
+            "column": 64,
+            "offset": 574
+          },
+          "end": {
+            "line": 19,
+            "column": 70,
+            "offset": 580
+          }
+        }
+      }
+    ],
+    "position": {
+      "start": {
+        "line": 19,
+        "column": 63,
+        "offset": 573
+      },
+      "end": {
+        "line": 19,
+        "column": 104,
+        "offset": 614
+      }
+    }
+  },
+  {
+    "type": "text",
+    "value": "faucet",
+    "position": {
+      "start": {
+        "line": 19,
+        "column": 64,
+        "offset": 574
+      },
+      "end": {
+        "line": 19,
+        "column": 70,
+        "offset": 580
+      }
+    }
+  },
+  {
+    "type": "text",
+    "value": ".",
+    "position": {
+      "start": {
+        "line": 19,
+        "column": 104,
+        "offset": 614
+      },
+      "end": {
+        "line": 19,
+        "column": 105,
+        "offset": 615
+      }
+    }
+  },
+  {
+    "type": "element",
+    "tagName": "li",
+    "properties": {},
+    "children": [
+      {
+        "type": "text",
+        "value": "pod Rust SDK installed.",
+        "position": {
+          "start": {
+            "line": 20,
+            "column": 3,
+            "offset": 618
+          },
+          "end": {
+            "line": 20,
+            "column": 26,
+            "offset": 641
           }
         }
       }
@@ -227,221 +821,28 @@
       "start": {
         "line": 20,
         "column": 1,
-        "offset": 222
+        "offset": 616
       },
       "end": {
         "line": 20,
-        "column": 8,
-        "offset": 229
-      }
-    }
-  },
-  {
-    "type": "element",
-    "tagName": "p",
-    "properties": {},
-    "children": [
-      {
-        "type": "text",
-        "value": "[grid]",
-        "position": {
-          "start": {
-            "line": 22,
-            "column": 2,
-            "offset": 232
-          },
-          "end": {
-            "line": 22,
-            "column": 6,
-            "offset": 236
-          }
-        }
-      }
-    ],
-    "position": {
-      "start": {
-        "line": 22,
-        "column": 1,
-        "offset": 231
-      },
-      "end": {
-        "line": 22,
-        "column": 7,
-        "offset": 237
-      }
-    }
-  },
-  {
-    "type": "element",
-    "tagName": "h3",
-    "properties": {
-      "id": "transaction-hash-1"
-    },
-    "children": [
-      {
-        "type": "text",
-        "value": "Transaction Hash",
-        "position": {
-          "start": {
-            "line": 24,
-            "column": 5,
-            "offset": 243
-          },
-          "end": {
-            "line": 24,
-            "column": 21,
-            "offset": 259
-          }
-        }
-      }
-    ],
-    "position": {
-      "start": {
-        "line": 24,
-        "column": 1,
-        "offset": 239
-      },
-      "end": {
-        "line": 24,
-        "column": 21,
-        "offset": 259
+        "column": 26,
+        "offset": 641
       }
     }
   },
   {
     "type": "text",
-    "value": "Transaction Hash",
+    "value": "pod Rust SDK installed.",
     "position": {
       "start": {
-        "line": 24,
-        "column": 5,
-        "offset": 243
+        "line": 20,
+        "column": 3,
+        "offset": 618
       },
       "end": {
-        "line": 24,
-        "column": 21,
-        "offset": 259
-      }
-    }
-  },
-  {
-    "type": "element",
-    "tagName": "p",
-    "properties": {},
-    "children": [
-      {
-        "type": "text",
-        "value": "Lorem ipsum dolor sit amet consectetur. Turpis libero morbi eget varius etiam.",
-        "position": {
-          "start": {
-            "line": 26,
-            "column": 1,
-            "offset": 261
-          },
-          "end": {
-            "line": 26,
-            "column": 79,
-            "offset": 339
-          }
-        }
-      }
-    ],
-    "position": {
-      "start": {
-        "line": 26,
-        "column": 1,
-        "offset": 261
-      },
-      "end": {
-        "line": 26,
-        "column": 79,
-        "offset": 339
-      }
-    }
-  },
-  {
-    "type": "text",
-    "value": "Lorem ipsum dolor sit amet consectetur. Turpis libero morbi eget varius etiam.",
-    "position": {
-      "start": {
-        "line": 26,
-        "column": 1,
-        "offset": 261
-      },
-      "end": {
-        "line": 26,
-        "column": 79,
-        "offset": 339
-      }
-    }
-  },
-  {
-    "type": "element",
-    "tagName": "p",
-    "properties": {},
-    "children": [
-      {
-        "type": "text",
-        "value": "[/grid]",
-        "position": {
-          "start": {
-            "line": 28,
-            "column": 2,
-            "offset": 342
-          },
-          "end": {
-            "line": 28,
-            "column": 7,
-            "offset": 347
-          }
-        }
-      }
-    ],
-    "position": {
-      "start": {
-        "line": 28,
-        "column": 1,
-        "offset": 341
-      },
-      "end": {
-        "line": 28,
-        "column": 8,
-        "offset": 348
-      }
-    }
-  },
-  {
-    "type": "element",
-    "tagName": "p",
-    "properties": {},
-    "children": [
-      {
-        "type": "text",
-        "value": "[/gridstack]",
-        "position": {
-          "start": {
-            "line": 30,
-            "column": 2,
-            "offset": 351
-          },
-          "end": {
-            "line": 30,
-            "column": 12,
-            "offset": 361
-          }
-        }
-      }
-    ],
-    "position": {
-      "start": {
-        "line": 30,
-        "column": 1,
-        "offset": 350
-      },
-      "end": {
-        "line": 30,
-        "column": 13,
-        "offset": 362
+        "line": 20,
+        "column": 26,
+        "offset": 641
       }
     }
   },
@@ -450,14 +851,14 @@
     "value": "</div>",
     "position": {
       "start": {
-        "line": 32,
+        "line": 22,
         "column": 1,
-        "offset": 364
+        "offset": 643
       },
       "end": {
-        "line": 32,
+        "line": 22,
         "column": 7,
-        "offset": 370
+        "offset": 649
       }
     }
   },

@@ -4,7 +4,8 @@ import { mdsvex } from 'mdsvex';
 import rehypeSlug from 'rehype-slug';
 import remarkAbbr from 'remark-abbr';
 import { highlighter, rehypeCodeBlock } from './src/lib/components/pod/codeblock/plugin.js';
-import { rehypeGridstack } from './src/lib/components/pod/gridstack/plugin.js';
+// import { rehypeGridstack } from './src/lib/components/pod/gridstack/plugin.js';
+// import { rehypeHTMLMap } from './src/lib/components/pod/htmlmap/plugin.js';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -23,7 +24,12 @@ const config = {
 				highlighter: highlighter
 			},
 			remarkPlugins: [remarkAbbr],
-			rehypePlugins: [rehypeSlug, rehypeGridstack, rehypeCodeBlock]
+			rehypePlugins: [
+				rehypeSlug,
+				rehypeCodeBlock,
+				// rehypeHTMLMap,
+				// rehypeGridstack,
+			]
 		})
 	],
 

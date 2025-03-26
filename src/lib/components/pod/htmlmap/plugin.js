@@ -12,7 +12,7 @@ import { visit } from 'unist-util-visit';
  * @returns
  *   Transform.
  */
-export function rehypeGridstack() {
+export function rehypeHTMLMap() {
 	/**
 	 * @param {Root} tree
 	 * @return {Promise<undefined>}
@@ -37,34 +37,18 @@ export function rehypeGridstack() {
 					default:
 						return;
 
-					case '[gridstack]':
+					case '[content]':
 						Object.assign(node, {
 							type: 'raw',
-							value: '<Code.GridstackContainer>',
+							value: '<div>',
 							children: []
 						});
 						return;
 
-					case '[/gridstack]':
+					case '[/content]':
 						Object.assign(node, {
 							type: 'raw',
-							value: '</Code.GridstackContainer>',
-							children: []
-						});
-						return;
-
-					case '[grid]':
-						Object.assign(node, {
-							type: 'raw',
-							value: '<Code.GridstackBlock>',
-							children: []
-						});
-						return;
-
-					case '[/grid]':
-						Object.assign(node, {
-							type: 'raw',
-							value: '</Code.GridstackBlock>',
+							value: '</div>',
 							children: []
 						});
 						return;

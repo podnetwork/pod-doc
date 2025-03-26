@@ -10,8 +10,6 @@ toc:
   key-features: Key Features
 ---
 
-<div>
-
 # Welcome to pod
 
 pod is a novel programmable distributed ledger that prioritizes performance and efficiency by implementing a unique approach to transaction processing and consensus. Instead of enforcing strict transaction ordering like traditional blockchains, pod allows transactions to have temporal flexibility while maintaining byzantine resilience.
@@ -31,10 +29,6 @@ pod achieves exceptional performance through:
 pod leverages "fast path" for compatible operations that don't require strict ordering, such as payments and certain types of smart contracts. This allows for significantly faster transaction processing compared to traditional blockchain systems.
 
 > Learn more about pod's fast path execution in our technical deep dive on [Partial Order](/architecture/fast-path) and our [Execution Model](/architecture/execution-model) documentation pages.
-
-</div>
-
-<div>
 
 ## Get Started
 
@@ -64,5 +58,3 @@ pod is particularly well-suited for:
 - Set up a [local devnet](/getting-started) for deeper exploration
 
 > Pod is still at an early stage. With our first release we are inviting developers to try out pod for their use cases. Expect instability and lots of changes.
-
-</div>

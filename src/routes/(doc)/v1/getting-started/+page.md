@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-layout: simple
+layout: single
 
 url: /getting-started
 
@@ -11,8 +11,6 @@ toc:
   verifying-your-setup: Verifying Your Setup
   additional-resources: Additional Resources
 ---
-
-<div>
 
 # Getting Started
 
@@ -77,5 +75,3 @@ If you encounter issues during setup or have questions about pod, please:
 2. Review the RPC documentation for proper endpoint usage
 
 Remember to always verify you're using the correct network parameters and up-to-date software versions when troubleshooting connection issues.
-
-</div>

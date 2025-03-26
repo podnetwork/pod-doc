@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import json5 from 'json5';
-import fs from 'node:fs/promises';
 import { visit } from 'unist-util-visit';
 
 function attrString2Obj(str) {
@@ -48,7 +47,7 @@ export function highlighter(code, lang, metaStr) {
  *   Transform.
  */
 export function rehypeCodeBlock() {
-	const nodes = [];
+	// const nodes = [];
 
 	let containerEl = null; // mark position
 
@@ -64,10 +63,30 @@ export function rehypeCodeBlock() {
 				return;
 			}
 
-			nodes.push(node); // for debug
+			// nodes.push(JSON.parse(JSON.stringify(node))); // for debug
+
+			const checkValue = node.children?.[0]?.value;
+
+			// sticky 
+			switch (checkValue) {
+				default:
+					break
+				case '[sticky]':
+					Object.assign(node, {
+						type: 'raw',
+						value: `<Code.Sticky>`
+					})
+					return;
+				case '[/sticky]':
+					Object.assign(node, {
+						type: 'raw',
+						value: `</Code.Sticky>`
+					})
+					return;
+			}
 
 			// open a codeblock
-			if (node.children?.[0]?.value === '[codeblock]') {
+			if (checkValue === '[codeblock]') {
 				if (node.children[1] && node.children[1].value.length > 0) {
 					const attrString = node.children[1].value
 						.trim()
@@ -83,11 +102,11 @@ export function rehypeCodeBlock() {
 			}
 
 			// catch [/codeblock]
-			if (node.children?.[0]?.value === '[/codeblock]') {
+			if (checkValue === '[/codeblock]') {
 				// remove current node from tree
 				Object.assign(node, {
 					type: 'raw',
-					value: `<!-- ${node.children[0].value} -->`
+					value: `<!-- ${checkValue} -->`
 				});
 
 				// build code block
@@ -128,6 +147,6 @@ export function rehypeCodeBlock() {
 			}
 		});
 
-		await fs.writeFile(`${import.meta.dirname}/tree.json`, JSON.stringify(nodes, null, 2));
+		// await fs.writeFile(`${import.meta.dirname}/tree.json`, JSON.stringify(nodes, null, 2));
 	};
 }
