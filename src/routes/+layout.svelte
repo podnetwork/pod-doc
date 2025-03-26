@@ -15,6 +15,5 @@
 <ModeWatcher />
 
 <ClerkProvider>
-	[version: {app.version}]
 	{@render children()}
 </ClerkProvider>
