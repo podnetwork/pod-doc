@@ -6,7 +6,7 @@ layout: simple
     import {Code} from '$lib'
 </script>
 
-<div>
+[content]
 
 ## Participating in the auction
 
@@ -14,13 +14,13 @@ layout: simple
 
 First, we need to load the environment variables specified in the start of the documentation:
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sticky>
+[sticky]
 
-<Code.Sample>
+[codeblock]
 
 ```rust
 use std::env;
@@ -51,25 +51,25 @@ fn load_env() -> Result<(Url, String, Address)> {
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</Code.Sticky>
+[/sticky]
 
-</div>
+[/content]
 
-<div>
+[content]
 
 ### Initializing the auction contract:
 
 Third, we want to initialize the auction contract:
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sticky>
+[sticky]
 
-<Code.Sample>
+[codeblock]
 
 ```rust
 use alloy::providers::Provider;
@@ -82,27 +82,27 @@ fn init_auction<P: Provider>(pod_provider: &P, contract_address: Address) -> Auc
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</Code.Sticky>
+[/sticky]
 
-</div>
+[/content]
 
-<div>
+[content]
 
-### Submitting a bid:
+## Submitting a bid:
 
 Now, we want to submit our bid:
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sticky>
+[sticky]
 
-<Code.Sample>
+[codeblock]
 
-``` rust
+```rust
 use alloy::providers::Provider;
 use alloy_primitives::U256;
 use eyre::Result;
@@ -132,25 +132,25 @@ pub async fn submit_bid<P: Provider>(
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</Code.Sticky>
+[/sticky]
 
-</div>
+[/content]
 
-<div>
+[content]
 
-### Subscribing to the logs of the auction
+## Subscribing to the logs of the auction
 
 Lastly, we want to subscribe to the auction logs to get all the bids:
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sticky>
+[sticky]
 
-<Code.Sample>
+[codeblock]
 
 ```rust
 async fn subscribe_logs_for_auction_until_deadline<P: Provider>(
@@ -216,8 +216,8 @@ async fn subscribe_logs_for_auction_until_deadline<P: Provider>(
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</Code.Sticky>
+[/sticky]
 
-</div>
+[/content]

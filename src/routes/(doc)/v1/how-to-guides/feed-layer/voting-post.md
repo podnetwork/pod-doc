@@ -2,19 +2,19 @@
     import {Code} from '$lib'
 </script>
 
-<div>
+[content]
 
 ## Voting Posts
 
 Users can vote on posts to rank content in a decentralized way. Voting follows a simple rule: each user can vote only once per post. This ensures that the voting mechanism remains fair and prevents vote manipulation.
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sticky>
+[sticky]
 
-<Code.Sample>
+[codeblock]
 
 ```rust
 use pod_sdk::{PodProvider, Wallet};
@@ -41,8 +41,8 @@ async fn vote_post(provider: &PodProvider, wallet: &Wallet, contract_address: Ad
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</Code.Sticky>
+[/sticky]
 
-</div>
+[/content]

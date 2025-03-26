@@ -24,12 +24,13 @@
 		codeblocks?: CodeBlock[];
 	} = $props();
 
-	let ref = $state<HTMLDivElement>();
+	// let ref = $state<HTMLDivElement>();
 
 	// replace raw input
 	function copyCode() {
 		// copy code in element pre.code
-		const code = ref?.querySelector('pre code')?.textContent?.trim();
+		// const code = ref?.querySelector('pre code')?.textContent?.trim();
+		const code = selectedCodeblock?.code;
 		if (code) {
 			navigator.clipboard.writeText(code);
 			toast.success('Copied to clipboard');
@@ -86,6 +87,10 @@
 			selectedLang = langs[0];
 		}
 	});
+
+	$effect(() => {
+		console.log(codeblocks);
+	});
 </script>
 
 {#snippet tabs()}
@@ -138,11 +143,9 @@
 		</div>
 	{/snippet}
 
-	<div bind:this={ref}>
-		{#if selectedCodeblock}
-			<CodeblockCode code={selectedCodeblock.code} lang={selectedCodeblock.lang} />
-		{/if}
-	</div>
+	{#if selectedCodeblock}
+		<CodeblockCode code={selectedCodeblock.code} lang={selectedCodeblock.lang} />
+	{/if}
 </CodeblockContainer>
 
 {#if run && runRes.response && runResStr !== '{}'}

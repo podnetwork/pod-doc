@@ -11,12 +11,13 @@
 		value: string;
 	} = $props();
 
-	let ref = $state<HTMLDivElement>();
+	// let ref = $state<HTMLDivElement>();
 
 	// replace raw input
 	function copyCode() {
 		// copy code in element pre.code
-		const code = ref?.querySelector('pre code')?.textContent?.trim();
+		// const code = ref?.querySelector('pre code')?.textContent?.trim();
+		const code = value;
 		if (code) {
 			navigator.clipboard.writeText(code);
 			toast.success('Copied to clipboard');
@@ -34,7 +35,5 @@
 	{#snippet actions()}
 		{@render copyCodeButton()}
 	{/snippet}
-	<div bind:this={ref}>
-		<CodeblockCode code={value} lang="json" />
-	</div>
+	<CodeblockCode code={value} lang="json" />
 </CodeblockContainer>

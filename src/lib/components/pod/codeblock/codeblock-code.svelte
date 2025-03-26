@@ -40,8 +40,9 @@
 		@apply flex-1 overflow-auto;
 		@apply h-full rounded-b-sm;
 
-		:global(pre) {
-			@apply overflow-auto p-2 px-2.5 text-xs;
+		:global(> pre) {
+			@apply p-2 px-2.5 text-xs h-full;
+			@apply overflow-auto;
 		}
 
 		:global(> table) {

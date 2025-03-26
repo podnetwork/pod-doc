@@ -6,7 +6,7 @@ layout: simple
     import {Code} from '$lib'
 </script>
 
-<div>
+[content]
 
 ## Auction Contract
 
@@ -19,16 +19,15 @@ The contract features:
 - Checking that the auction was sent before the deadline.
 - Events for tracking bid submissions
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sticky>
+[sticky]
 
-<Code.Sample title="Solidity">
+[codeblock] title="Solidity"
 
-<!-- prettier-ignore -->
-``` javascript
+```javascript
 contract Auction {
     // Event emitted when a bid is submitted
     event BidSubmitted(
@@ -53,15 +52,15 @@ contract Auction {
     ) public {
         // Check that the auction deadline hasn't passed
         require(block.timestamp <= deadline, "Auction deadline passed");
-        
+
         // Emit the bid submission event
         emit BidSubmitted(auction_id, msg.sender, deadline, value);
     }
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</Code.Sticky>
+[/sticky]
 
-</div>
+[/content]

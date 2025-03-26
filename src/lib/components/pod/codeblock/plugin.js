@@ -24,7 +24,6 @@ function attrString2Obj(str) {
 
 export function highlighter(code, lang, metaStr) {
 	const metadata = attrString2Obj(metaStr);
-	console.log(metadata);
 
 	metadata.alias = metadata.alias || lang;
 	// create special syntax allow to catch later by plugin

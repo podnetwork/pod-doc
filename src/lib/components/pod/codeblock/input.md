@@ -4,27 +4,27 @@
 [codeblock] title="Sample 1" runCode={run}
 
 ```js alias="javascript"
-const x = 1;
-
-if (x === 1) {
-	console.log('x is 1');
-}
-
-console.log('x is not 1');
+a
 ```
 
 [/codeblock]
 
 [codeblock] title="Sample 2" runCode={run}
 
+```rust
+b
+```
+
+[/codeblock]
+
+[codeblock] title="Sample 3" runCode={run}
+
+```rust
+c
+```
+
 ```js
-const x = 1;
-
-if (x === 1) {
-	console.log('x is 1');
-}
-
-console.log('x is not 1');
+c2
 ```
 
 [/codeblock]

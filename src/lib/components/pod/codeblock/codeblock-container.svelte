@@ -23,6 +23,8 @@
 			<div class="codeblock-title-text">
 				{title}
 			</div>
+		{:else}
+			<div class="flex-1"></div>
 		{/if}
 
 		{#if actions}
@@ -48,7 +50,7 @@
 
 		.codeblock-title {
 			@apply rounded-t-sm px-1 py-1 text-xs;
-			@apply flex gap-1;
+			@apply flex gap-1 flex-none;
 
 			.codeblock-title-text {
 				@apply flex h-8 flex-1 items-center px-2 text-xs;

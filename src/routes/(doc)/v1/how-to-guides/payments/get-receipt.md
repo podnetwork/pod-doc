@@ -6,17 +6,19 @@ layout: simple
     import { Code } from '$lib';
 </script>
 
-<div>
+[content]
 
 ## Wait for the confirmation and get the receipt
 
 Finally, we wait for the transaction to be confirmed and fetch the receipts
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sample title="Get a transaction receipt">
+[sticky]
+
+[codeblock] title="Get a transaction receipt"
 
 <!-- prettier-ignore -->
 ```rust
@@ -57,6 +59,8 @@ pub async fn wait_for_receipts_and_verify<P: Provider>(
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</div>
+[/sticky]
+
+[/content]

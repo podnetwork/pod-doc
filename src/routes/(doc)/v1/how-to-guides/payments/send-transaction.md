@@ -6,17 +6,19 @@ layout: simple
     import { Code } from '$lib';
 </script>
 
-<div>
+[content]
 
 ## Send the transaction
 
 Now, we need to send our transaction to the client and broadcast it to the pod network
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sample title="Send a transaction">
+[sticky]
+
+[codeblock] title="Send a transaction"
 
 <!-- prettier-ignore -->
 ```rust
@@ -26,7 +28,6 @@ use std::time::SystemTime;
 use network::PodTransactionRequest;
 use pod_sdk::TransactionBuilder;
 use alloy_rpc_types_eth::transaction_request::TransactionRequest;
-
 
 /// Builds and sends a transaction to the given `recipient` with the specified `value`.
 /// Returns the (pending) transaction hash and the `start_time` for later receipt fetching.
@@ -59,6 +60,8 @@ pub async fn send_payment_tx<P: Provider>(
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</div>
+[/sticky]
+
+[/content]

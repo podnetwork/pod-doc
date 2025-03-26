@@ -6,17 +6,19 @@ layout: simple
     import { Code } from '$lib';
 </script>
 
-<div>
+[content]
 
 ## Initialize credentials
 
 First, we need to import all the necessary pod SDK libraries and Alloy types
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sample title="Import keys and credentials">
+[sticky]
+
+[codeblock] title="Import keys and credentials"
 
 <!-- prettier-ignore -->
 ```rust
@@ -34,23 +36,27 @@ fn load_env() -> Result<(String, String)> {
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</div>
+[/sticky]
+
+[/content]
 
 ---
 
-<div>
+[content]
 
 ## Initialize provider
 
 Second, we initialize the provider
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sample title="Initialize your provider">
+[sticky]
+
+[codeblock] title="Initialize your provider"
 
 <!-- prettier-ignore -->
 ```rust
@@ -96,6 +102,8 @@ pub async fn build_pod_provider(
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</div>
+[/sticky]
+
+[/content]

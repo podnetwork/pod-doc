@@ -1,6 +1,7 @@
 import { replaceState } from '$app/navigation';
 import { page, updated } from '$app/state';
 import { getContext, setContext, tick } from 'svelte';
+import { innerHeight } from 'svelte/reactivity/window';
 
 export interface SidebarItem {
 	href?: string;
@@ -19,6 +20,15 @@ export class SidebarMenuStore {
 		$effect(() => {
 			this.currentUrl = page.url;
 		});
+
+		// $effect(() => {
+		// 	if (document.body.querySelector('.a')) {
+		// 		document.body.removeChild(document.body.querySelector('.a')!);
+		// 	}
+		// 	const div = document.createElement('div');
+		// 	div.className = 'a bg-red-500 fixed top-[80px] bottom-[calc(100vh-180px)] w-full z-50';
+		// 	document.body.appendChild(div);
+		// });
 	}
 
 	static sid = Symbol.for('sidebar');
@@ -81,7 +91,7 @@ export class SidebarMenuStore {
 				});
 			},
 			{
-				rootMargin: '-56px 0px -70% 0px',
+				rootMargin: `-80px 0px -${(innerHeight.current ?? 0) - 180}px 0px`,
 				threshold: 0
 			}
 		);
