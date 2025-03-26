@@ -31,7 +31,8 @@ export const reroute: Reroute = ({ url }) => {
 	const origin = url.origin;
 
 	// match domain pod-doc-svelte-{version}.vercel.app
-	const version = origin.match(/pod-doc-svelte-(\d+)\.vercel\.app/)?.[1];
+	const version = origin.match(/pod-doc-svelte-(v\d+)\.vercel\.app/)?.[1];
+
 	if (version) {
 		console.log('Rerouted to version: ', version);
 		return `/${version}${url.pathname}`;
