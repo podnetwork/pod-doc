@@ -8,12 +8,13 @@
 
 	let { children } = $props();
 
-	App.create();
+	const app = App.create();
 </script>
 
 <Toaster position="top-right" />
 <ModeWatcher />
 
 <ClerkProvider>
+	[version: {app.version}]
 	{@render children()}
 </ClerkProvider>

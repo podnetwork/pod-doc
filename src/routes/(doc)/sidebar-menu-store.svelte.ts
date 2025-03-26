@@ -42,7 +42,7 @@ export class SidebarMenuStore {
 		return getContext<SidebarMenuStore>(this.sid);
 	}
 
-	app = App.get()
+	app = App.get();
 
 	// version reference to url
 	pageVersion = $derived(this.app.version);
@@ -117,7 +117,7 @@ export class SidebarMenuStore {
 	}
 
 	u(p: string) {
-		return `/${this.pageVersion}${p}`;
+		return this.app.mapWithVersion(p);
 	}
 
 	items = $state<SidebarItem[]>([
@@ -128,10 +128,7 @@ export class SidebarMenuStore {
 		{ href: this.u('/how-to-guides/auctions'), label: 'Auctions' },
 		{ href: this.u('/how-to-guides/feed-layer'), label: 'Feed Layer' },
 		{ heading: 'Reference' },
-		{
-			href: this.u('/reference/rpc-api'),
-			label: 'RPC API'
-		}
+		{ href: this.u('/reference/rpc-api'), label: 'RPC API' }
 	]);
 
 	makeItems() {
