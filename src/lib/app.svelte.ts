@@ -14,5 +14,13 @@ export class App {
 	}
 
 	// get from params (local domain) or subdomain (production domain)
-	version = $derived(page.url.pathname.split('/')[1] ?? Subdomain.test(page.url));
+	version = $derived.by(() => {
+		const fromParam = page.url.pathname.split('/')[1];
+
+		if (fromParam.length > 0) {
+			return fromParam;
+		}
+
+		return Subdomain.test(page.url);
+	});
 }
