@@ -1,5 +1,6 @@
 import { replaceState } from '$app/navigation';
 import { page, updated } from '$app/state';
+import { App } from '$lib/app.svelte';
 import { getContext, setContext, tick } from 'svelte';
 import { innerHeight } from 'svelte/reactivity/window';
 
@@ -41,8 +42,10 @@ export class SidebarMenuStore {
 		return getContext<SidebarMenuStore>(this.sid);
 	}
 
+	app = App.get()
+
 	// version reference to url
-	pageVersion = $derived(page.url.pathname.split('/')[1] || 'v1');
+	pageVersion = $derived(this.app.version);
 
 	// keep alternative current section/anchor point to, because limit of svelte page state
 	// not reactive when manual change url
