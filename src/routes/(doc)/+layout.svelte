@@ -107,7 +107,7 @@
 						<Input
 							type="search"
 							placeholder="Search..."
-							class="w-[300px] !bg-white bg-muted/30 pl-9 !text-[0.8rem]"
+							class="w-[300px] !bg-background bg-muted/30 pl-9 !text-[0.8rem]"
 						/>
 					</div>
 				</div>
