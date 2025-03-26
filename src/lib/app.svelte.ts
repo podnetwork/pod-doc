@@ -17,10 +17,16 @@ export class App {
 	version = $derived.by(() => {
 		const fromParam = page.url.pathname.split('/')[1];
 
+        console.log('fromParam', fromParam)
+
 		if (fromParam.length > 0) {
 			return fromParam;
 		}
 
-		return Subdomain.test(page.url);
+		const fromSubdomain = Subdomain.test(page.url);
+
+        console.log('fromSubdomain', fromSubdomain)
+
+		return fromSubdomain;
 	});
 }
