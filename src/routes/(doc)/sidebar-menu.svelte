@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Collapsible from '$lib/components/ui/collapsible';
 	import * as Sidebar from '$lib/components/ui/sidebar';
+	import { sidebarMenuButtonVariants } from '$lib/components/ui/sidebar/sidebar-menu-button.svelte';
 	import { ChevronRight } from '@lucide/svelte';
 	import { SidebarMenuStore } from './sidebar-menu-store.svelte';
 
@@ -20,14 +21,15 @@
 
 		sidebar.manualUpdateHash(hash);
 
-		addEventListener('scrollend', () => {
-			console.log('here');
-			sidebar.blockTracking = false;
-		}, { once: true });
+		addEventListener(
+			'scrollend',
+			() => {
+				sidebar.blockTracking = false;
+			},
+			{ once: true }
+		);
 
 		element.scrollIntoView({ behavior: 'smooth' });
-
-		
 	};
 </script>
 
@@ -45,15 +47,23 @@
 					<Collapsible.Root open={sidebar.isActive(item)} class="group/collapsible ">
 						<Sidebar.MenuItem>
 							<Sidebar.MenuButton isActive={sidebar.isActive(item)}>
-								<a href={item.href} class="flex w-full justify-between text-sidebar-foreground"
-									>{item.label}
-									<ChevronRight
-										size={16}
-										class="text-muted-foreground {sidebar.isActive(item)
-											? 'rotate-90'
-											: ''} transition-all"
-									/></a
-								>
+								{#snippet child({ props })}
+									<a
+										{...props}
+										href={item.href}
+										class={[
+											sidebarMenuButtonVariants({}),
+											'flex justify-between text-sidebar-foreground'
+										]}
+										>{item.label}
+										<ChevronRight
+											size={16}
+											class="text-muted-foreground {sidebar.isActive(item)
+												? 'rotate-90'
+												: ''} transition-all"
+										/></a
+									>
+								{/snippet}
 							</Sidebar.MenuButton>
 
 							<Collapsible.Content>
@@ -79,7 +89,16 @@
 				{:else}
 					<Sidebar.MenuItem>
 						<Sidebar.MenuButton isActive={sidebar.isActive(item)}>
-							<a href={item.href} class="w-full text-sidebar-foreground">{item.label}</a>
+							{#snippet child({ props })}
+								<a
+									{...props}
+									href={item.href}
+									class={[
+										sidebarMenuButtonVariants({}),
+										'flex justify-between text-sidebar-foreground'
+									]}>{item.label}</a
+								>
+							{/snippet}
 						</Sidebar.MenuButton>
 					</Sidebar.MenuItem>
 				{/if}

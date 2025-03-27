@@ -185,11 +185,12 @@ export class SidebarMenuStore {
 	isActive(item: SidebarItem) {
 		if (item.heading) return false;
 
-		const home = this.app.mapWithVersion('/');
+		const home = this.app.mapWithVersion('');
 
 		const ihref = (item.href ?? '').trim().replace(/\/$/, '');
 		const phref = this.currentUrl.pathname.trim().replace(/\/$/, '');
 
+		
 		if (ihref === home) {
 			return ihref === phref;
 		}
