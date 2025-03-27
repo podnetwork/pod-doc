@@ -12,6 +12,7 @@
 	import VersionController from './version-controller.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
+	import DocsSearch from '$lib/components/docs-search.svelte';
 
 	const mm = MetaMask.create();
 
@@ -104,14 +105,15 @@
 					<div class="flex-1" />
 
 					<div class="relative hidden md:block">
-						<Search
-							class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-						/>
-						<Input
-							type="search"
-							placeholder="Search..."
-							class="w-[300px] !bg-white bg-muted/30 pl-9 !text-[0.8rem]"
-						/>
+						<DocsSearch />
+						<!-- <Search -->
+						<!-- 	class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" -->
+						<!-- /> -->
+						<!-- <Input -->
+						<!-- 	type="search" -->
+						<!-- 	placeholder="Search..." -->
+						<!-- 	class="w-[300px] !bg-white bg-muted/30 pl-9 !text-[0.8rem]" -->
+						<!-- /> -->
 					</div>
 				</div>
 			</div>
