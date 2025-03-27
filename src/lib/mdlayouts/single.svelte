@@ -13,7 +13,9 @@
 </script>
 
 <div class="mlayout-single doc-style">
-	{@render children()}
+	<div>
+		{@render children()}
+	</div>
 </div>
 
 <style lang="postcss">
@@ -37,4 +39,3 @@
 		}
 	}
 </style>
-

@@ -2,7 +2,7 @@
     import {Code} from '$lib'
 </script>
 
-<div>
+[content]
 
 ## Posting Data
 
@@ -10,13 +10,13 @@ To create a new post, a user calls the `createPost` function on the contract. Th
 
 Since pod does not have blocks, when send a transaction you don't wait for a particular number of confirmations, instead you wait for the receipt to be returned, which will typically be available right after sending the transaction.
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sticky>
+[sticky]
 
-<Code.Sample>
+[codeblock]
 
 ``` rust
 use pod_sdk::{PodProvider, Wallet};
@@ -46,8 +46,8 @@ async fn create_post(provider: &PodProvider, contract_address: Address, feed_id:
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</Code.Sticky>
+[/sticky]
 
-</div>
+[/content]

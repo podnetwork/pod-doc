@@ -1,29 +1,11 @@
 import adapter from '@sveltejs/adapter-vercel';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
-import { escapeSvelte, mdsvex } from 'mdsvex';
+import { mdsvex } from 'mdsvex';
 import rehypeSlug from 'rehype-slug';
 import remarkAbbr from 'remark-abbr';
-import { createHighlighterCore } from 'shiki/core';
-import { createJavaScriptRegexEngine } from 'shiki/engine/javascript';
-// import remarkTransformDirective from './remark/remark-transform-directive.js';
-
-// note:
-// having other version of shiki instance defined in $lib and used within app
-const highlighter = await createHighlighterCore({
-	themes: [import('@shikijs/themes/one-light'), import('@shikijs/themes/ayu-dark')],
-	langs: [
-		import('@shikijs/langs/typescript'),
-		import('@shikijs/langs/javascript'),
-		import('@shikijs/langs/html'),
-		import('@shikijs/langs/css'),
-		import('@shikijs/langs/json'),
-		import('@shikijs/langs/xml'),
-		import('@shikijs/langs/python'),
-		import('@shikijs/langs/bash'),
-		import('@shikijs/langs/rust')
-	],
-	engine: createJavaScriptRegexEngine()
-});
+import { highlighter, rehypeCodeBlock } from './src/lib/components/pod/codeblock/plugin.js';
+import { rehypeGridstack } from './src/lib/components/pod/gridstack/plugin.js';
+import { rehypeHTMLMap } from './src/lib/components/pod/htmlmap/plugin.js';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -39,45 +21,14 @@ const config = {
 				blank: './src/lib/mdlayouts/blank.svelte'
 			},
 			highlight: {
-				highlighter: async (code, lang = 'text') => {
-					let cls = '';
-					if (lang.includes(':')) {
-						const [realLange, customId] = lang.split(':');
-						lang = realLange;
-						cls = customId;
-					}
-
-					const html = escapeSvelte(
-						highlighter.codeToHtml(code, {
-							lang,
-							defaultColor: false,
-							themes: {
-								light: 'one-light',
-								dark: 'ayu-dark'
-							},
-							structure: 'classic',
-							meta: {
-								'data-lang': cls
-							}
-						})
-					);
-					return `{@html \`${html}\` }`;
-				}
+				highlighter: highlighter
 			},
-			remarkPlugins: [
-				remarkAbbr
-				// remarkTransformDirective
-			],
+			remarkPlugins: [remarkAbbr],
 			rehypePlugins: [
-				rehypeSlug
-				// codeTitle
-				// [
-				// 	rehypeAutolinkHeadings,
-				// 	{
-				// 		// behavior: 'wrap'
-				// 		behavior: 'behavior'
-				// 	}
-				// ]
+				rehypeSlug,
+				rehypeCodeBlock,
+				rehypeHTMLMap,
+				rehypeGridstack,
 			]
 		})
 	],

@@ -6,7 +6,7 @@ layout: simple
     import {Code} from '$lib';
 </script>
 
-<div>
+[content]
 
 # Auctions
 
@@ -25,8 +25,4 @@ Before participating in auctions, ensure you have:
 - A funded wallet on pod devnet
 - Rust Pod SDK installed. How to build the pod provider can be seen in the [Rust SDK](https://docs.pod.network/reference/rust-sdk) section
 
-</div>
-
-<div>
-
-</div>
+[/content]

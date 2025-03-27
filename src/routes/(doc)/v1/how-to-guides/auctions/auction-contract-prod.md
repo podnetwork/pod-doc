@@ -6,22 +6,21 @@ layout: simple
     import {Code} from '$lib'
 </script>
 
-<div>
+[content]
 
 ## Auction Contract on pod
 
 The auction contract on pod is pre-deployed and ready to use. The implementation on the SDK side using the `sol!` macro looks as follows.
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sticky>
+[sticky]
 
-<Code.Sample title="Production sample">
+[codeblock] title="Production sample"
 
-<!-- prettier-ignore -->
-``` rust
+```rust
 use alloy_sol_types::sol;
 
 sol! {
@@ -38,18 +37,18 @@ sol! {
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
 The contract can be accessed as follows:
 
-<Code.Sample>
+[codeblock]
 
-``` rust
+```rust
 use pod_core::contracts::auction::Auction;
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</Code.Sticky>
+[/sticky]
 
-</div>
+[/content]

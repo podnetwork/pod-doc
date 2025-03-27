@@ -1,6 +1,8 @@
 import { replaceState } from '$app/navigation';
 import { page, updated } from '$app/state';
+import { App } from '$lib/app.svelte';
 import { getContext, setContext, tick } from 'svelte';
+import { innerHeight } from 'svelte/reactivity/window';
 
 export interface SidebarItem {
 	href?: string;
@@ -19,6 +21,15 @@ export class SidebarMenuStore {
 		$effect(() => {
 			this.currentUrl = page.url;
 		});
+
+		// $effect(() => {
+		// 	if (document.body.querySelector('.a')) {
+		// 		document.body.removeChild(document.body.querySelector('.a')!);
+		// 	}
+		// 	const div = document.createElement('div');
+		// 	div.className = 'a bg-red-500 fixed top-[80px] bottom-[calc(100vh-180px)] w-full z-50';
+		// 	document.body.appendChild(div);
+		// });
 	}
 
 	static sid = Symbol.for('sidebar');
@@ -31,8 +42,10 @@ export class SidebarMenuStore {
 		return getContext<SidebarMenuStore>(this.sid);
 	}
 
+	app = App.get();
+
 	// version reference to url
-	pageVersion = $derived(page.url.pathname.split('/')[1] || 'v1');
+	pageVersion = $derived(this.app.version);
 
 	// keep alternative current section/anchor point to, because limit of svelte page state
 	// not reactive when manual change url
@@ -40,6 +53,8 @@ export class SidebarMenuStore {
 
 	// TOC tracking
 	visibleId = $state<string>();
+
+	blockTracking = $state(false);
 
 	tocTracking(pageContentEl?: HTMLDivElement, url?: URL) {
 		url ??= page.url;
@@ -53,27 +68,14 @@ export class SidebarMenuStore {
 		// use observable
 		const observer = new IntersectionObserver(
 			(entries) => {
+				if (this.blockTracking) return;
+
 				entries.forEach((entry) => {
 					if (entry.isIntersecting) {
 						// update url
 						if (this.itemIDs.includes(entry.target.id)) {
 							this.visibleId = entry.target.id;
-
-							const curl = window.location.href;
-							// Update the URL hash without reloading the page
-							const url = new URL(curl);
-							url.hash = `#${entry.target.id}`;
-							// history.replaceState(null, '', url.toString());
-
-							replaceState(url.toString(), {});
-							this.currentUrl = url;
-							tick().then(() => updated.check());
-
-							// const id = entry.target.id;
-							// const newUrl = new URL(window.location.href);
-							// newUrl.hash = `#${id}`;
-							// Use goto to update URL without page reload
-							// goto(`#${id}`, { replaceState: true, noScroll: true, keepFocus: true });
+							this.manualUpdateHash(entry.target.id);
 						}
 					} else {
 						// console.log(`Heading ${entry.target.id} is not in viewport`);
@@ -81,7 +83,7 @@ export class SidebarMenuStore {
 				});
 			},
 			{
-				rootMargin: '-56px 0px -70% 0px',
+				rootMargin: `-80px 0px -${(innerHeight.current ?? 0) - 180}px 0px`,
 				threshold: 0
 			}
 		);
@@ -96,6 +98,25 @@ export class SidebarMenuStore {
 		};
 	}
 
+	// manually update url
+	manualUpdateHash(hash: string) {
+		const curl = window.location.href;
+		// Update the URL hash without reloading the page
+		const url = new URL(curl);
+		url.hash = `#${hash}`;
+		// history.replaceState(null, '', url.toString());
+
+		replaceState(url.toString(), {});
+		this.currentUrl = url;
+		tick().then(() => updated.check());
+
+		// const id = entry.target.id;
+		// const newUrl = new URL(window.location.href);
+		// newUrl.hash = `#${id}`;
+		// Use goto to update URL without page reload
+		// goto(`#${id}`, { replaceState: true, noScroll: true, keepFocus: true });
+	}
+
 	// items
 	hashMap = $state<Record<string, Record<string, string>>>({});
 
@@ -104,7 +125,7 @@ export class SidebarMenuStore {
 	}
 
 	u(p: string) {
-		return `/${this.pageVersion}${p}`;
+		return this.app.mapWithVersion(p);
 	}
 
 	items = $state<SidebarItem[]>([
@@ -115,10 +136,7 @@ export class SidebarMenuStore {
 		{ href: this.u('/how-to-guides/auctions'), label: 'Auctions' },
 		{ href: this.u('/how-to-guides/feed-layer'), label: 'Feed Layer' },
 		{ heading: 'Reference' },
-		{
-			href: this.u('/reference/rpc-api'),
-			label: 'RPC API'
-		}
+		{ href: this.u('/reference/rpc-api'), label: 'RPC API' }
 	]);
 
 	makeItems() {
@@ -167,11 +185,12 @@ export class SidebarMenuStore {
 	isActive(item: SidebarItem) {
 		if (item.heading) return false;
 
-		const home = `/${this.pageVersion}`;
+		const home = this.app.mapWithVersion('');
 
 		const ihref = (item.href ?? '').trim().replace(/\/$/, '');
 		const phref = this.currentUrl.pathname.trim().replace(/\/$/, '');
 
+		
 		if (ihref === home) {
 			return ihref === phref;
 		}

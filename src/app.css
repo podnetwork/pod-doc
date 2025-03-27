@@ -29,6 +29,7 @@
 @layer base {
 	:root {
 		--background: 120 64% 98%;
+		/* --background: 100 60% 99%; */
 		--foreground: 240 10% 3.9%;
 		--card: 0 0% 100%;
 		--card-foreground: 240 10% 3.9%;
@@ -84,13 +85,14 @@
 	}
 
 	html {
-		scroll-behavior: smooth;
+		/* scroll-behavior: smooth; */
 	}
 }
 
 @layer base {
 	:root {
 		--sidebar-background: 0 0% 98%;
+		/* --sidebar-background: 100 60% 99%; */
 		--sidebar-foreground: 240 5.3% 26.1%;
 		--sidebar-primary: 240 5.9% 10%;
 		--sidebar-primary-foreground: 0 0% 98%;

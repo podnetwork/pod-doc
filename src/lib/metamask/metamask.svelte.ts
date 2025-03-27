@@ -1,15 +1,16 @@
 import { PUBLIC_POD_NETWORK_NAME } from '$env/static/public';
+import { App } from '$lib/app.svelte';
 import { PodApi } from '$lib/pod/pod-api';
 import {
-    catchError,
-    finalize,
-    from,
-    map,
-    Subject,
-    switchMap,
-    takeUntil,
-    tap,
-    throwError
+	catchError,
+	finalize,
+	from,
+	map,
+	Subject,
+	switchMap,
+	takeUntil,
+	tap,
+	throwError
 } from 'rxjs';
 import { ajax, AjaxError } from 'rxjs/ajax';
 import { getContext, setContext } from 'svelte';
@@ -35,6 +36,8 @@ export class MetaMask {
 	static get() {
 		return getContext<MetaMask>(this.sid);
 	}
+
+	app = App.get()
 
 	web3 = new Web3();
 
@@ -70,6 +73,7 @@ export class MetaMask {
 
 	inited = $state(false);
 
+	// todo: map with dynamic version
 	version = $state('dev');
 
 	walletAddressHashIdCacheName = 'pod-doc-wallet-address-hash-id';

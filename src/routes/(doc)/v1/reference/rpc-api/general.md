@@ -6,7 +6,7 @@ layout: simple
     import {Code} from '$lib';
 </script>
 
-<div>
+[content]
 
 # RPC API
 
@@ -16,13 +16,15 @@ This documentation provides detailed information about the JSON-RPC methods supp
 
 Pod implements a JSON-RPC API that allows interaction with the network. While many methods align with the Ethereum JSON-RPC specification (methods prefixed with "eth*"), pod includes additional metadata ("pod_metadata" attribute) and pod-specific functionality (methods prefixed with "pod*").
 
-</div>
+[/content]
 
-<div></div>
+[content]
+
+[/content]
 
 ---
 
-<div>
+[content]
 
 ## Base URL
 
@@ -54,23 +56,23 @@ Error responses follow the JSON-RPC 2.0 specification.
 | `32603` | Internal error         |
 | `32000` | Server error (various) |
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sticky>
+[sticky]
 
-<Code.Sample title="API endpoint">
+[codeblock] title="API endpoint"
 
 ```bash
 https://rpc.dev.pod.network
 ```
 
-</Code.Sample>
+[/codeblock]
 
 Parameters must match the JSON-RPC 2.0 specification.
 
-<Code.Sample title="Parameters">
+[codeblock] title="Parameters"
 
 ```json
 {
@@ -81,9 +83,9 @@ Parameters must match the JSON-RPC 2.0 specification.
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-<Code.Sample title="Error Response">
+[codeblock] title="Error Response"
 
 ```json
 {
@@ -96,8 +98,8 @@ Parameters must match the JSON-RPC 2.0 specification.
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</Code.Sticky>
+[/sticky]
 
-</div>
+[/content]

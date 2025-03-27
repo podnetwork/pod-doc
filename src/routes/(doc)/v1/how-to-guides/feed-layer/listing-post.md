@@ -2,7 +2,7 @@
     import {Code} from '$lib'
 </script>
 
-<div>
+[content]
 
 ## Listing Posts
 
@@ -10,13 +10,13 @@ Posts are tracked via the `PostCreated` event, which can be fetched and verified
 
 Each validator signs a timestamp when confirming an event. The `confirmation_time()` function returns the median timestamp from all validators, giving an approximate time of occurrence.
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sticky>
+[sticky]
 
-<Code.Sample>
+[codeblock]
 
 ```rust
 use pod_sdk::{PodProvider, Committee};
@@ -40,8 +40,8 @@ async fn list_posts(provider: &PodProvider, committee: &Committee, feed_id: B256
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</Code.Sticky>
+[/sticky]
 
-</div>
+[/content]

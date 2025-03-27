@@ -11,7 +11,7 @@
 <SignedOut>
 	<Dialog.Root>
 		<Dialog.Trigger>
-			<Button variant="outline" class="w-full">Login</Button>
+			<Button variant="outline" class="w-full">Verify</Button>
 		</Dialog.Trigger>
 		<Dialog.Content class="w-fit border-none bg-transparent">
 			<SignIn forceRedirectUrl={page.url.toString()} fallbackRedirectUrl={page.url.toString()} />
@@ -30,7 +30,7 @@
 				<span class="text-sm font-bold">Shadcn</span>
 				<span class="text-xs">m@example.con</span>
 			</div>
-			<div class="flex-1" />
+			<div class="flex-1"></div>
 			<ChevronsUpDown class="h-4 w-4 opacity-60" />
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content side="top" align="end">

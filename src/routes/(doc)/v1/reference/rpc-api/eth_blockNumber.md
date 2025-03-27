@@ -21,7 +21,7 @@ layout: simple
     }
 </script>
 
-<div>
+[content]
 
 ## eth_blockNumber
 
@@ -36,15 +36,15 @@ Returns the latest past perfection pod timestamp in microseconds.
 | `response.id`      | integer | unique value as request |
 | `response.result`  | string  | latest block number     |
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sticky>
+[sticky]
 
-<Code.Sample title="POST: https://rpc.dev.pod.network/" runCode={play}>
+[codeblock] title="POST rpc.dev.pod.network" runCode={play}
 
-```bash:curl
+```bash alias="curl"
 curl -L \
   --request POST \
   --url 'https://rpc.dev.pod.network/' \
@@ -57,7 +57,7 @@ curl -L \
   }'
 ```
 
-```javascript:javascript
+```js alias="javascript"
 await fetch('https://rpc.dev.pod.network/', {
   method: 'POST',
   headers: {
@@ -72,8 +72,8 @@ await fetch('https://rpc.dev.pod.network/', {
 });
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</Code.Sticky>
+[/sticky]
 
-</div>
+[/content]

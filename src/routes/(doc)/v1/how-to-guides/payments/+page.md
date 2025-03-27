@@ -8,7 +8,7 @@ toc:
   setup-your-environment: Setup Your Environment
   initialize-credentials: Initialize Credentials
   initialize-provider: Initialize Provider
-  send-transaction: Send Transaction
+  send-the-transaction: Send Transaction
   wait-for-the-confirmation-and-get-the-receipt: Confirmation
   putting-it-all-together: Putting It All Together
 ---

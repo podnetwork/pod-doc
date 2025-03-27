@@ -6,17 +6,19 @@ layout: simple
     import {Code} from '$lib'
 </script>
 
-<div>
+[content]
 
 ## Putting it all together
 
 The following code snipped gives the full sequence of events from sending the transaction to waiting for the confirmation
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sample title="Full sample">
+[sticky]
+
+[codeblock] title="Full sample"
 
 <!-- prettier-ignore -->
 ```rust
@@ -59,6 +61,8 @@ async fn main() -> Result<()> {
 }
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</div>
+[/sticky]
+
+[/content]

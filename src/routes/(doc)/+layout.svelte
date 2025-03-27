@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import Logo from '$lib/components/logo.svelte';
 	import ThemeToggle from '$lib/components/theme-toggle.svelte';
+	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
 	import { MetaMask } from '$lib/metamask/metamask.svelte';
 	import { Menu, Search } from '@lucide/svelte';
 	import MetamaskPanel from './metamask-panel.svelte';
@@ -10,8 +11,6 @@
 	import SidebarMenu from './sidebar-menu.svelte';
 	import SidebarMobile from './sidebar-mobile.svelte';
 	import VersionController from './version-controller.svelte';
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
 	import DocsSearch from '$lib/components/docs-search.svelte';
 
 	const mm = MetaMask.create();
@@ -55,7 +54,7 @@
 		</div>
 
 		<SidebarMenu />
-		<div class="flex-1" />
+		<div class="flex-1"></div>
 		<div class="flex flex-col gap-2 p-4">
 			<ThemeToggle />
 			<MetamaskPanel />
@@ -102,18 +101,10 @@
 							{/each}
 						</nav>
 					</div>
-					<div class="flex-1" />
+					<div class="flex-1"></div>
 
 					<div class="relative hidden md:block">
 						<DocsSearch />
-						<!-- <Search -->
-						<!-- 	class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" -->
-						<!-- /> -->
-						<!-- <Input -->
-						<!-- 	type="search" -->
-						<!-- 	placeholder="Search..." -->
-						<!-- 	class="w-[300px] !bg-white bg-muted/30 pl-9 !text-[0.8rem]" -->
-						<!-- /> -->
 					</div>
 				</div>
 			</div>

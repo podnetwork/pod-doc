@@ -6,17 +6,17 @@ layout: simple
     import {Code} from '$lib'
 </script>
 
-<div>
+[content]
 
 ### Environment setup
 
-</div>
+[/content]
 
-<div>
+[content]
 
-<Code.Sticky>
+[sticky]
 
-<Code.Sample title="Set up environment variables">
+[codeblock] title="Set up environment variables"
 
 <!-- prettier-ignore -->
 ```bash
@@ -26,8 +26,8 @@ export AUCTION_CONTRACT="<deployed-auction-contract-address>"
 export PRIVATE_KEY="<your-private-key>"
 ```
 
-</Code.Sample>
+[/codeblock]
 
-</Code.Sticky>
+[/sticky]
 
-</div>
+[/content]
