@@ -64,8 +64,11 @@ function cleanMarkdownContent(content: string): string {
   // Remove image references
   cleaned = cleaned.replace(/!\[.*?\]\(.*?\)/g, '');
 
-  // Keep link text but remove URLs
-  cleaned = cleaned.replace(/\[(.*?)\]\(.*?\)/g, '$1');
+  /// Remove everything inside square brackets including the brackets
+  cleaned = cleaned.replace(/\[.*?\]/g, '');
+
+  // Remove link URLs (parentheses part of markdown links)
+  cleaned = cleaned.replace(/\(.*?\)/g, '');
 
   // Remove emphasis markers (* and _)
   cleaned = cleaned.replace(/(\*\*|__)(.*?)\1/g, '$2'); // Bold
