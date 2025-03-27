@@ -54,6 +54,8 @@ export class SidebarMenuStore {
 	// TOC tracking
 	visibleId = $state<string>();
 
+	blockTracking = $state(false);
+
 	tocTracking(pageContentEl?: HTMLDivElement, url?: URL) {
 		url ??= page.url;
 
@@ -66,27 +68,14 @@ export class SidebarMenuStore {
 		// use observable
 		const observer = new IntersectionObserver(
 			(entries) => {
+				if (this.blockTracking) return;
+
 				entries.forEach((entry) => {
 					if (entry.isIntersecting) {
 						// update url
 						if (this.itemIDs.includes(entry.target.id)) {
 							this.visibleId = entry.target.id;
-
-							const curl = window.location.href;
-							// Update the URL hash without reloading the page
-							const url = new URL(curl);
-							url.hash = `#${entry.target.id}`;
-							// history.replaceState(null, '', url.toString());
-
-							replaceState(url.toString(), {});
-							this.currentUrl = url;
-							tick().then(() => updated.check());
-
-							// const id = entry.target.id;
-							// const newUrl = new URL(window.location.href);
-							// newUrl.hash = `#${id}`;
-							// Use goto to update URL without page reload
-							// goto(`#${id}`, { replaceState: true, noScroll: true, keepFocus: true });
+							this.manualUpdateHash(entry.target.id);
 						}
 					} else {
 						// console.log(`Heading ${entry.target.id} is not in viewport`);
@@ -107,6 +96,25 @@ export class SidebarMenuStore {
 		return () => {
 			observer.disconnect();
 		};
+	}
+
+	// manually update url
+	manualUpdateHash(hash: string) {
+		const curl = window.location.href;
+		// Update the URL hash without reloading the page
+		const url = new URL(curl);
+		url.hash = `#${hash}`;
+		// history.replaceState(null, '', url.toString());
+
+		replaceState(url.toString(), {});
+		this.currentUrl = url;
+		tick().then(() => updated.check());
+
+		// const id = entry.target.id;
+		// const newUrl = new URL(window.location.href);
+		// newUrl.hash = `#${id}`;
+		// Use goto to update URL without page reload
+		// goto(`#${id}`, { replaceState: true, noScroll: true, keepFocus: true });
 	}
 
 	// items
