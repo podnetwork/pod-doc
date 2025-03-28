@@ -63,8 +63,8 @@
 		if (index === -1) return content.slice(0, 150) + '...';
 
 		// Get a window of text around the match
-		const start = Math.max(0, index - 50);
-		const end = Math.min(content.length, index + query.length + 50);
+		const start = Math.max(0, index - 75);
+		const end = Math.min(content.length, index + query.length + 75);
 		let preview = content.slice(start, end);
 
 		// Add ellipsis if needed
@@ -83,13 +83,13 @@
 	></div>
 
 	<div
-		class="fixed inset-x-0 top-24 z-50 mx-auto max-w-2xl overflow-hidden rounded-lg bg-background shadow-xl dark:bg-secondary"
+		class="fixed inset-x-0 top-24 z-50 mx-auto max-w-xl overflow-hidden rounded-lg bg-background shadow-xl dark:bg-secondary"
 		transition:fly={{ y: -20, duration: 200 }}
 	>
 		<div class="flex items-center border border-border p-4">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				class="h-5 w-5 text-gray-400"
+				class="h-5 w-5 text-foreground/40"
 				fill="none"
 				viewBox="0 0 24 24"
 				stroke="currentColor"
@@ -112,10 +112,7 @@
 				on:keydown={handleKeydown}
 			/>
 
-			<button
-				on:click={closeSearch}
-				class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300"
-			>
+			<button on:click={closeSearch} class="text-foreground/50 hover:text-foreground/70">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					class="h-5 w-5"
@@ -133,7 +130,7 @@
 			</button>
 		</div>
 
-		<div class="max-h-[70vh] overflow-y-auto">
+		<div class="max-h-[50vh] overflow-y-auto">
 			{#if $searchStore.isLoading}
 				<div class="p-4 text-center text-gray-500 dark:text-gray-400">Loading search index...</div>
 			{:else if $searchStore.query && $searchStore.results.length === 0}
@@ -150,14 +147,14 @@
 							on:click={() => navigateToResult(result)}
 						>
 							<a href={'/' + result.slug} class="block">
-								<h3 class="text-lg font-semibold text-primary">
+								<h3 class="text-[1rem] font-semibold leading-[1.25rem] text-primary">
 									{result.title || result.slug}
 								</h3>
-								<p class="mt-1 text-sm text-foreground/60">
+								<p class="mt-1 text-[0.75rem] leading-[0.7rem] text-foreground/60">
 									/{result.slug}
 								</p>
 								{#if result.content}
-									<p class="mt-2 text-sm text-foreground">
+									<p class="mt-2 text-[0.8rem] text-foreground/70">
 										{formatPreview(result.content, $searchStore.query)}
 									</p>
 								{/if}
@@ -192,7 +189,7 @@
 
 <button
 	on:click={() => isSearchOpen.set(true)}
-	class="inline-flex items-center justify-center rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground/60 hover:bg-secondary focus:outline-none"
+	class="inline-flex items-center justify-center rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground/60 hover:bg-background/50 focus:outline-none"
 >
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
@@ -209,5 +206,5 @@
 		/>
 	</svg>
 	Search
-	<span class="ml-4 text-xs opacity-70">⌘K</span>
+	<span class="ml-16 text-xs opacity-70">⌘K</span>
 </button>
