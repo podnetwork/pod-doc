@@ -10,7 +10,7 @@ One of the key applications that can take advantage of Pod’s lightning-fast na
 
 This guide demonstrates how to make payments on the POD Network using the Pod Rust SDK. We’ll cover the entire process, from checking balances to sending transactions and monitoring their status.
 
-For sending and receiving payments with an ethereum-compatible wallet, see [Getting Started](/).
+For sending and receiving payments with an ethereum-compatible wallet, see [Getting Started](/getting-started).
 
 ## Prerequisites
 

@@ -13,7 +13,7 @@ layout: simple
             },
             body: JSON.stringify({
                 jsonrpc: '2.0',
-                method: 'eth_blockNumber',
+                method: 'eth_chainId',
                 params: [],
                 id: 1
             })
@@ -23,9 +23,9 @@ layout: simple
 
 [content]
 
-## eth_blockNumber
+## eth_chainId
 
-Returns the latest past perfection pod timestamp in microseconds.
+Returns the chain ID of the current network.
 
 ### Parameters
 
@@ -33,12 +33,12 @@ None
 
 ### Response
 
-| Key                | Type    | Description             |
-| ------------------ | ------- | ----------------------- |
-| `statusCode`       | integer | HTTP status code        |
-| `response.jsonrpc` | string  | same value as request   |
-| `response.id`      | integer | unique value as request |
-| `response.result`  | string  | latest block number     |
+| Key                | Type    | Description                                    |
+| ------------------ | ------- | ---------------------------------------------- |
+| `statusCode`       | integer | HTTP status code                               |
+| `response.jsonrpc` | string  | same value as request                          |
+| `response.id`      | integer | unique value as request                        |
+| `response.result`  | string  | Chain ID in hexadecimal format, always `0x50d` |
 
 [/content]
 
@@ -55,7 +55,7 @@ curl -L \
   --header 'Content-Type: application/json' \
   --data '{
     "jsonrpc": "2.0",
-    "method": "eth_blockNumber",
+    "method": "eth_chainId",
     "params": [],
     "id": 1
   }'
@@ -69,7 +69,7 @@ await fetch('https://rpc.dev.pod.network/', {
 	},
 	body: JSON.stringify({
 		jsonrpc: '2.0',
-		method: 'eth_blockNumber',
+		method: 'eth_chainId',
 		params: [],
 		id: 1
 	})
@@ -87,7 +87,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .header("Content-Type", "application/json")
         .json(&json!({
             "jsonrpc": "2.0",
-            "method": "eth_blockNumber",
+            "method": "eth_chainId",
             "params": [],
             "id": 1
         }))
@@ -109,9 +109,9 @@ Example Response:
 
 ```json
 {
-	"jsonrpc": "2.0",
-	"result": "0x67505ef7",
-	"id": 1
+    "jsonrpc": "2.0",
+    "id": 1,
+    "result": "0x50d"
 }
 ```
 

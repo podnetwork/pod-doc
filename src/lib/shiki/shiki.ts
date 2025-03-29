@@ -18,7 +18,8 @@ export const shikiEngine = createHighlighterCore({
 		import('@shikijs/langs/xml'),
 		import('@shikijs/langs/python'),
 		import('@shikijs/langs/bash'),
-		import('@shikijs/langs/rust')
+		import('@shikijs/langs/rust'),
+		import('@shikijs/langs/toml')
 	],
 	engine: createJavaScriptRegexEngine()
 });

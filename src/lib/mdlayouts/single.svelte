@@ -37,5 +37,9 @@
 				@apply pb-12;
 			}
 		}
+
+		:global(> div > hr) {
+			@apply my-12;
+		}
 	}
 </style>

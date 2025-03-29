@@ -135,8 +135,16 @@ export class SidebarMenuStore {
 		{ href: this.u('/how-to-guides/payments'), label: 'Payments' },
 		{ href: this.u('/how-to-guides/auctions'), label: 'Auctions' },
 		{ href: this.u('/how-to-guides/feed-layer'), label: 'Feed Layer' },
+		{ heading: 'Architectures' },
+		{ href: this.u('/architecture/architecture-basics'), label: 'Architecture Basics' },
+		{ href: this.u('/architecture/execution-model'), label: 'Execution Model' },
+		{ href: this.u('/architecture/fast-path'), label: 'Fast Path' },
+		{ href: this.u('/architecture/network'), label: 'Network' },
+		{ href: this.u('/architecture/transaction-lifecycle'), label: 'Transaction Lifecycle' },
 		{ heading: 'Reference' },
-		{ href: this.u('/reference/rpc-api'), label: 'RPC API' }
+		{ href: this.u('/reference/rpc-api'), label: 'RPC API' },
+		{ href: this.u('/reference/rust-sdk'), label: 'Rust SDK' },
+		{ href: this.u('/reference/solidity-sdk'), label: 'Solidity SDK' }
 	]);
 
 	makeItems() {
@@ -190,7 +198,6 @@ export class SidebarMenuStore {
 		const ihref = (item.href ?? '').trim().replace(/\/$/, '');
 		const phref = this.currentUrl.pathname.trim().replace(/\/$/, '');
 
-		
 		if (ihref === home) {
 			return ihref === phref;
 		}

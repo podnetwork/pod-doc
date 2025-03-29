@@ -37,6 +37,14 @@ export function rehypeHTMLMap() {
 					default:
 						return;
 
+					case '[contentempty]':
+						Object.assign(node, {
+							type: 'raw',
+							value: '<div>&nbsp;</div>',
+							children: []
+						});
+						return
+
 					case '[content]':
 						Object.assign(node, {
 							type: 'raw',

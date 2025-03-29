@@ -9,23 +9,23 @@ layout: simple
         return fetch('https://rpc.dev.pod.network/', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 jsonrpc: '2.0',
-                method: 'eth_blockNumber',
+                method: 'eth_gasPrice',
                 params: [],
                 id: 1
             })
-        })
+        });
     }
 </script>
 
 [content]
 
-## eth_blockNumber
+## eth_gasPrice
 
-Returns the latest past perfection pod timestamp in microseconds.
+Returns the current gas price.
 
 ### Parameters
 
@@ -33,12 +33,12 @@ None
 
 ### Response
 
-| Key                | Type    | Description             |
-| ------------------ | ------- | ----------------------- |
-| `statusCode`       | integer | HTTP status code        |
-| `response.jsonrpc` | string  | same value as request   |
-| `response.id`      | integer | unique value as request |
-| `response.result`  | string  | latest block number     |
+| Key                | Type    | Description                                   |
+| ------------------ | ------- | --------------------------------------------- |
+| `statusCode`       | integer | HTTP status code                              |
+| `response.jsonrpc` | string  | same value as request                         |
+| `response.id`      | integer | unique value as request                       |
+| `response.result`  | string  | Current gas price in wei (hexadecimal format) |
 
 [/content]
 
@@ -49,16 +49,14 @@ None
 [codeblock] title="POST rpc.dev.pod.network" runCode={play}
 
 ```bash alias="curl"
-curl -L \
-  --request POST \
-  --url 'https://rpc.dev.pod.network/' \
-  --header 'Content-Type: application/json' \
-  --data '{
-    "jsonrpc": "2.0",
-    "method": "eth_blockNumber",
-    "params": [],
-    "id": 1
-  }'
+curl -X POST https://rpc.dev.pod.network \
+    -H "Content-Type: application/json" \
+    -d '{
+        "jsonrpc": "2.0",
+        "method": "eth_gasPrice",
+        "params": [],
+        "id": 1
+    }'
 ```
 
 ```js alias="javascript"
@@ -69,7 +67,7 @@ await fetch('https://rpc.dev.pod.network/', {
 	},
 	body: JSON.stringify({
 		jsonrpc: '2.0',
-		method: 'eth_blockNumber',
+		method: 'eth_gasPrice',
 		params: [],
 		id: 1
 	})
@@ -87,7 +85,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .header("Content-Type", "application/json")
         .json(&json!({
             "jsonrpc": "2.0",
-            "method": "eth_blockNumber",
+            "method": "eth_gasPrice",
             "params": [],
             "id": 1
         }))
@@ -109,9 +107,9 @@ Example Response:
 
 ```json
 {
-	"jsonrpc": "2.0",
-	"result": "0x67505ef7",
-	"id": 1
+    "jsonrpc": "2.0",
+    "result": "0x1",
+    "id": 1
 }
 ```
 

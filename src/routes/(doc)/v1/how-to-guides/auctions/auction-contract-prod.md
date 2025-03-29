@@ -49,6 +49,8 @@ use pod_core::contracts::auction::Auction;
 
 [/codeblock]
 
+The contract is deployed to the address `0x217F5658c6ecC27D439922263AD9Bb8e992e0373` on pod network.
+
 [/sticky]
 
 [/content]

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+    <!-- Clients -->
+    <g font-family="Arial" font-size="14">
+        <!-- Verifying Client -->
+        <rect x="50" y="80" width="140" height="45" fill="#e1f5fe" stroke="#0288d1" stroke-width="2" rx="5"/>
+        <text x="120" y="108" text-anchor="middle">Verifying Client</text>
+        
+        <!-- Non-Verifying Client 1 -->
+        <rect x="50" y="250" width="140" height="45" fill="#e1f5fe" stroke="#0288d1" stroke-width="2" rx="5"/>
+        <text x="120" y="278" text-anchor="middle">Non-Verifying Client</text>
+
+        <!-- Non-Verifying Client 2 -->
+        <rect x="50" y="420" width="140" height="45" fill="#e1f5fe" stroke="#0288d1" stroke-width="2" rx="5"/>
+        <text x="120" y="448" text-anchor="middle">Non-Verifying Client 2</text>
+    </g>
+    
+    <!-- Nodes -->
+    <g font-family="Arial" font-size="14">
+        <!-- Node 1 -->
+        <rect x="300" y="165" width="100" height="45" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="5"/>
+        <text x="350" y="193" text-anchor="middle">Node</text>
+
+        <!-- Node 2 -->
+        <rect x="300" y="420" width="100" height="45" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="5"/>
+        <text x="350" y="448" text-anchor="middle">Node</text>
+    </g>
+    
+    <!-- Validators -->
+    <g font-family="Arial" font-size="14">
+        <!-- Validator 1 -->
+        <rect x="600" y="165" width="100" height="45" fill="#e8f5e9" stroke="#388e3c" stroke-width="2" rx="5"/>
+        <text x="650" y="193" text-anchor="middle">Validator 1</text>
+        
+        <!-- Validator 2 -->
+        <rect x="600" y="290" width="100" height="45" fill="#e8f5e9" stroke="#388e3c" stroke-width="2" rx="5"/>
+        <text x="650" y="318" text-anchor="middle">Validator 2</text>
+        
+        <!-- Validator 3 -->
+        <rect x="600" y="415" width="100" height="45" fill="#e8f5e9" stroke="#388e3c" stroke-width="2" rx="5"/>
+        <text x="650" y="443" text-anchor="middle">Validator 3</text>
+    </g>
+    
+    <!-- Connections -->
+    <g stroke-width="2">
+        <!-- Client Connections -->
+        <line x1="190" y1="102" x2="300" y2="187" stroke="#0288d1"/>
+        <line x1="190" y1="272" x2="300" y2="187" stroke="#0288d1"/>
+        <line x1="190" y1="442" x2="300" y2="442" stroke="#0288d1"/>
+        
+        <!-- Node 1 to Validator Connections -->
+        <line x1="400" y1="187" x2="600" y2="187" stroke="#7b1fa2"/>
+        <line x1="400" y1="187" x2="600" y2="312" stroke="#7b1fa2"/>
+        <line x1="400" y1="187" x2="600" y2="437" stroke="#7b1fa2"/>
+
+        <!-- Node 2 to Validator Connections -->
+        <line x1="400" y1="442" x2="600" y2="187" stroke="#7b1fa2"/>
+        <line x1="400" y1="442" x2="600" y2="312" stroke="#7b1fa2"/>
+        <line x1="400" y1="442" x2="600" y2="437" stroke="#7b1fa2"/>
+        
+        <!-- Validator to Node 1 Attestations -->
+        <path d="M600,182 Q500,177 400,182" fill="none" stroke="#388e3c" stroke-dasharray="5,5"/>
+        <path d="M600,307 Q500,262 400,192" fill="none" stroke="#388e3c" stroke-dasharray="5,5"/>
+        <path d="M600,432 Q500,307 400,197" fill="none" stroke="#388e3c" stroke-dasharray="5,5"/>
+
+        <!-- Validator to Node 2 Attestations -->
+        <path d="M600,192 Q500,340 400,437" fill="none" stroke="#388e3c" stroke-dasharray="5,5"/>
+        <path d="M600,317 Q500,400 400,442" fill="none" stroke="#388e3c" stroke-dasharray="5,5"/>
+        <path d="M600,437 Q500,445 400,447" fill="none" stroke="#388e3c" stroke-dasharray="5,5"/>
+        
+        <!-- Node to Verifying Client Attestation -->
+        <path d="M300,182 Q245,130 190,97" fill="none" stroke="#388e3c" stroke-dasharray="5,5"/>
+    </g>
+    
+    <!-- Legend -->
+    <g font-family="Arial" font-size="12" transform="translate(50, 540)">
+        <line x1="0" y1="0" x2="30" y2="0" stroke="#000" stroke-width="2"/>
+        <text x="40" y="5">Transaction Flow</text>
+        
+        <line x1="150" y1="0" x2="180" y2="0" stroke="#000" stroke-width="2" stroke-dasharray="5,5"/>
+        <text x="190" y="5">Attestation Flow</text>
+    </g>
+</svg>
