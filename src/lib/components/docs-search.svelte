@@ -27,6 +27,29 @@
 	}
 
 	let selectedIndex = 0;
+	let resultsContainer: HTMLDivElement;
+	let resultItems: HTMLLIElement[] = [];
+
+	// Auto-scroll to keep selected item in view
+	$: if (selectedIndex !== null && resultItems[selectedIndex] && resultsContainer) {
+		const containerRect = resultsContainer.getBoundingClientRect();
+		const itemRect = resultItems[selectedIndex].getBoundingClientRect();
+
+		const isItemAbove = itemRect.top < containerRect.top;
+		const isItemBelow = itemRect.bottom > containerRect.bottom;
+
+		if (isItemAbove) {
+			resultsContainer.scrollTo({
+				top: resultsContainer.scrollTop + (itemRect.top - containerRect.top),
+				behavior: 'smooth'
+			});
+		} else if (isItemBelow) {
+			resultsContainer.scrollTo({
+				top: resultsContainer.scrollTop + (itemRect.bottom - containerRect.bottom),
+				behavior: 'smooth'
+			});
+		}
+	}
 
 	function handleKeydown(event: KeyboardEvent) {
 		if (event.key === 'ArrowDown') {
@@ -130,7 +153,7 @@
 			</button>
 		</div>
 
-		<div class="max-h-[50vh] overflow-y-auto">
+		<div bind:this={resultsContainer} class="max-h-[50vh] overflow-y-auto">
 			{#if $searchStore.isLoading}
 				<div class="p-4 text-center text-gray-500 dark:text-gray-400">Loading search index...</div>
 			{:else if $searchStore.query && $searchStore.results.length === 0}
@@ -141,6 +164,7 @@
 				<ul class="divide-y divide-border">
 					{#each $searchStore.results as result, i}
 						<li
+							bind:this={resultItems[i]}
 							class="cursor-pointer p-4 hover:bg-primary/5 {i === selectedIndex
 								? 'bg-primary/10 dark:bg-primary/20'
 								: ''}"
