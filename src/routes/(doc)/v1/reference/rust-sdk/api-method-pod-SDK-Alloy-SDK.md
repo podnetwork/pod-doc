@@ -16,8 +16,4 @@ Additionally, using the Alloy SDK directly may lead to unexpected behavior when 
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]

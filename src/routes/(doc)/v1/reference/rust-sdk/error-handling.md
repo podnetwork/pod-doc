@@ -17,8 +17,4 @@ The error handling is identical to the Alloy error handling framework:
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]

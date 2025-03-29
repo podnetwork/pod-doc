@@ -36,11 +36,7 @@ This document describes the execution model of pod network, focusing on its curr
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]
 
 ---
 
@@ -96,11 +92,7 @@ Contracts deployed on pod have access to:
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]
 
 ---
 
@@ -195,11 +187,7 @@ contract DataProcessor {
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]
 
 ---
 
@@ -327,11 +315,7 @@ While still being able to execute the transactions on pod's fast finality.
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]
 
 ---
 
@@ -343,8 +327,4 @@ Pod's execution model is designed for high performance and reliability while mai
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]

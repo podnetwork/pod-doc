@@ -18,8 +18,4 @@ For additional resources and troubleshooting:
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]

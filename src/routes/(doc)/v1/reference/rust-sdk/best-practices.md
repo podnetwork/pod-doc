@@ -19,8 +19,4 @@ For optimal client usage:
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]

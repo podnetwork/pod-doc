@@ -19,8 +19,4 @@ When developing applications using the pod Rust SDK:
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]

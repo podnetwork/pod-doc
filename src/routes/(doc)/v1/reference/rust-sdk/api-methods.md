@@ -14,8 +14,4 @@ The SDK provides several key methods for interacting with the pod network
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]

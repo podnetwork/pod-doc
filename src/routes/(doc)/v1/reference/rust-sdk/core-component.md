@@ -16,11 +16,7 @@ The PodClient serves as the primary interface for interacting with the Pod netwo
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]
 
 [content]
 
@@ -51,8 +47,4 @@ let pod_client = provider::ProviderBuilder::new().on_http(rpc_url).await?;
 
 [/content]
 
-[content]
-
-&nbsp;
-
-[/content]
+[contentempty]
