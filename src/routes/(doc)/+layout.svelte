@@ -32,14 +32,9 @@
 		isMobileSidebarOpen = false;
 	});
 
-	const navigationItems = [
-		{ id: 'get-started', label: 'Get Started', href: '/get-started', active: true }
-		// { id: 'payments', label: 'PAYMENTS', href: '/payments', active: false },
-		// { id: 'finance-automation', label: 'FINANCE AUTOMATION', href: '/finance-automation', active: false },
-		// { id: 'platforms', label: 'PLATFORMS AND MARKETPLACES', href: '/platforms', active: false },
-		// { id: 'banking', label: 'BANKING AS A SERVICE', href: '/banking', active: false },
-		// { id: 'developer', label: 'DEVELOPER TOOLS', href: '/developer', active: false }
-	];
+	$effect(() => {
+		console.log(sidebar.currentItem?.navId);
+	});
 </script>
 
 <div class="flex min-h-screen">
@@ -86,15 +81,16 @@
 				<div class="flex w-full items-center gap-4">
 					<div class="hidden w-full justify-start md:flex">
 						<nav class="flex items-center gap-8 px-6">
-							{#each navigationItems as item}
+							{#each sidebar.navigationHeadings as heading}
+								{@const isActive = sidebar.currentNavId == heading.navId}
 								<a
-									href={'#'}
-									class="relative px-1 text-xs font-medium tracking-wide {item.active
+									href={heading.href}
+									class="relative px-1 text-xs font-medium tracking-wide {isActive
 										? 'text-foreground'
 										: 'text-muted-foreground hover:text-foreground/80'}"
 								>
-									{item.label}
-									{#if item.active}
+									{heading.label}
+									{#if isActive}
 										<div class="absolute -bottom-[1.25rem] left-0 h-1 w-full bg-green-500"></div>
 									{/if}
 								</a>
