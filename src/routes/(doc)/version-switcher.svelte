@@ -19,9 +19,9 @@
 			className: 'flex-1 justify-start gap-1.5'
 		})}
 	>
-		<span class="text-sm"
-			>{app.version.versionDetail?.v_number ? `v${app.version.versionDetail.v_number}` : '-'}</span
-		>
+		<span class="text-sm">
+			{app.version.versionDetail?.v_number ? `v${app.version.versionDetail.v_number}` : '-'}
+		</span>
 		<LucideChevronsUpDown size={14} class="ml-auto" />
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content class="w-[14rem]" side="top" align="start">
@@ -35,16 +35,18 @@
 						app.version.goToVersion(`v${version.v_number}`);
 					}}
 				>
-					{version.name}
-					{#if version.is_latest}
-						<Badge
-							variant="outline"
-							class={[
-								'ml-auto bg-purple-100 dark:bg-purple-900',
-								'border-purple-500 dark:border-purple-600'
-							]}>latest</Badge
-						>
-					{/if}
+					v{version.v_number}
+					<Badge
+						variant="outline"
+						class={[
+							'ml-auto',
+							version.is_latest
+								? ['bg-purple-100 dark:bg-purple-900', 'border-purple-500 dark:border-purple-600']
+								: ['bg-cyan-100 dark:bg-cyan-900', 'border-cyan-500 dark:border-cyan-600']
+						]}
+					>
+						{version.name}
+					</Badge>
 				</DropdownMenu.Item>
 			{/each}
 		</DropdownMenu.Group>

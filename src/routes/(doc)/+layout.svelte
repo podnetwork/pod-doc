@@ -56,7 +56,6 @@
 		<div class="flex flex-col gap-2 p-4">
 			<div class="flex gap-2">
 				<ThemeToggle />
-				<VersionSwitcher />
 			</div>
 			<ProfileMenu />
 		</div>
@@ -82,6 +81,8 @@
 						<img src="/pod-logo-white.svg" alt="Pod network" class="hidden w-8 dark:inline-block" />
 					</a>
 				</div>
+
+				<VersionSwitcher />
 
 				<div class="flex w-full items-center gap-4">
 					<div class="hidden w-full justify-start md:flex">

@@ -53,7 +53,7 @@
 	<h1 class="text-xl font-medium uppercase">Top up your balance</h1>
 	<p class="text-sm">Enter your access code below to top up your wallet</p>
 
-	<form class="mt-12 flex w-full max-w-[30vw] flex-col gap-2" use:enhance>
+	<form class="mt-12 flex w-full max-w-[90vw] md:max-w-[70vw] lg:max-w-[30vw] flex-col gap-2" use:enhance>
 		<FieldGroup label="Wallet address" error={$errors.walletAddress}>
 			<input type="text" class={FieldGroupStyle.INPUT} bind:value={$form.walletAddress} />
 		</FieldGroup>
