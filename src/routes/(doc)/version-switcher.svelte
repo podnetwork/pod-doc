@@ -6,6 +6,10 @@
 	import { LucideChevronsUpDown } from '@lucide/svelte';
 
 	const app = App.get();
+
+	let versions = $derived(
+		app.auth.versions.sort((a, b) => Number(a.v_number) - Number(b.v_number))
+	);
 </script>
 
 <DropdownMenu.Root>
@@ -22,7 +26,7 @@
 		<DropdownMenu.Group>
 			<DropdownMenu.GroupHeading>Version</DropdownMenu.GroupHeading>
 			<DropdownMenu.Separator />
-			{#each app.auth.versions as version}
+			{#each versions as version}
 				<DropdownMenu.Item
 					onclick={() => {
 						app.version.goToVersion(`v${version.v_number}`);

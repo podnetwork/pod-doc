@@ -28,6 +28,9 @@
 			<DropdownMenu.Trigger class="flex items-center gap-2 rounded-md pr-2 hover:bg-foreground/5">
 				<Avatar.Root class="rounded-md">
 					<!-- <Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" /> -->
+					{#if app.auth.user.imageUrl}
+						<Avatar.Image src={app.auth.user.imageUrl} alt={app.auth.user.fullName} class="rounded-full p-2" />
+					{/if}
 					<Avatar.Fallback class="rounded-sm bg-primary text-primary-foreground">
 						{(app.auth.user.firstName ?? app.auth.user.lastName)?.slice(0, 2).toUpperCase()}
 					</Avatar.Fallback>
