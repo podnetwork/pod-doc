@@ -1,5 +1,5 @@
-import { writable, derived } from 'svelte/store';
-import Fuse from 'fuse.js';
+import Fuse, { type FuseResult } from 'fuse.js';
+import { writable } from 'svelte/store';
 import type { DocEntry } from '../../routes/internal/search/+server';
 
 // Initial search state
@@ -22,7 +22,7 @@ const initialState: SearchState = {
 };
 
 function createSearchStore() {
-  const { subscribe, set, update } = writable<SearchState>(initialState);
+  const { subscribe, update } = writable<SearchState>(initialState);
 
   return {
     subscribe,
@@ -36,7 +36,7 @@ function createSearchStore() {
         const docs = await response.json();
 
         // Initialize Fuse.js with our documents
-        const fuse = new Fuse(docs, {
+        const fuse = new Fuse<DocEntry>(docs, {
           keys: [
             { name: 'title', weight: 1.0 },
             { name: 'headings', weight: 0.8 },
@@ -72,7 +72,7 @@ function createSearchStore() {
         }
 
         // Perform search using Fuse.js
-        const results = state.fuse.search(query);
+        const results = state.fuse.search(query) as FuseResult<DocEntry>[];
 
         return {
           ...state,
