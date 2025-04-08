@@ -19,7 +19,9 @@
 			className: 'flex-1 justify-start gap-1.5'
 		})}
 	>
-		<span class="text-sm">{app.version.versionDetail?.name ?? 'Version 1'}</span>
+		<span class="text-sm"
+			>{app.version.versionDetail?.v_number ? `v${app.version.versionDetail.v_number}` : '-'}</span
+		>
 		<LucideChevronsUpDown size={14} class="ml-auto" />
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Content class="w-[14rem]" side="top" align="start">
@@ -29,6 +31,7 @@
 			{#each versions as version}
 				<DropdownMenu.Item
 					onclick={() => {
+						if (version.v_number === app.version.versionDetail?.v_number) return;
 						app.version.goToVersion(`v${version.v_number}`);
 					}}
 				>
