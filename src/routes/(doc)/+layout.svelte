@@ -6,7 +6,6 @@
 	import { MetaMask } from '$lib/metamask/metamask.svelte';
 	import { Menu } from '@lucide/svelte';
 	import FundBox from './fund-box.svelte';
-	import MetamaskPanel from './metamask-panel.svelte';
 	import ProfileMenu from './profile-menu.svelte';
 	import { SidebarMenuStore } from './sidebar-menu-store.svelte';
 	import SidebarMenu from './sidebar-menu.svelte';
@@ -59,7 +58,6 @@
 				<ThemeToggle />
 				<VersionSwitcher />
 			</div>
-			<MetamaskPanel />
 			<ProfileMenu />
 		</div>
 	</div>
@@ -122,7 +120,6 @@
 						<ThemeToggle />
 						<VersionSwitcher />
 					</div>
-					<MetamaskPanel />
 					<ProfileMenu />
 				</div>
 			</div>
