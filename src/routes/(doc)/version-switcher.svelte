@@ -8,7 +8,7 @@
 	const app = App.get();
 
 	let versions = $derived(
-		app.auth.versions.sort((a, b) => Number(a.v_number) - Number(b.v_number))
+		app.auth.versions.toSorted((a, b) => Number(a.v_number) - Number(b.v_number))
 	);
 </script>
 
