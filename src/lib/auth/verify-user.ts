@@ -30,3 +30,10 @@ export interface AuthVerifyUser {
 		is_latest: boolean;
 	}>;
 }
+
+export enum AuthVerifyUserAccessVersionStage {
+	NOT_EXISTS = 'VERSION_NOT_EXISTS',
+	LOCKED = 'VERSION_LOCKED',
+	DEACTIVATE = 'VERSION_DEACTIVATE',
+	DISABLED = 'VERSION_DISABLED'
+}

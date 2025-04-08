@@ -1,28 +1,55 @@
+import { goto } from '$app/navigation';
 import type { App } from '$lib/app.svelte';
 import { ClerkExternalProviderName } from '$lib/clerk/type';
-import { catchError, finalize, tap, throwError } from 'rxjs';
+import { catchError, EMPTY, finalize, tap, throwError } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { useClerkContext } from 'svelte-clerk';
 import { toast } from 'svelte-sonner';
-import type { AuthVerifyUser } from './verify-user';
+import { AuthVerifyUserAccessVersionStage, type AuthVerifyUser } from './verify-user';
 
 export class Auth {
 	constructor(private readonly app: App) {
 		$effect(() => {
-			if (this.user === null) {
-				// guest, clear user internal data
-				this.userInternal = void 0;
-			}
-		});
-
-		$effect(() => {
 			if (this.clerk.isLoaded) {
-				this.fetchUserFromSupabase().pipe(
-					catchError(e => {
-						toast.error('Sorry, we are unable to load your profile right now.');
-						return throwError(() => e);
-					})
-				).subscribe(); // active both case auth or not auth
+				if (this.user === null) {
+					// guest, clear user internal data
+					this.userInternal = void 0;
+				}
+
+				// fetch versions
+				this.fetchUserFromSupabase()
+					.pipe(
+						catchError((e) => {
+							let msg = 'Sorry, we are unable to load your profile right now.';
+
+							switch (e.message as AuthVerifyUserAccessVersionStage) {
+								case AuthVerifyUserAccessVersionStage.NOT_EXISTS:
+									this.versionAccessStage = AuthVerifyUserAccessVersionStage.NOT_EXISTS;
+									msg = 'The version you are trying to access does not exist.';
+									goto('/404'); //todo: redirect to version not exists page
+									break;
+								case AuthVerifyUserAccessVersionStage.LOCKED:
+									this.versionAccessStage = AuthVerifyUserAccessVersionStage.LOCKED;
+									msg = 'The version you are trying to access is locked.';
+									goto('/404'); //todo: redirect to version locked page
+									break;
+								case AuthVerifyUserAccessVersionStage.DEACTIVATE:
+									this.versionAccessStage = AuthVerifyUserAccessVersionStage.DEACTIVATE;
+									msg = 'The version you are trying to access is deactivated.';
+									goto('/404'); //todo: redirect to version deactivate page
+									break;
+								case AuthVerifyUserAccessVersionStage.DISABLED:
+									this.versionAccessStage = AuthVerifyUserAccessVersionStage.DISABLED;
+									msg = 'The version you are trying to access is disabled.';
+									goto('/404'); //todo: redirect to version disabled page
+									break;
+							}
+
+							toast.error(msg);
+							return EMPTY;
+						})
+					)
+					.subscribe(); // active both case auth or not auth
 			}
 		});
 	}
@@ -40,11 +67,17 @@ export class Auth {
 	// user from supabase
 	userInternal = $state<any>();
 
+	// store latest verion accessibility status
+	versionAccessStage = $state<string>();
+
 	// versions from supabase , which can access
 	versions = $state<AuthVerifyUser['versions']>([]);
 
 	fetchingUserFromSupabase = $state(true); // default = true to block loading
 
+	// send this request in both case: auth or not auth
+	// if authed then request resolve user in database and return versions user can access
+	// if not auth then request return all version enabled
 	private fetchUserFromSupabase() {
 		this.fetchingUserFromSupabase = true;
 

@@ -29,7 +29,15 @@ export const POST: RequestHandler = async ({ request }) => {
 
 		if (versions.error) {
 			console.error(versions.error);
-			throw error(400, `User verify failed: ${versions.error.message}`);
+			throw error(400, versions.error.message);
+
+			// error type
+			/* 
+			VERSION_NOT_EXISTS: version not defined in system
+			VERSION_LOCKED: versions is locked (pod_versions)
+			VERSION_DEACTIVATE: version is deactivate (pod_versions)
+			VERSION_DISABLED: version is disabled (user_access_version)
+			*/
 		}
 
 		return json({
