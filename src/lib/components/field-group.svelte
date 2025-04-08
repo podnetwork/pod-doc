@@ -6,7 +6,7 @@
 			/* tw */ `text-xs`,
 			/* tw */ `grow-0 outline-none`,
 			/* tw */ `rounded-sm`,
-			/* tw */ `pb-1 pt-1`,
+			/* tw */ `pb-1 pt-1`
 		];
 
 		static SELECT = [
@@ -15,7 +15,7 @@
 			/* tw */ `text-xs`,
 			/* tw */ `grow-0 outline-none`,
 			/* tw */ `rounded-sm`,
-			/* tw */ `pb-1 pt-1`,
+			/* tw */ `pb-1 pt-1`
 		];
 
 		static TEXTAREA = [
@@ -81,7 +81,14 @@
 			{label}
 
 			{#if e}
-				<span class="truncate text-destructive">{e}</span>
+				<span
+					class={[
+						'absolute left-3 top-[calc(100%-0.5rem)] truncate text-destructive',
+						'bg-background px-1 py-0.5'
+					]}
+				>
+					{e}
+				</span>
 			{/if}
 		</p>
 	{/if}
@@ -90,7 +97,11 @@
 
 	{#if tip}
 		<div
-			class={['tip', '-mx-3 -mb-1 mt-1 flex-1 border-t bg-foreground/5 px-3 py-1.5 text-xs', className]}
+			class={[
+				'tip',
+				'-mx-3 -mb-1 mt-1 flex-1 border-t bg-foreground/5 px-3 py-1.5 text-xs',
+				className
+			]}
 		>
 			{@render tip()}
 		</div>
