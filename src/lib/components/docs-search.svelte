@@ -213,7 +213,7 @@
 
 <button
 	on:click={() => isSearchOpen.set(true)}
-	class="inline-flex items-center justify-center rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground/60 hover:bg-background/50 focus:outline-none"
+	class="inline-flex w-64 items-center justify-start rounded-md border border-border bg-background px-3 py-1.5 text-sm text-foreground/60 hover:bg-background/50 focus:outline-none"
 >
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
@@ -230,5 +230,6 @@
 		/>
 	</svg>
 	Search
-	<span class="ml-16 text-xs opacity-70">⌘K</span>
+	<div class="flex-1" />
+	<span class="text-xs opacity-70">⌘K</span>
 </button>
