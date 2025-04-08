@@ -51,8 +51,8 @@ export class SidebarMenuStore {
 
   app = App.get();
 
-  // version reference to url
-  pageVersion = $derived(this.app.version);
+	// version reference to url
+	pageVersion = $derived(this.app.version.version);
 
   // keep alternative current section/anchor point to, because limit of svelte page state
   // not reactive when manual change url
@@ -131,9 +131,9 @@ export class SidebarMenuStore {
     this.hashMap[url] = hashes;
   }
 
-  u(p: string) {
-    return this.app.mapWithVersion(p);
-  }
+	u(p: string) {
+		return this.app.versionUrl(p);
+	}
 
   navigationHeadings = $state<NavHeading[]>([
     { label: 'Getting Started', href: this.u('/getting-started/'), navId: 'getting-started' },
@@ -229,7 +229,7 @@ export class SidebarMenuStore {
   isActive(item: SidebarItem) {
     if (item.heading) return false;
 
-    const home = this.app.mapWithVersion('');
+    const home = this.app.versionUrl('');
 
     const ihref = (item.href ?? '').trim().replace(/\/$/, '');
     const phref = this.currentUrl.pathname.trim().replace(/\/$/, '');

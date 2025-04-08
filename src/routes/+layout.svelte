@@ -3,18 +3,18 @@
 	import { ModeWatcher } from 'mode-watcher';
 	import { ClerkProvider } from 'svelte-clerk';
 
-	import { App } from '$lib/app.svelte';
 	import '../app.css';
 	import '../doc-style.postcss';
+	import Preload from './preload.svelte';
 
 	let { children } = $props();
-
-	const app = App.create();
 </script>
 
 <Toaster position="top-right" />
 <ModeWatcher />
 
 <ClerkProvider>
-	{@render children()}
+	<Preload>
+		{@render children()}
+	</Preload>
 </ClerkProvider>
