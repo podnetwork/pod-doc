@@ -68,11 +68,11 @@ export class Version {
 
 		// choose domain base on env
 		if (env === 'dev') {
-			goto(`${versionInfo.domain_dev}${pathname}`);
+			window.location.href = `${versionInfo.domain_dev}${pathname}`;
 			return;
 		}
 
-		goto(`${versionInfo.domain}${pathname}`);
+		window.location.href = `${versionInfo.domain}${pathname}`;
 		return;
 	}
 }
