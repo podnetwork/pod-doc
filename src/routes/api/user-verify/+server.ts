@@ -5,7 +5,7 @@ import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 interface Payload {
-	clerk_id: string;
+	clerk_id?: string;
 	twitter_id?: string;
 	github_id?: string;
 	access_version?: string;
@@ -18,6 +18,25 @@ export const POST: RequestHandler = async ({ request }) => {
 	const payload = (await request.json()) as Payload;
 
 	const s = SupabaseServer.lib;
+
+	// if clerk id empty then fetch directly pod_version folder
+	if (!payload.clerk_id) {
+		const versions = await s
+			.from('pod_versions')
+			.select('*')
+			.eq('is_locked', false)
+			.eq('is_active', true);
+
+		if (versions.error) {
+			console.error(versions.error);
+			throw error(400, `User verify failed: ${versions.error.message}`);
+		}
+
+		return json({
+			versions: versions.data,
+			user: null
+		});
+	}
 
 	// build RPC payload
 	const rpcPayload = {
