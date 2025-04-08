@@ -5,6 +5,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { MetaMask } from '$lib/metamask/metamask.svelte';
 	import { Menu } from '@lucide/svelte';
+	import FundBox from './fund-box.svelte';
 	import MetamaskPanel from './metamask-panel.svelte';
 	import ProfileMenu from './profile-menu.svelte';
 	import { SidebarMenuStore } from './sidebar-menu-store.svelte';
@@ -47,6 +48,11 @@
 		</div>
 
 		<SidebarMenu />
+
+		{#if page.route.id === '/(doc)/[version]/fund'}
+			<FundBox />
+		{/if}
+
 		<div class="flex-1"></div>
 		<div class="flex flex-col gap-2 p-4">
 			<div class="flex gap-2">
