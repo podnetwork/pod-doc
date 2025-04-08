@@ -8,6 +8,18 @@ export const reroute: Reroute = ({ url }) => {
 		return;
 	}
 
+	// catch route not doc
+	const whitelist = [
+		'api',
+		'internal'
+	]
+
+	const firstSegment = url.pathname.split('/')[1];
+
+	if (whitelist.includes(firstSegment)) {
+		return;
+	}
+
 	// console.log('## REROUTE HOOK ##');
 	// console.log('REROUTE HOOK href: ', url.href);
 	// console.log('REROUTE HOOK origin: ', url.origin);
