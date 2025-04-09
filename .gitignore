@@ -21,3 +21,8 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# ignore content of document
+.pull_cache
+
+src/routes/(doc)/v[0-9]*/**
