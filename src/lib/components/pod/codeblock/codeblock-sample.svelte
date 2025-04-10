@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import * as Tabs from '$lib/components/ui/tabs';
-	import { LucideCircleDashed, LucideClipboardCopy, LucidePlay } from '@lucide/svelte';
+	import { Copy, LucideCircleDashed, LucideClipboardCopy, LucidePlay } from '@lucide/svelte';
 	import { catchError, defer, EMPTY, finalize, tap } from 'rxjs';
 	import { toast } from 'svelte-sonner';
 	import CodeblockCode from './codeblock-code.svelte';
@@ -121,7 +121,7 @@
 
 {#snippet copyCodeButton()}
 	<Button variant="outline" class="size-8 py-1" size="icon" type="button" onclick={copyCode}>
-		<LucideClipboardCopy size={16} />
+		<Copy size={16} />
 	</Button>
 {/snippet}
 
