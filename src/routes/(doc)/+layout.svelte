@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { App } from '$lib/app.svelte';
 	import DocsSearch from '$lib/components/docs-search.svelte';
 	import ThemeToggle from '$lib/components/theme-toggle.svelte';
 	import { Button } from '$lib/components/ui/button';
@@ -12,6 +13,8 @@
 	import VersionSwitcher from './version-switcher.svelte';
 
 	const mm = MetaMask.create();
+
+	const app = App.get()
 
 	let { children } = $props();
 
@@ -28,10 +31,6 @@
 		page.url.pathname; // Needed to track this as dependency
 
 		isMobileSidebarOpen = false;
-	});
-
-	$effect(() => {
-		console.log(sidebar.currentItem?.navId);
 	});
 </script>
 
@@ -58,6 +57,7 @@
 				<ThemeToggle />
 			</div>
 			<ProfileMenu />
+			<Button href={app.versionUrl('/fund')}>Fund wallet</Button>
 		</div>
 	</div>
 
@@ -122,6 +122,7 @@
 						<VersionSwitcher />
 					</div>
 					<ProfileMenu />
+					<Button href={app.versionUrl('/fund')}>Fund wallet</Button>
 				</div>
 			</div>
 		{/if}
