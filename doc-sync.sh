@@ -52,6 +52,7 @@ sync_docs() {
 
     # find and rename all files have name content.md to +page.md, need recursive
     find $FOLDER_DOC/$version/ -type f -name "content.md" -exec sh -c 'mv "$0" "${0/content.md/+page.md}"' {} \;
+    echo "Transform content.md to +page.md completed"
 
     echo "Sync doc $version completed"
 
