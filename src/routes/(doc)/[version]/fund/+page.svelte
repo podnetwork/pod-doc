@@ -3,7 +3,6 @@
 	import FieldGroup, { FieldGroupStyle } from '$lib/components/field-group.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { catchError, EMPTY, firstValueFrom, tap } from 'rxjs';
-	import { SignedIn, SignedOut } from 'svelte-clerk';
 	import { toast } from 'svelte-sonner';
 	import { defaults, superForm } from 'sveltekit-superforms';
 	import { zod } from 'sveltekit-superforms/adapters';
@@ -53,7 +52,10 @@
 	<h1 class="text-xl font-medium uppercase">Top up your balance</h1>
 	<p class="text-sm">Enter your access code below to top up your wallet</p>
 
-	<form class="mt-12 flex w-full max-w-[90vw] md:max-w-[70vw] lg:max-w-[30vw] flex-col gap-2" use:enhance>
+	<form
+		class="mt-12 flex w-full max-w-[90vw] flex-col gap-2 md:max-w-[70vw] lg:max-w-[30vw]"
+		use:enhance
+	>
 		<FieldGroup label="Wallet address" error={$errors.walletAddress}>
 			<input type="text" class={FieldGroupStyle.INPUT} bind:value={$form.walletAddress} />
 		</FieldGroup>
@@ -62,7 +64,7 @@
 			<FieldGroup label="Access code" error={$errors.accessCode}>
 				<input type="text" class={FieldGroupStyle.INPUT} bind:value={$form.accessCode} />
 			</FieldGroup>
-
+			<!-- 
 			<div class="flex items-center justify-center text-center text-muted-foreground">OR</div>
 
 			<SignedIn>
@@ -71,7 +73,7 @@
 
 			<SignedOut>
 				<Button class="h-full" variant="outline">Verify with X</Button>
-			</SignedOut>
+			</SignedOut> -->
 		</div>
 
 		<Button

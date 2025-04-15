@@ -17,6 +17,7 @@ FOLDER_DOC="src/routes/(doc)"
 # default if argument not provided we should run all versions
 ALLVERSIONS="v0,v1"
 
+
 # Function to sync docs from remote repository
 # Args: versions - comma-delimited string of version numbers to sync
 sync_docs() {
@@ -26,7 +27,10 @@ sync_docs() {
   if [ -z "$versions" ]; then
     versions="$ALLVERSIONS"
   fi
-  
+
+  # load clone folder, if defined then copy directly files from this folder
+  local clone_from=$2
+
   # Split versions by comma and process each
   IFS=',' read -ra VERSION_ARRAY <<< "$versions"
   for version in "${VERSION_ARRAY[@]}"; do
@@ -35,13 +39,20 @@ sync_docs() {
     rm -rf $CACHE_FOLDER 2>/dev/null || true # remove if exist
 
     mkdir -p $CACHE_FOLDER
-    pnpm tiged --force $REPO_REMOTE_CONTENT#"doc/$version" $CACHE_FOLDER
+    if [ -z "$clone_from" ]; then
+      pnpm tiged --force $REPO_REMOTE_CONTENT#"doc/$version" $CACHE_FOLDER
+    else
+      cp -rf $clone_from/* $CACHE_FOLDER/
+    fi
     
     # copy all file and folder from cache folder to doc folder
     rm -rf $FOLDER_DOC/$version/*
     mkdir -p $FOLDER_DOC/$version/
     cp -rf $CACHE_FOLDER/* $FOLDER_DOC/$version/
-    
+
+    # find and rename all files have name content.md to +page.md, need recursive
+    find $FOLDER_DOC/$version/ -type f -name "content.md" -exec sh -c 'mv "$0" "${0/content.md/+page.md}"' {} \;
+
     echo "Sync doc $version completed"
 
     # remove cache folder
@@ -50,4 +61,4 @@ sync_docs() {
 }
 
 # Call sync_docs function with versions as argument
-sync_docs "$1"
+sync_docs "$1" "$2"
