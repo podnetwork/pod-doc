@@ -9,10 +9,7 @@ export const reroute: Reroute = ({ url }) => {
 	}
 
 	// catch route not doc
-	const whitelist = [
-		'api',
-		'internal'
-	]
+	const whitelist = ['api', 'internal'];
 
 	const firstSegment = url.pathname.split('/')[1];
 
@@ -33,5 +30,12 @@ export const reroute: Reroute = ({ url }) => {
 		return `/${version}${url.pathname}`;
 	}
 
-	// console.log('Not rerouted');
+	// catch the case domain match static is latest version
+	if (url.origin === 'https://pod-doc-svelte.vercel.app') {
+		return `/latest${url.pathname}`;
+	}
+
+	// uncatched, assume running on local
+
+	console.log('Not rerouted');
 };

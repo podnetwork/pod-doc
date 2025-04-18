@@ -17,6 +17,10 @@ FOLDER_DOC="src/routes/(doc)"
 # default if argument not provided we should run all versions
 ALLVERSIONS="v0,v1"
 
+# find the highest version follow ALLVERSION
+HIGHEST_VERSION=$(echo "$ALLVERSIONS" | tr ',' '\n' | sed 's/[^0-9]//g' | sort -n | tail -1)
+HIGHEST_VERSION="v$HIGHEST_VERSION"
+
 
 # Function to sync docs from remote repository
 # Args: versions - comma-delimited string of version numbers to sync
@@ -60,6 +64,11 @@ sync_docs() {
     rm -rf $CACHE_FOLDER 2>/dev/null || true
   done
 }
+
+# copy folder name match HIGHEST_VERSION to new slibing folder named latest
+if [ -d "$FOLDER_DOC/$HIGHEST_VERSION" ]; then
+  cp -rf $FOLDER_DOC/$HIGHEST_VERSION $FOLDER_DOC/latest
+fi
 
 # Call sync_docs function with versions as argument
 sync_docs "$1" "$2"
