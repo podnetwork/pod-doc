@@ -51,8 +51,6 @@
 	h4,
 	h5 {
 		@apply font-medium tracking-wide;
-		/* this help anchor scroll the page padding heading */
-		scroll-margin-top: calc(theme('spacing.14') + 2rem);
 	}
 
 	h1 {
@@ -133,7 +131,7 @@
 	/* code block normal (not shiki) */
 	p > code,
 	table code {
-		@apply rounded-sm bg-primary/5 outline outline-primary/40 dark:bg-primary/50 dark:outline-primary -outline-offset-2 px-1.5 py-0.5;
+		@apply rounded-sm bg-primary/5 px-1.5 py-0.5 outline -outline-offset-2 outline-primary/40 dark:bg-primary/50 dark:outline-primary;
 		@apply font-mono;
 	}
 
@@ -169,4 +167,9 @@
 			}
 		}
 	}
+}
+
+/* this help anchor scroll the page padding heading */
+.pod-anchor, [data-anchor] {
+	scroll-margin-top: calc(theme('spacing.10') + 2rem);
 }
