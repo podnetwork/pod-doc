@@ -73,5 +73,7 @@ HIGHEST_VERSION="v$HIGHEST_VERSION"
 if [ -d "$FOLDER_DOC/$HIGHEST_VERSION" ]; then
   echo "Highest version: $HIGHEST_VERSION"
   echo "Copy folder $FOLDER_DOC/$HIGHEST_VERSION to $FOLDER_DOC/latest"
-  cp -rf $FOLDER_DOC/$HIGHEST_VERSION $FOLDER_DOC/latest
+  rm -rf $FOLDER_DOC/latest
+  mkdir -p $FOLDER_DOC/latest
+  cp -rf $FOLDER_DOC/$HIGHEST_VERSION/* $FOLDER_DOC/latest/
 fi
