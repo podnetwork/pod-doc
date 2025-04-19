@@ -7,9 +7,10 @@
 
 	const app = App.get();
 
-	let versions = $derived(
-		app.auth.versions.toSorted((a, b) => Number(a.v_number) - Number(b.v_number))
-	);
+	let versions = $derived.by(() => {
+		const versions = app.auth.versions.toSorted((a, b) => Number(a.v_number) - Number(b.v_number));
+		return versions;
+	});
 </script>
 
 <DropdownMenu.Root>
@@ -20,7 +21,11 @@
 		})}
 	>
 		<span class="text-sm">
-			{app.version.versionDetail?.v_number ? `v${app.version.versionDetail.v_number}` : '-'}
+			{#if app.version.versionDetail?.is_latest}
+				Latest
+			{:else}
+				{app.version.versionDetail?.v_number ? `v${app.version.versionDetail.v_number}` : '-'}
+			{/if}
 		</span>
 		<LucideChevronsUpDown size={14} class="ml-auto" />
 	</DropdownMenu.Trigger>
@@ -36,17 +41,22 @@
 					}}
 				>
 					v{version.v_number}
-					<Badge
-						variant="outline"
-						class={[
-							'ml-auto',
-							version.is_latest
-								? ['bg-purple-100 dark:bg-purple-900', 'border-purple-500 dark:border-purple-600']
-								: ['bg-cyan-100 dark:bg-cyan-900', 'border-cyan-500 dark:border-cyan-600']
-						]}
-					>
-						{version.name}
-					</Badge>
+					<div class="ml-auto">
+						{#if version.is_latest}
+							<Badge variant="outline" class="ml-auto">Latest</Badge>
+						{/if}
+
+						<Badge
+							variant="outline"
+							class={[
+								version.is_latest
+									? ['bg-purple-100 dark:bg-purple-900', 'border-purple-500 dark:border-purple-600']
+									: ['bg-cyan-100 dark:bg-cyan-900', 'border-cyan-500 dark:border-cyan-600']
+							]}
+						>
+							{version.name}
+						</Badge>
+					</div>
 				</DropdownMenu.Item>
 			{/each}
 		</DropdownMenu.Group>

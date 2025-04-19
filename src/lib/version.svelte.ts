@@ -32,6 +32,10 @@ export class Version {
 	}
 
 	get versionDetail() {
+		if (this.version === 'latest') {
+			return this.app.auth.versions.find(i => i.is_latest);
+		}
+
 		return this.app.auth.versions.find((v) => `v${v.v_number}` === this.version) ?? void 0;
 	}
 
