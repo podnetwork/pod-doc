@@ -85,7 +85,7 @@
 				<VersionSwitcher />
 
 				<div class="flex w-full items-center gap-4">
-					<div class="hidden w-full justify-start md:flex">
+					<!-- <div class="hidden w-full justify-start md:flex">
 						<nav class="flex items-center gap-8 px-6">
 							{#each sidebar.navigationHeadings as heading}
 								{@const isActive = sidebar.currentNavId == heading.navId}
@@ -102,7 +102,7 @@
 								</a>
 							{/each}
 						</nav>
-					</div>
+					</div> -->
 					<div class="flex-1"></div>
 
 					<div class="relative hidden md:block">

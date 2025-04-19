@@ -135,16 +135,16 @@ export class SidebarMenuStore {
 		return this.app.versionUrl(p);
 	}
 
-  navigationHeadings = $state<NavHeading[]>([
-    { label: 'Getting Started', href: this.u('/getting-started/'), navId: 'getting-started' },
-    { label: 'How to Guides', href: this.u('/how-to-guides/payments'), navId: 'how-to-guides' },
-    {
-      label: 'Architecture',
-      href: this.u('/architecture/architecture-basics'),
-      navId: 'architecture'
-    },
-    { label: 'Reference', href: this.u('/reference/rpc-api'), navId: 'reference' }
-  ]);
+  // navigationHeadings = $state<NavHeading[]>([
+  //   { label: 'Getting Started', href: this.u('/getting-started/'), navId: 'getting-started' },
+  //   { label: 'How to Guides', href: this.u('/how-to-guides/payments'), navId: 'how-to-guides' },
+  //   {
+  //     label: 'Architecture',
+  //     href: this.u('/architecture/architecture-basics'),
+  //     navId: 'architecture'
+  //   },
+  //   { label: 'Reference', href: this.u('/reference/rpc-api'), navId: 'reference' }
+  // ]);
 
   items = $state<SidebarItem[]>([
     { href: this.u('/'), label: 'Welcome to pod', navId: 'getting-started' },
