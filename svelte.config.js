@@ -1,7 +1,6 @@
 import adapter from '@sveltejs/adapter-vercel';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { mdsvex } from 'mdsvex';
-import rehypeSlug from 'rehype-slug';
 import remarkAbbr from 'remark-abbr';
 import { remarkPlugins } from './src/lib/md/remark/index.js';
 
@@ -25,7 +24,7 @@ const config = {
 				...remarkPlugins
 			],
 			rehypePlugins: [
-				rehypeSlug,
+				// rehypeSlug,
 				// rehypeCodeBlock,
 				// rehypeHTMLMap,
 				// rehypeGridstack,
@@ -37,7 +36,7 @@ const config = {
 		// adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
 		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
 		// See https://svelte.dev/docs/kit/adapters for more information about adapters.
-		adapter: adapter()
+		adapter: adapter(),
 	},
 
 	extensions: ['.svelte', '.svx', '.md']
