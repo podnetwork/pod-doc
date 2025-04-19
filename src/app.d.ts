@@ -1,4 +1,5 @@
 /// <reference types="svelte-clerk/env" />
+/// <reference types="mdsvex/globals.d.ts" />
 
 // See https://svelte.dev/docs/kit/types#app.d.ts
 // for information about these interfaces
