@@ -4,8 +4,6 @@
 
 	const store = CodeblockStore.create();
 
-	console.log('provider', store);
-
 	let {
 		children,
 		title,

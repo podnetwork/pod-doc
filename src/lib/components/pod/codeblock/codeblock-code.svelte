@@ -3,8 +3,6 @@
 
 	const store = CodeblockStore.get();
 
-	console.log(store)
-
 	let {
 		code,
 		lang,
