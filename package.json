@@ -12,9 +12,9 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
-		"codeblock:test": "node ./src/lib/components/pod/codeblock/example.js",
-		"gridstack:test": "node ./src/lib/components/pod/gridstack/example.js",
-		"docsync": "sh ./doc-sync.sh"
+		"docsync": "sh ./doc-sync.sh",
+		"remark:codeimport:test": "node ./src/lib/md/remark/code-import/test.js",
+		"remark:content:test": "node ./src/lib/md/remark/content/test.js"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.8",
@@ -23,6 +23,7 @@
 		"@sveltejs/adapter-vercel": "^5.7.0",
 		"@sveltejs/kit": "^2.20.7",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
+		"@types/mdast": "^4.0.4",
 		"autoprefixer": "^10.4.20",
 		"bits-ui": "^1.3.19",
 		"clsx": "^2.1.1",
@@ -40,6 +41,7 @@
 		"prettier-plugin-tailwindcss": "^0.6.10",
 		"rehype-autolink-headings": "^7.1.0",
 		"rehype-slug": "^6.0.0",
+		"remark": "^15.0.1",
 		"remark-abbr": "^1.4.2",
 		"shiki": "^3.2.2",
 		"svelte": "^5.27.3",
@@ -63,6 +65,7 @@
 		"@shikijs/themes": "^3.2.2",
 		"@supabase/supabase-js": "^2.49.4",
 		"fuse.js": "^7.1.0",
+		"mdast": "^3.0.0",
 		"rxjs": "^7.8.2",
 		"svelte-clerk": "^0.10.10",
 		"tiged": "^2.12.7",
