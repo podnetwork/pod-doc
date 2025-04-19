@@ -25,6 +25,11 @@ clone_from=$2
 
 echo "Syncing doc versions: $versions"
 
+# If no version provided, get from env DOC_SYNC_VERSIONS
+if [ -z "$versions" ]; then
+  versions="${DOC_SYNC_VERSIONS}"
+fi
+
 # If no versions provided, use default
 if [ -z "$versions" ]; then
   echo "No versions provided, using default: $ALLVERSIONS"
