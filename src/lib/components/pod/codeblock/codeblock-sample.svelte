@@ -1,35 +1,20 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import * as Tabs from '$lib/components/ui/tabs';
-	import { Copy, LucideCircleDashed, LucideClipboardCopy, LucidePlay } from '@lucide/svelte';
+	import { Copy, LucideCircleDashed, LucidePlay } from '@lucide/svelte';
 	import { catchError, defer, EMPTY, finalize, tap } from 'rxjs';
 	import { toast } from 'svelte-sonner';
-	import CodeblockCode from './codeblock-code.svelte';
 	import CodeblockContainer from './codeblock-container.svelte';
+	import CodeblockContent from './codeblock-content.svelte';
 	import CodeblockSampleResponse from './codeblock-sample-response.svelte';
+	import { CodeblockStore } from './codeblock-store.svelte';
 
-	type CodeBlock = {
-		lang: string;
-		code: string;
-		alias?: string;
-	};
+	const store = CodeblockStore.get();
 
-	let {
-		title,
-		runCode,
-		codeblocks = []
-	}: {
-		title?: string;
-		runCode?: () => Promise<Response>;
-		codeblocks?: CodeBlock[];
-	} = $props();
-
-	// let ref = $state<HTMLDivElement>();
+	let { children } = $props();
 
 	// replace raw input
 	function copyCode() {
-		// copy code in element pre.code
-		// const code = ref?.querySelector('pre code')?.textContent?.trim();
 		const code = selectedCodeblock?.code;
 		if (code) {
 			navigator.clipboard.writeText(code);
@@ -50,58 +35,50 @@
 
 	let runResStr = $derived.by(() => JSON.stringify(runRes, null, 2));
 
-	let run = $derived(
-		runCode
-			? () => {
-					runningCode = true;
-					defer(runCode)
-						.pipe(
-							tap(async (res: Response) => {
-								const data = await res.json();
-								runRes = { statusCode: res.status, response: data };
-							}),
-							catchError((e) => {
-								runRes = { statusCode: 500, response: e, statusMessage: e.message };
-								return EMPTY;
-							}),
-							finalize(() => {
-								runningCode = false;
-							})
-						)
-						.subscribe();
-				}
-			: undefined
-	);
+	const runCode = store.runCode ? defer(store.runCode) : undefined;
+
+	const run = () => {
+		runningCode = true;
+		return runCode?.pipe(
+			tap(async (res: Response) => {
+				const data = await res.json();
+				runRes = { statusCode: res.status, response: data };
+			}),
+			catchError((e) => {
+				runRes = { statusCode: 500, response: e, statusMessage: e.message };
+				return EMPTY;
+			}),
+			finalize(() => {
+				runningCode = false;
+			})
+		);
+	};
 
 	// support multi code block
 
-	let langs = $derived(codeblocks.map((i) => i.lang)) as string[];
+	let ids = $derived(store.codeblocks.map((i) => i.id)) as string[];
 
-	let selectedLang = $state<string>();
+	let selectedId = $state<string>();
 
-	let selectedCodeblock = $derived(codeblocks.find((i) => i.lang === selectedLang));
+	let selectedCodeblock = $derived(store.codeblocks.find((i) => i.id === selectedId));
 
 	$effect(() => {
-		if (!langs.length) return;
-		if (!selectedLang) {
-			selectedLang = langs[0];
+		if (!ids.length) return;
+		if (!selectedId) {
+			selectedId = ids[0];
 		}
-	});
-
-	$effect(() => {
-		console.log(codeblocks);
 	});
 </script>
 
 {#snippet tabs()}
 	<Tabs.Root
-		value={selectedLang}
-		onValueChange={(value) => (selectedLang = value)}
+		value={selectedId}
+		onValueChange={(value) => (selectedId = value)}
 		class="mx-0 flex-1 px-0"
 	>
 		<Tabs.List class="px-0">
-			{#each codeblocks as codeblock}
-				<Tabs.Trigger value={codeblock.lang} class="text-xs">
+			{#each store.codeblocks as codeblock (codeblock.id)}
+				<Tabs.Trigger value={codeblock.id} class="text-xs">
 					{codeblock.alias ?? codeblock.lang}
 				</Tabs.Trigger>
 			{/each}
@@ -110,7 +87,13 @@
 {/snippet}
 
 {#snippet runCodeButton()}
-	<Button variant="outline" class="size-8" size="icon" type="button" onclick={run}>
+	<Button
+		variant="outline"
+		class="size-8"
+		size="icon"
+		type="button"
+		onclick={() => run()?.subscribe()}
+	>
 		{#if runningCode}
 			<LucideCircleDashed size={16} class="animate-spin" />
 		{:else}
@@ -125,18 +108,20 @@
 	</Button>
 {/snippet}
 
-<CodeblockContainer {title}>
+<CodeblockContainer title={store.title}>
+	{@render children?.()}
+
 	{#snippet actions()}
-		{#if run}
+		{#if runCode}
 			{@render runCodeButton()}
-		{:else if codeblocks.length <= 1}
+		{:else if store.codeblocks.length <= 1}
 			{@render copyCodeButton()}
 		{/if}
 	{/snippet}
 
 	{#snippet underTitle()}
 		<div class="flex justify-end gap-1.5 px-1">
-			{#if codeblocks.length > 1}
+			{#if store.codeblocks.length > 1}
 				{@render tabs()}
 				{@render copyCodeButton()}
 			{/if}
@@ -144,10 +129,10 @@
 	{/snippet}
 
 	{#if selectedCodeblock}
-		<CodeblockCode code={selectedCodeblock.code} lang={selectedCodeblock.lang} />
+		<CodeblockContent code={selectedCodeblock.code} lang={selectedCodeblock.lang} />
 	{/if}
 </CodeblockContainer>
 
-{#if run && runRes.response && runResStr !== '{}'}
+{#if runCode && runRes.response && runResStr !== '{}'}
 	<CodeblockSampleResponse value={runResStr} />
 {/if}

@@ -2,8 +2,8 @@
 	import { Button } from '$lib/components/ui/button';
 	import { LucideClipboardCopy } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
-	import CodeblockCode from './codeblock-code.svelte';
 	import CodeblockContainer from './codeblock-container.svelte';
+	import CodeblockCode from './codeblock-content.svelte';
 
 	let {
 		value
