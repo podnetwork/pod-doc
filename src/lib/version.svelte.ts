@@ -1,6 +1,6 @@
 import { goto } from '$app/navigation';
 import { page } from '$app/state';
-import { PUBLIC_NODE_ENV } from '$env/static/public';
+import { PUBLIC_LATEST_DOMAIN, PUBLIC_NODE_ENV } from '$env/static/public';
 import type { App } from '$lib/app.svelte';
 
 const domainVercelRegex = /^https?:\/\/pod-doc-svelte-(v\d+)\.vercel\.app/;
@@ -8,13 +8,19 @@ const domainVercelRegex = /^https?:\/\/pod-doc-svelte-(v\d+)\.vercel\.app/;
 // production domains should be format {version}.pod-doc.com
 const domainRegex = /^https?:\/\/([\w-]+)\.pod-doc\.com/;
 
+// latest domains
+const latestDomain = PUBLIC_LATEST_DOMAIN;
+
 export class Version {
 	constructor(private readonly app: App) {}
 
-	static getFromSubdomain(url: string) {
-		const v = domainRegex.exec(url);
+	static getFromSubdomain(origin: string) {
+		const l = origin.startsWith(latestDomain);
+		if (l) return 'latest';
+
+		const v = domainRegex.exec(origin);
 		if (v) return v[1];
-		const v2 = domainVercelRegex.exec(url);
+		const v2 = domainVercelRegex.exec(origin);
 		if (v2) return v2[1];
 		return void 0;
 	}
@@ -33,7 +39,7 @@ export class Version {
 
 	get versionDetail() {
 		if (this.version === 'latest') {
-			return this.app.auth.versions.find(i => i.is_latest);
+			return this.app.auth.versions.find((i) => i.is_latest);
 		}
 
 		return this.app.auth.versions.find((v) => `v${v.v_number}` === this.version) ?? void 0;
