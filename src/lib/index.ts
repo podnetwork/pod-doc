@@ -2,6 +2,7 @@
 
 import { SidebarMenuStore } from '../routes/(doc)/sidebar-menu-store.svelte';
 import CodeblockCode from './components/pod/codeblock/codeblock-code.svelte';
+import CodeblockProvider from './components/pod/codeblock/codeblock-provider.svelte';
 import CodeblockSample from './components/pod/codeblock/codeblock-sample.svelte';
 import CodeblockSticky from './components/pod/codeblock/codeblock-sticky.svelte';
 import GridstackBlock from './components/pod/gridstack/gridstack-block.svelte';
@@ -9,8 +10,9 @@ import GridstackContainer from './components/pod/gridstack/gridstack-container.s
 
 // codeblock components
 export const Code = {
-	Sample: CodeblockSample,
 	Sticky: CodeblockSticky,
+	Provider: CodeblockProvider,
+	Sample: CodeblockSample,
 	Code: CodeblockCode,
 	Sidebar: () => SidebarMenuStore.get(),
 	GridstackContainer: GridstackContainer,
