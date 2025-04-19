@@ -1,10 +1,9 @@
 ---
 title: test code block md
-layout: simple
+layout: single
 ---
 
 <script>
-    import {Code} from '$lib';
     import { jsSample, pySample, rustSample } from './code-sample';
 
 	const run = async () => {
@@ -12,49 +11,24 @@ layout: simple
 	};
 </script>
 
-<div>
+<!-- <Code.Provider title="Create by svelte html code" runCode={run}>
 
-[codeblock] title="Create by markdown" runCode={run}
+<Code.Code code={`console.log("test")`} lang="js" alias="javascript" />
 
-```js alias="javascript code here"
-fetch('https://baconipsum.com/api/?type=meat-and-filler');
-```
+<Code.Code code={`console.log("test 2")`} lang="js" alias="javascript 2" />
 
-```py alias="python code here"
-import requests
+<Code.Sample></Code.Sample> </Code.Provider> -->
 
-response = requests.get('https://baconipsum.com/api/?type=meat-and-filler')
-```
 
-```rust alias="rust code here"
-use reqwest::Error;
-
-async fn fetch_bacon() -> Result<String, Error> {
-    let response = reqwest::get("https://baconipsum.com/api/?type=meat-and-filler").await?;
-    response.text().await
-}
-```
-
-[/codeblock]
-
-<div class='h-10'></div>
-
-[codeblock] title="Block of code without play action"
++++ codeblock title="Create by markdown" runCode={run}
 
 ```js alias="javascript"
-fetch('https://baconipsum.com/api/?type=meat-and-filler');
+console.log("test");
 ```
 
-[/codeblock]
+```js alias="javascript 2"
+console.log("test 2");
+```
 
-</div>
++++ endcodeblock
 
-<div>
-
-<Code.Sample
-title="Create by svelte html code"
-codeblocks={[ { lang: 'js', alias: 'javascript', code: jsSample }, { lang: 'py', code: pySample }, { lang: 'rust', code: rustSample } ]}
-runCode={run}
-></Code.Sample>
-
-</div>

@@ -9,24 +9,24 @@ layout: simple
 
 <div>
 
-[gridstack]
++++ gridstack
 
-[grid]
-
-### Transaction Hash
-
-Lorem ipsum dolor sit amet consectetur. Turpis libero morbi eget varius etiam.
-
-[/grid]
-
-[grid]
++++ grid
 
 ### Transaction Hash
 
 Lorem ipsum dolor sit amet consectetur. Turpis libero morbi eget varius etiam.
 
-[/grid]
++++ endgrid
 
-[/gridstack]
++++ grid
+
+### Transaction Hash
+
+Lorem ipsum dolor sit amet consectetur. Turpis libero morbi eget varius etiam.
+
++++ endgrid
+
++++ endgridstack
 
 </div>
