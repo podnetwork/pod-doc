@@ -25,6 +25,11 @@ export class Version {
 		return void 0;
 	}
 
+	static getFromUrl(pathname: string) {
+		const v = pathname.split('/')[1];
+		return v || void 0;
+	}
+
 	get fromSubdomain() {
 		return Version.getFromSubdomain(page.url.origin);
 	}
