@@ -9,6 +9,7 @@ export type DocEntry = {
 	content: string;
 	headings: string[];
 	parentTitle?: string;
+  versionStage: 'local' | 'subdomain';
 };
 
 type PageInfo = {
@@ -288,7 +289,8 @@ export const GET: RequestHandler = async ({ request }) => {
 			slug: pageSlug,
 			title: pageInfo.title,
 			content: cleanMarkdownContent(pageInfo.content),
-			headings: extractHeadings(pageInfo.content)
+			headings: extractHeadings(pageInfo.content),
+      versionStage: pageInfo.versionStage
 		});
 
 		// Get the sibling files for this directory
