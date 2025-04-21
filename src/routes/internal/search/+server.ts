@@ -281,7 +281,7 @@ export const GET: RequestHandler = async ({ request }) => {
         break;
       case 'subdomain':
         // remove version from slug
-        pageSlug = pageSlug.replace(`/${version}/`, '');
+        pageSlug = pageSlug.replace(`/${version}/`, '/');
         break;
     }
 
