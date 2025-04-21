@@ -23,7 +23,7 @@ CACHE_FOLDER=".pull_cache"
 FOLDER_DOC="src/routes/(doc)"
 
 # default if argument not provided we should run all versions
-ALLVERSIONS="v0,v1"
+ALLVERSIONS="v0:doc/v0,v1:doc/v1"
 
 # argument 1
 versions=$1
@@ -46,14 +46,18 @@ fi
 
 # Split versions by comma and process each
 IFS=',' read -ra VERSION_ARRAY <<< "$versions"
-for version in "${VERSION_ARRAY[@]}"; do
-  echo "Syncing doc $version..."
+for versionpair in "${VERSION_ARRAY[@]}"; do
+  echo "Syncing doc $versionpair..."
+
+  # Split version pair into version and branch
+  IFS=':' read -r version branch <<< "$versionpair"
+  echo "Processing version: $version from branch: $branch"
   
   rm -rf $CACHE_FOLDER 2>/dev/null || true # remove if exist
 
   mkdir -p $CACHE_FOLDER
   if [ -z "$clone_from" ]; then
-    pnpm tiged --force $REPO_REMOTE_CONTENT#"doc/$version" $CACHE_FOLDER
+    pnpm tiged --force $REPO_REMOTE_CONTENT#"$branch" $CACHE_FOLDER
   else
     cp -rf $clone_from/* $CACHE_FOLDER/
   fi
