@@ -312,7 +312,8 @@ export const GET: RequestHandler = async ({ request }) => {
 						title: `${pageInfo.title} > ${headingTitle}`,
 						content: cleanMarkdownContent(headingContent),
 						headings: extractHeadings(headingContent),
-						parentTitle: pageInfo.title
+						parentTitle: pageInfo.title,
+            versionStage: pageInfo.versionStage
 					});
 
 					foundMatch = true;
@@ -330,7 +331,8 @@ export const GET: RequestHandler = async ({ request }) => {
 					title: `${pageInfo.title} > ${headingTitle}`,
 					content: cleanMarkdownContent(headingContent),
 					headings: extractHeadings(headingContent),
-					parentTitle: pageInfo.title
+					parentTitle: pageInfo.title,
+          versionStage: pageInfo.versionStage
 				});
 			}
 		}
