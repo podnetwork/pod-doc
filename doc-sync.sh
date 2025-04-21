@@ -78,8 +78,20 @@ for versionpair in "${VERSION_ARRAY[@]}"; do
 done
 
 # find the highest version follow ALLVERSION
-HIGHEST_VERSION=$(echo "$versions" | tr ',' '\n' | sed 's/[^0-9]//g' | sort -n | tail -1)
-HIGHEST_VERSION="v$HIGHEST_VERSION"
+HIGHEST_VERSION=""
+HIGHEST_VERSION_NUM=0
+
+for versionpair in "${VERSION_ARRAY[@]}"; do
+  IFS=':' read -r version branch <<< "$versionpair"
+  version_num=$(echo "$version" | sed 's/[^0-9]//g')
+  
+  if [ "$version_num" -gt "$HIGHEST_VERSION_NUM" ]; then
+    HIGHEST_VERSION_NUM=$version_num
+    HIGHEST_VERSION=$version
+  fi
+done
+
+echo "Determined highest version: $HIGHEST_VERSION"
 
 # copy folder name match HIGHEST_VERSION to new slibing folder named latest
 if [ -d "$FOLDER_DOC/$HIGHEST_VERSION" ]; then
