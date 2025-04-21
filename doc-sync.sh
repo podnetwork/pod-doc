@@ -1,10 +1,18 @@
 #!/bin/bash
 
 # store github pat token 
-GITHUB_TOKEN="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"
+GITHUB_TOKEN="${GITHUB_TOKEN_POD}"
+
+if [ -z "$GITHUB_TOKEN" ]; then
+  GITHUB_TOKEN="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"
+fi
 
 # store github repo store remote markdown content
-REPO_REMOTE_CONTENT="https://$GITHUB_TOKEN@github.com/tapforce/pod-docs-migration-tests.git/docs"
+REPO_REMOTE_CONTENT="${REPO_REMOTE_CONTENT_POD}"
+
+if [ -z "$REPO_REMOTE_CONTENT" ]; then
+  REPO_REMOTE_CONTENT="https://$GITHUB_TOKEN@github.com/tapforce/pod-docs-migration-tests.git/docs"
+fi
 
 # note: degit & tiged has bug with folder name has special character like ( and )
 # solution is we pull content to temp folder and copy back to correct position
