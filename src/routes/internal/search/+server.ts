@@ -9,7 +9,7 @@ export type DocEntry = {
 	content: string;
 	headings: string[];
 	parentTitle?: string;
-  versionStage: 'local' | 'subdomain';
+	versionStage: 'local' | 'subdomain';
 };
 
 type PageInfo = {
@@ -19,7 +19,7 @@ type PageInfo = {
 	dirPath: string;
 	toc: Map<string, string>; // key: url-part, value: heading title
 	content: string;
-  versionStage: 'local' | 'subdomain';
+	versionStage: 'local' | 'subdomain';
 };
 
 type SiblingFile = {
@@ -177,23 +177,23 @@ function extractContentForHeading(content: string, targetHeading: string): strin
 }
 
 export const GET: RequestHandler = async ({ request }) => {
-  // check origin, if requested url is local (*/<version|latest>/*) then 
-  const refererUrl = new URL(request.headers.get('referer') || '')
-  const origin = refererUrl.origin;
+	// check origin, if requested url is local (*/<version|latest>/*) then
+	const refererUrl = new URL(request.headers.get('referer') || '');
+	const origin = refererUrl.origin;
 
-  let versionStage = 'local' as 'local' | 'subdomain' // detect we are using subdomain or local strategy
+	let versionStage = 'local' as 'local' | 'subdomain'; // detect we are using subdomain or local strategy
 
-  let version = Version.getFromSubdomain(origin);
+	let version = Version.getFromSubdomain(origin);
 
-  if (version) {
-    versionStage = 'subdomain';
-  } else {
-    version = Version.getFromUrl(refererUrl.pathname);
-  }
+	if (version) {
+		versionStage = 'subdomain';
+	} else {
+		version = Version.getFromUrl(refererUrl.pathname);
+	}
 
-  if (!version) {
-    throw new Error('Version not found');
-  }
+	if (!version) {
+		throw new Error('Version not found');
+	}
 
 	const mdFiles = import.meta.glob(`/src/routes/**/*.{md,svx}`, { as: 'raw' });
 
@@ -201,7 +201,7 @@ export const GET: RequestHandler = async ({ request }) => {
 	const pageInfos = new Map<string, PageInfo>(); // dir path -> page info
 
 	for (const path in mdFiles) {
-    if (!path.includes(`/${version}/`)) continue; // skip files not in the requested version
+		if (!path.includes(`/${version}/`)) continue; // skip files not in the requested version
 
 		// Only process +page files
 		if (path.includes('/+page.')) {
@@ -223,7 +223,7 @@ export const GET: RequestHandler = async ({ request }) => {
 						dirPath,
 						toc,
 						content: rawContent,
-            versionStage
+						versionStage
 					});
 				}
 			} catch (error) {
@@ -236,7 +236,7 @@ export const GET: RequestHandler = async ({ request }) => {
 	const siblingFiles = new Map<string, SiblingFile[]>(); // dir path -> sibling files
 
 	for (const path in mdFiles) {
-    if (!path.includes(`/${version}/`)) continue; // skip files not in the requested version
+		if (!path.includes(`/${version}/`)) continue; // skip files not in the requested version
 
 		// Skip +page files, we only want regular markdown files
 		if (!path.includes('/+page.')) {
@@ -272,25 +272,14 @@ export const GET: RequestHandler = async ({ request }) => {
 	for (const [dirPath, pageInfo] of pageInfos.entries()) {
 		// Create an entry for the main page itself
 		const pageUrl = `${pageInfo.path}`;
-		let pageSlug = removeParentheses(pageUrl);
-
-    // check stragety
-    switch(pageInfo.versionStage) {
-      case 'local':
-        // do nothing
-        break;
-      case 'subdomain':
-        // remove version from slug
-        pageSlug = pageSlug.replace(`${version}/`, '/'); // note: pageSlug has not / as first character
-        break;
-    }
+		const pageSlug = removeParentheses(pageUrl);
 
 		entries.push({
 			slug: pageSlug,
 			title: pageInfo.title,
 			content: cleanMarkdownContent(pageInfo.content),
 			headings: extractHeadings(pageInfo.content),
-      versionStage: pageInfo.versionStage
+			versionStage: pageInfo.versionStage
 		});
 
 		// Get the sibling files for this directory
@@ -313,7 +302,7 @@ export const GET: RequestHandler = async ({ request }) => {
 						content: cleanMarkdownContent(headingContent),
 						headings: extractHeadings(headingContent),
 						parentTitle: pageInfo.title,
-            versionStage: pageInfo.versionStage
+						versionStage: pageInfo.versionStage
 					});
 
 					foundMatch = true;
@@ -332,9 +321,16 @@ export const GET: RequestHandler = async ({ request }) => {
 					content: cleanMarkdownContent(headingContent),
 					headings: extractHeadings(headingContent),
 					parentTitle: pageInfo.title,
-          versionStage: pageInfo.versionStage
+					versionStage: pageInfo.versionStage
 				});
 			}
+		}
+	}
+
+	// update slug for subdomain strategy
+	if (versionStage === 'subdomain') {
+		for (const entry of entries) {
+			entry.slug = entry.slug.replace(`${version}/`, '/');
 		}
 	}
 
