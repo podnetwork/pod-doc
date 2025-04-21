@@ -330,7 +330,7 @@ export const GET: RequestHandler = async ({ request }) => {
 	// update slug for subdomain strategy
 	if (versionStage === 'subdomain') {
 		for (const entry of entries) {
-			entry.slug = entry.slug.replace(`${version}/`, '/');
+			entry.slug = entry.slug.replace(`${version}/`, '');
 		}
 	}
 
