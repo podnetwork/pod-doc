@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
+	import { initSearchShortcut, isSearchOpen, searchStore } from '$lib/stores/searchStore';
+	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import type { DocEntry } from '../../routes/internal/search/+server';
-	import { isSearchOpen, initSearchShortcut, searchStore } from '$lib/stores/searchStore';
 
 	onMount(() => {
 		searchStore.init();
