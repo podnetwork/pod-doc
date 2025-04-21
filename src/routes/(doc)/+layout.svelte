@@ -52,7 +52,7 @@
 		{/if}
 
 		<div class="flex-1"></div>
-		<div class="flex flex-col gap-2 p-4">
+		<div class="flex flex-col gap-2 p-4 sticky bottom-0 z-[1] bg-secondary">
 			<div class="flex gap-2">
 				<ThemeToggle />
 			</div>
@@ -116,7 +116,7 @@
 				class="fixed bottom-0 left-0 right-0 top-14 z-[20] flex flex-col overflow-auto bg-background"
 			>
 				<SidebarMenu />
-				<div class="flex flex-col gap-2 p-4">
+				<div class="flex flex-col gap-2 p-4 sticky bottom-0 z-[1] bg-background">
 					<div class="flex gap-2">
 						<ThemeToggle />
 						<VersionSwitcher />
