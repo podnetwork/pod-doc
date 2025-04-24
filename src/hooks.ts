@@ -30,11 +30,6 @@ export const reroute: Reroute = ({ url }) => {
 		return `/${version}${url.pathname}`;
 	}
 
-	// catch the case domain match static is latest version
-	if (url.origin === 'https://pod-doc-svelte.vercel.app') {
-		return `/latest${url.pathname}`;
-	}
-
 	// uncatched, assume running on local
 
 	console.log('Not rerouted');

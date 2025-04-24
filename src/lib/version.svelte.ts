@@ -14,9 +14,12 @@ const latestDomain = PUBLIC_LATEST_DOMAIN;
 export class Version {
 	constructor(private readonly app: App) {}
 
+	static matchLatestDomain(origin: string) {
+		return origin.startsWith(latestDomain);
+	}
+
 	static getFromSubdomain(origin: string) {
-		const l = origin.startsWith(latestDomain);
-		if (l) return 'latest';
+		if (this.matchLatestDomain(origin)) return 'latest';
 
 		const v = domainRegex.exec(origin);
 		if (v) return v[1];
@@ -28,6 +31,10 @@ export class Version {
 	static getFromUrl(pathname: string) {
 		const v = pathname.split('/')[1];
 		return v || void 0;
+	}
+
+	get fromLatestDomain() {
+		return Version.matchLatestDomain(page.url.origin);
 	}
 
 	get fromSubdomain() {

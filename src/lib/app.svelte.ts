@@ -19,6 +19,7 @@ export class App {
 
 	// for mapping url
 	versionUrl(path: string) {
+		if (this.version.fromLatestDomain) return path; // support subdomain (online)
 		if (this.version.fromSubdomain) return path; // support subdomain (online)
 		return `/${this.version.fromUrl}${path}`; // support param (local)
 	}

@@ -1,7 +1,7 @@
 import { replaceState } from '$app/navigation';
 import { page, updated } from '$app/state';
 import { App } from '$lib/app.svelte';
-import { getContext, setContext, tick, untrack } from 'svelte';
+import { getContext, setContext, tick } from 'svelte';
 import { innerHeight } from 'svelte/reactivity/window';
 import menus from './menu.json';
 
@@ -27,12 +27,8 @@ export class SidebarMenuStore {
 	constructor() {
 		$effect(() => {
 			if (this.pageVersion) {
-				this.items = (menus as MenuJson)[this.pageVersion];
+				this.itemsRaw = (menus as MenuJson)[this.pageVersion];
 			}
-
-			untrack(() => {
-				console.log(this.items);
-			});
 		});
 
 		// auto update internal current url follow system page url
@@ -146,26 +142,28 @@ export class SidebarMenuStore {
 		return this.app.versionUrl(p);
 	}
 
-	// navigationHeadings = $state<NavHeading[]>([
-	//   { label: 'Getting Started', href: this.u('/getting-started/'), navId: 'getting-started' },
-	//   { label: 'How to Guides', href: this.u('/how-to-guides/payments'), navId: 'how-to-guides' },
-	//   {
-	//     label: 'Architecture',
-	//     href: this.u('/architecture/architecture-basics'),
-	//     navId: 'architecture'
-	//   },
-	//   { label: 'Reference', href: this.u('/reference/rpc-api'), navId: 'reference' }
-	// ]);
+	itemsRaw = $state<SidebarItem[]>([]);
 
-	items = $state<SidebarItem[]>([]);
+	items = $derived.by(() => {
+		return this.itemsRaw.map((item) => {
+			if (item.href) {
+					return {
+					...item,
+					href: this.u(item.href)
+				};
+			}
+
+			return item;
+		});
+	});
 
 	makeItems() {
 		Object.entries(this.hashMap).forEach(([urlPartial, hashes]) => {
 			const url = this.u(urlPartial);
-			const item = this.items.find((i) => i.href === url);
+			const itemIdx = this.items.findIndex((i) => i.href === url);
 
-			if (item) {
-				item.children = Object.entries(hashes).map(([hash, label]) => ({
+			if (itemIdx !== -1) {
+				this.itemsRaw[itemIdx].children = Object.entries(hashes).map(([hash, label]) => ({
 					href: `${url}#${hash}`,
 					label: label
 				}));
