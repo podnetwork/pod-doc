@@ -26,3 +26,5 @@ vite.config.ts.timestamp-*
 .pull_cache
 src/routes/(doc)/v[0-9]*/**
 src/routes/(doc)/latest/**
+
+src/routes/(doc)/menu.json

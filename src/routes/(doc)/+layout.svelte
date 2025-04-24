@@ -4,7 +4,6 @@
 	import DocsSearch from '$lib/components/docs-search.svelte';
 	import ThemeToggle from '$lib/components/theme-toggle.svelte';
 	import { Button } from '$lib/components/ui/button';
-	import { MetaMask } from '$lib/metamask/metamask.svelte';
 	import { Menu } from '@lucide/svelte';
 	import FundBox from './fund-box.svelte';
 	import ProfileMenu from './profile-menu.svelte';
@@ -12,9 +11,7 @@
 	import SidebarMenu from './sidebar-menu.svelte';
 	import VersionSwitcher from './version-switcher.svelte';
 
-	const mm = MetaMask.create();
-
-	const app = App.get()
+	const app = App.get();
 
 	let { children } = $props();
 
@@ -52,7 +49,7 @@
 		{/if}
 
 		<div class="flex-1"></div>
-		<div class="flex flex-col gap-2 p-4 sticky bottom-0 z-[1] bg-secondary">
+		<div class="sticky bottom-0 z-[1] flex flex-col gap-2 bg-secondary p-4">
 			<div class="flex gap-2">
 				<ThemeToggle />
 			</div>
@@ -116,7 +113,7 @@
 				class="fixed bottom-0 left-0 right-0 top-14 z-[20] flex flex-col overflow-auto bg-background"
 			>
 				<SidebarMenu />
-				<div class="flex flex-col gap-2 p-4 sticky bottom-0 z-[1] bg-background">
+				<div class="sticky bottom-0 z-[1] flex flex-col gap-2 bg-background p-4">
 					<div class="flex gap-2">
 						<ThemeToggle />
 						<VersionSwitcher />

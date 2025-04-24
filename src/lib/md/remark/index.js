@@ -5,9 +5,4 @@
 import RemarkCustomTag from './custom-tag/index.js';
 
 /** @type {any[]} */
-export const remarkPlugins = [
-	RemarkCustomTag,
-];
-
-
-
+export const remarkPlugins = [RemarkCustomTag];
