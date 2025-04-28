@@ -13,7 +13,8 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"docsync": "sh ./doc-sync.sh",
-		"remark:test": "node ./src/lib/md/remark/custom-tag/test.js"
+		"remark:test": "node ./src/lib/md/remark/custom-tag/test.js",
+		"docsync:local": "sh ./doc-sync-local.sh"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.8",

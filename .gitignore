@@ -28,3 +28,6 @@ src/routes/(doc)/v[0-9]*/**
 src/routes/(doc)/latest/**
 
 src/routes/(doc)/menu.json
+
+# ignore local script
+doc-sync-local.sh

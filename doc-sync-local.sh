@@ -1,4 +1,3 @@
 #!/bin/bash
 
-# call doc-sync.sh
-sh ./doc-sync.sh "$1" "/Users/trunglevutran/Dev/tapforce/pod-docs-migration-tests/docs"
+sh ./doc-sync.sh "v1:doc/v1" "/Users/trunglevutran/Dev/tapforce/pod-docs-migration-tests/docs"
