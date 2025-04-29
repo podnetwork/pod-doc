@@ -35,7 +35,7 @@
 	<div
 		class="fixed left-0 hidden h-screen w-72 flex-none flex-col overflow-y-auto border-r bg-secondary lg:flex"
 	>
-		<div class="hidden h-14 gap-3 p-3 px-8 md:flex">
+		<div class="hidden h-14 gap-3 pt-6 pb-0 px-8 md:flex">
 			<a href="/">
 				<img src="/pod-logo.svg" alt="Pod network" class="w-14 dark:hidden" />
 				<img src="/pod-logo-white.svg" alt="Pod network" class="hidden w-14 dark:inline-block" />
