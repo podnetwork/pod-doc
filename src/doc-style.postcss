@@ -170,6 +170,50 @@
 }
 
 /* this help anchor scroll the page padding heading */
-.pod-anchor, [data-anchor] {
+.pod-anchor,
+[data-anchor] {
 	scroll-margin-top: calc(theme('spacing.10') + 2rem);
+}
+
+/* table  */
+
+/* style 1 */
+
+.table-style1 {
+	@apply rounded-lg border;
+
+	> table {
+		th,
+		td {
+			@apply border-b !px-3;
+		}
+
+		th {
+			@apply border-b bg-muted dark:bg-muted/50;
+			@apply font-aplha font-normal uppercase tracking-wider;
+		}
+
+		tr:nth-child(even) td {
+			@apply bg-muted dark:bg-muted/50;
+		}
+
+		tr:last-child {
+			td {
+				@apply border-b-0;
+			}
+
+			> td:first-child {
+				@apply rounded-bl-lg;
+			}
+
+			> td:last-child {
+				@apply rounded-br-lg;
+			}
+		}
+
+		code {
+			@apply bg-gray-200 !outline-gray-300 dark:bg-gray-900 dark:!outline-gray-700;
+			@apply break-all;
+		}
+	}
 }

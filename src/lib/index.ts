@@ -7,6 +7,7 @@ import CodeblockSample from './components/pod/codeblock/codeblock-sample.svelte'
 import CodeblockSticky from './components/pod/codeblock/codeblock-sticky.svelte';
 import GridstackBlock from './components/pod/gridstack/gridstack-block.svelte';
 import GridstackContainer from './components/pod/gridstack/gridstack-container.svelte';
+import Table from './components/pod/table/table.svelte';
 
 // codeblock components
 export const Code = {
@@ -16,5 +17,6 @@ export const Code = {
 	Code: CodeblockCode,
 	Sidebar: () => SidebarMenuStore.get(),
 	GridstackContainer: GridstackContainer,
-	GridstackBlock: GridstackBlock
+	GridstackBlock: GridstackBlock,
+	Table: Table
 };

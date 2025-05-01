@@ -275,10 +275,10 @@ function Grid(child, match) {
 function Table(child, match) {
 	const { modifier, attrs } = match;
 	switch (modifier) {
-		default: {
+		case 'style1': {
 			Object.assign(child, {
 				type: 'html',
-				value: `<Code.Table ${attrs}>`,
+				value: `<Code.Table styleId="${modifier}" ${attrs}>`,
 				children: void 0
 			});
 			return CONTINUE;
