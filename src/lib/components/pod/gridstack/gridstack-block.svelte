@@ -32,7 +32,7 @@
 		.bottom:after {
 			content: ' ';
 			@apply absolute;
-			@apply border bg-background;
+			@apply border border-border dark:border-background bg-background;
 			width: 40px;
 			height: 40px;
 		}
