@@ -58,6 +58,8 @@ export default function RemarkCustomTag() {
 						return Gridstack(child, matched);
 					case 'grid':
 						return Grid(child, matched);
+					case 'table':
+						return Table(child, matched);
 					case 'import':
 						return ImportComponent(child, matched, scriptLines);
 				}
@@ -256,6 +258,35 @@ function Grid(child, match) {
 			Object.assign(child, {
 				type: 'html',
 				value: `</Code.GridstackBlock>`,
+				children: void 0
+			});
+			return CONTINUE;
+		}
+	}
+}
+
+/**
+ * table with styles
+ *
+ * @param {Paragraph} child
+ * @param {Match} match
+ * @returns
+ */
+function Table(child, match) {
+	const { modifier, attrs } = match;
+	switch (modifier) {
+		default: {
+			Object.assign(child, {
+				type: 'html',
+				value: `<Code.Table ${attrs}>`,
+				children: void 0
+			});
+			return CONTINUE;
+		}
+		case 'end': {
+			Object.assign(child, {
+				type: 'html',
+				value: `</Code.Table>`,
 				children: void 0
 			});
 			return CONTINUE;

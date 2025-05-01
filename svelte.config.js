@@ -16,9 +16,9 @@ const config = {
 		mdsvex({
 			extensions: ['.md', '.svx'],
 			layout: {
-				simple: './src/lib/mdlayouts/simple.svelte',
-				single: './src/lib/mdlayouts/single.svelte',
-				blank: './src/lib/mdlayouts/blank.svelte'
+				simple: new URL('./src/lib/mdlayouts/simple.svelte', import.meta.url).pathname,
+				single: new URL('./src/lib/mdlayouts/single.svelte', import.meta.url).pathname,
+				blank: new URL('./src/lib/mdlayouts/blank.svelte', import.meta.url).pathname
 			},
 			highlight: {
 				// highlighter: highlighter
