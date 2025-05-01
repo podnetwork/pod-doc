@@ -17,7 +17,7 @@
 		:global(> div) {
 			box-sizing: border-box;
 			position: relative;
-			@apply border bg-muted p-6;
+			@apply border bg-muted px-8 py-8;
 		}
 
 		.top,
@@ -62,7 +62,7 @@
 
         :global(h1, h2, h3, h4, h5, h6) {
             &:first-child {
-                @apply mt-0;
+                @apply mt-0 mb-2;
             }
         }
 	}
