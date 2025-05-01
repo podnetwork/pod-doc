@@ -121,7 +121,7 @@
 	}
 
 	blockquote {
-		@apply rounded-lg bg-primary/10 p-4;
+		@apply rounded-lg bg-muted p-4 dark:bg-muted/50;
 
 		*:last-child {
 			@apply mb-0;
@@ -131,7 +131,9 @@
 	/* code block normal (not shiki) */
 	p > code,
 	table code {
-		@apply rounded-sm bg-primary/5 px-1.5 py-0.5 outline -outline-offset-2 outline-primary/40 dark:bg-primary/50 dark:outline-primary;
+		@apply rounded-sm bg-primary/5 px-1.5 py-0.5;
+		@apply outline -outline-offset-2 outline-primary/40;
+		@apply bg-muted-foreground/10 !outline-gray-300 dark:bg-gray-900 dark:!outline-gray-700;
 		@apply font-mono;
 	}
 
@@ -212,7 +214,6 @@
 		}
 
 		code {
-			@apply bg-gray-200 !outline-gray-300 dark:bg-gray-900 dark:!outline-gray-700;
 			@apply break-all;
 		}
 	}
