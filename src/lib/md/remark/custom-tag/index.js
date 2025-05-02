@@ -1,5 +1,5 @@
 /**
- * @import {Root, Paragraph} from 'mdast'
+ * @import {Root, Paragraph, Text} from 'mdast'
  */
 
 /**
@@ -7,6 +7,7 @@
  */
 
 import json5 from 'json5';
+import fs from 'node:fs';
 import { CONTINUE, visit } from 'unist-util-visit';
 import { RemarkUtil } from '../util.js';
 
@@ -22,48 +23,15 @@ export default function RemarkCustomTag() {
 	 * @return {undefined}
 	 */
 	return function (tree) {
+		// write tree to json file name test_tree.json in same folder
+		fs.writeFileSync(`${import.meta.dirname}/test_tree.json`, JSON.stringify(tree, null, 2));
+
 		// store lines of script want to add to content of page
 		/** @type {string[]} */
 		const scriptLines = [];
 
 		// travels nodes in tree
 		visit(tree, (child) => {
-			// in almost of case, custom tag begining is as text line that markdown can not understand
-			// it always wrap with a <P> and text we need is first children inside
-			// normally each <p> will have only 1 text node
-			if (child.type === 'paragraph') {
-				const firstChild = child.children[0];
-
-				if (!firstChild) return CONTINUE;
-				if (firstChild.type !== 'text') return CONTINUE;
-
-				// inspect text line, it should start with custom tag prefix ! and following a space
-				const matched = RemarkUtil.matchCustomTag(firstChild.value);
-				if (!matched) return CONTINUE;
-
-				const { prefix } = matched;
-
-				switch (prefix) {
-					default:
-						return CONTINUE;
-					case 'sticky':
-						return Sticky(child, matched);
-					case 'anchor':
-						return Anchor(child, matched);
-					case 'content':
-						return Content(child, matched);
-					case 'codeblock':
-						return Codeblock(child, matched);
-					case 'gridstack':
-						return Gridstack(child, matched);
-					case 'grid':
-						return Grid(child, matched);
-					case 'table':
-						return Table(child, matched);
-					case 'import':
-						return ImportComponent(child, matched, scriptLines);
-				}
-			}
 
 			// take nodes are code for codeblock code snippet
 			if (child.type === 'code') {
@@ -79,6 +47,66 @@ export default function RemarkCustomTag() {
 
 				return CONTINUE;
 			}
+
+			// in almost of case, custom tag begining is as text line that markdown can not understand
+			// it always wrap with a <P> and text we need is first children inside
+			// normally each <p> will have only 1 text node
+
+			// update 2025-05-02:
+			// follow the request of Shresth, we will support case double space, not empty line
+			/** @type {Text | undefined} */
+			let syntaxLine = void 0;
+			/** @type {Text|Paragraph|undefined} */
+			let line = void 0;
+
+			switch (child.type) {
+				default: {
+					return CONTINUE;
+				}
+				case 'paragraph': {
+					if (child.children.length !== 1) return CONTINUE;
+					if (child.children[0].type !== 'text') return CONTINUE;
+					line = child;
+					syntaxLine = child.children[0];
+					break;
+				}
+				case 'text': {
+					line = child;
+					syntaxLine = child;
+					break;
+				}
+			}
+
+			if (!syntaxLine || !line) return CONTINUE;
+
+			// inspect text line, it should start with custom tag prefix ! and following a space
+			const matched = RemarkUtil.matchCustomTag(syntaxLine.value);
+			if (!matched) return CONTINUE;
+
+			const { prefix } = matched;
+
+			switch (prefix) {
+				default:
+					return CONTINUE;
+				case 'sticky':
+					return Sticky(line, matched);
+				case 'anchor':
+					return Anchor(line, matched);
+				case 'content':
+					return Content(line, matched);
+				case 'codeblock':
+					return Codeblock(line, matched);
+				case 'gridstack':
+					return Gridstack(line, matched);
+				case 'grid':
+					return Grid(line, matched);
+				case 'table':
+					return Table(line, matched);
+				case 'import':
+					return ImportComponent(line, matched, scriptLines);
+			}
+
+			
 		});
 
 		const scriptTag = RemarkUtil.getFirstScript(tree);
@@ -99,7 +127,7 @@ export default function RemarkCustomTag() {
 
 /**
  *
- * @param {Paragraph} child
+ * @param {Paragraph|Text} child
  * @param {Match} match
  * @returns
  */
@@ -128,7 +156,7 @@ function Sticky(child, match) {
 /**
  * anchor
  *
- * @param {Paragraph} child
+ * @param {Paragraph|Text} child
  * @param {Match} match
  * @returns
  */
@@ -144,7 +172,7 @@ function Anchor(child, match) {
 /**
  * content
  *
- * @param {Paragraph} child
+ * @param {Paragraph|Text} child
  * @param {Match} match
  * @returns
  */
@@ -181,7 +209,7 @@ function Content(child, match) {
 /**
  * codeblock
  *
- * @param {Paragraph} child
+ * @param {Paragraph|Text} child
  * @param {Match} match
  * @returns
  */
@@ -210,7 +238,7 @@ function Codeblock(child, match) {
 /**
  * gridstack
  *
- * @param {Paragraph} child
+ * @param {Paragraph|Text} child
  * @param {Match} match
  * @returns
  */
@@ -239,7 +267,7 @@ function Gridstack(child, match) {
 /**
  * grid
  *
- * @param {Paragraph} child
+ * @param {Paragraph|Text} child
  * @param {Match} match
  * @returns
  */
@@ -268,7 +296,7 @@ function Grid(child, match) {
 /**
  * table with styles
  *
- * @param {Paragraph} child
+ * @param {Paragraph|Text} child
  * @param {Match} match
  * @returns
  */
@@ -297,7 +325,7 @@ function Table(child, match) {
 /**
  * import component
  *
- * @param {Paragraph} child
+ * @param {Paragraph|Text} child
  * @param {Match} match
  * @param {string[]} scriptLines
  */
