@@ -137,6 +137,11 @@
 		@apply font-mono;
 	}
 
+	/* this added by markdown custom tag */
+	code.inlinecode-break-all {
+		@apply break-all;
+	}
+
 	/* table */
 	table {
 		@apply w-full;
@@ -182,7 +187,7 @@
 /* style 1 */
 
 .table-style1 {
-	@apply rounded-lg border;
+	@apply rounded-lg border overflow-x-auto;
 
 	> table {
 		th,
@@ -213,8 +218,5 @@
 			}
 		}
 
-		code {
-			@apply break-all;
-		}
 	}
 }

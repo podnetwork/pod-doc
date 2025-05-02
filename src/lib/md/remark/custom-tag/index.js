@@ -7,7 +7,7 @@
  */
 
 import json5 from 'json5';
-import fs from 'node:fs';
+// import fs from 'node:fs';
 import { CONTINUE, visit } from 'unist-util-visit';
 import { RemarkUtil } from '../util.js';
 
@@ -24,7 +24,7 @@ export default function RemarkCustomTag() {
 	 */
 	return function (tree) {
 		// write tree to json file name test_tree.json in same folder
-		fs.writeFileSync(`${import.meta.dirname}/test_tree.json`, JSON.stringify(tree, null, 2));
+		// fs.writeFileSync(`${import.meta.dirname}/test_tree.json`, JSON.stringify(tree, null, 2));
 
 		// store lines of script want to add to content of page
 		/** @type {string[]} */
@@ -32,7 +32,6 @@ export default function RemarkCustomTag() {
 
 		// travels nodes in tree
 		visit(tree, (child) => {
-
 			// take nodes are code for codeblock code snippet
 			if (child.type === 'code') {
 				const lang = child.lang;
@@ -45,6 +44,19 @@ export default function RemarkCustomTag() {
 					children: void 0
 				});
 
+				return CONTINUE;
+			}
+
+			if (child.type === 'inlineCode') {
+				// support custom break line of code
+				// usually we want use it inside table where not accept long text of code
+				if (child.value.startsWith('! break-all ')) {
+					console.log('start')
+					Object.assign(child, {
+						type: 'html',
+						value: `<code class="inlinecode-break-all">${child.value.replace('! break-all ', '')}</code>`
+					});
+				}
 				return CONTINUE;
 			}
 
@@ -105,8 +117,6 @@ export default function RemarkCustomTag() {
 				case 'import':
 					return ImportComponent(line, matched, scriptLines);
 			}
-
-			
 		});
 
 		const scriptTag = RemarkUtil.getFirstScript(tree);
