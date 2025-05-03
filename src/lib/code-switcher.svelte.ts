@@ -18,7 +18,11 @@ interface CodeInfo {
 
 export class CodeSwitcher {
 	constructor(private readonly app: App) {
-		this.languages = t[this.app.version.version as keyof TransformedData].langs;
+		$effect(() => {
+			const ver = this.app.version.version as keyof TransformedData;
+			if (!ver || !t[ver].langs) return;
+			this.languages = t[ver].langs;
+		});
 	}
 
 	current = $state('js');

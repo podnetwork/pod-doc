@@ -75,8 +75,8 @@
 						<Menu />
 					</Button>
 					<a href="/">
-						<img src="/pod-logo.svg" alt="Pod network" class="w-8 dark:hidden" />
-						<img src="/pod-logo-white.svg" alt="Pod network" class="hidden w-8 dark:inline-block" />
+						<img src="/pod.svg" alt="Pod network" class="w-8 dark:hidden" />
+						<img src="/pod-dark.svg" alt="Pod network" class="hidden w-8 dark:inline-block" />
 					</a>
 				</div>
 
