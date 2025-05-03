@@ -15,7 +15,8 @@
 		"docsync": "sh ./doc-sync.sh",
 		"remark:test": "node ./src/lib/md/remark/custom-tag/test.js",
 		"docsync:local": "sh ./doc-sync-local.sh",
-		"transform-yaml-data:test": "node ./transform-yaml-data.test.js"
+		"transform-yaml-data:test": "node ./transform-yaml-data.test.js",
+		"normalize-markdown:test": "node ./src/lib/md/normalize-md-preprocess/index.test.js"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.8",

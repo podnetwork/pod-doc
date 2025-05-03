@@ -2,6 +2,7 @@ import adapter from '@sveltejs/adapter-vercel';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { mdsvex } from 'mdsvex';
 import remarkAbbr from 'remark-abbr';
+import normalizeMarkdown from './src/lib/md/normalize-md-preprocess/index.js';
 import { remarkPlugins } from './src/lib/md/remark/index.js';
 import { transformYamlData } from './transform-yaml-data.js';
 
@@ -13,6 +14,7 @@ const config = {
 	// for more information about preprocessors
 	preprocess: [
 		vitePreprocess(),
+		normalizeMarkdown(),
 		mdsvex({
 			extensions: ['.md', '.svx'],
 			layout: {

@@ -7,7 +7,7 @@
  */
 
 import json5 from 'json5';
-// import fs from 'node:fs';
+import fs from 'node:fs';
 import { CONTINUE, visit } from 'unist-util-visit';
 import { RemarkUtil } from '../util.js';
 
@@ -24,7 +24,7 @@ export default function RemarkCustomTag() {
 	 */
 	return function (tree) {
 		// write tree to json file name test_tree.json in same folder
-		// fs.writeFileSync(`${import.meta.dirname}/test_tree.json`, JSON.stringify(tree, null, 2));
+		fs.writeFileSync(`${import.meta.dirname}/test_tree.json`, JSON.stringify(tree, null, 2));
 
 		// store lines of script want to add to content of page
 		/** @type {string[]} */
