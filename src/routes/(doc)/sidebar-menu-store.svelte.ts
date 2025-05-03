@@ -1,9 +1,11 @@
 import { replaceState } from '$app/navigation';
 import { page, updated } from '$app/state';
 import { App } from '$lib/app.svelte';
+import transformedData from '$lib/transformed-data.json';
 import { getContext, setContext, tick } from 'svelte';
 import { innerHeight } from 'svelte/reactivity/window';
-import menus from './menu.json';
+
+type TransformedData = typeof transformedData;
 
 export interface SidebarItem {
 	href?: string;
@@ -19,15 +21,13 @@ export interface NavHeading {
 	navId: string;
 }
 
-interface MenuJson {
-	[v: string]: SidebarItem[];
-}
-
 export class SidebarMenuStore {
 	constructor() {
 		$effect(() => {
 			if (this.pageVersion) {
-				this.itemsRaw = (menus as MenuJson)[this.pageVersion];
+				this.itemsRaw = (transformedData as TransformedData)[
+					this.pageVersion as keyof TransformedData
+				].menu;
 			}
 		});
 
@@ -147,7 +147,7 @@ export class SidebarMenuStore {
 	items = $derived.by(() => {
 		return this.itemsRaw.map((item) => {
 			if (item.href) {
-					return {
+				return {
 					...item,
 					href: this.u(item.href)
 				};

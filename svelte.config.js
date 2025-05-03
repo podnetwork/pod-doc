@@ -2,10 +2,10 @@ import adapter from '@sveltejs/adapter-vercel';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { mdsvex } from 'mdsvex';
 import remarkAbbr from 'remark-abbr';
-import { makeMenu } from './sidebar-markup.js';
 import { remarkPlugins } from './src/lib/md/remark/index.js';
+import { transformYamlData } from './transform-yaml-data.js';
 
-makeMenu();
+transformYamlData();
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {

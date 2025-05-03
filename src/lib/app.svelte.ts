@@ -1,5 +1,6 @@
 import { getContext, setContext } from 'svelte';
 import { Auth } from './auth/auth.svelte';
+import { CodeSwitcher } from './code-switcher.svelte';
 import { Version } from './version.svelte';
 
 export class App {
@@ -26,4 +27,7 @@ export class App {
 
 	// AUTH
 	auth = new Auth(this);
+
+	// CODE SWITCHER
+	codeSwitcher = new CodeSwitcher(this);
 }

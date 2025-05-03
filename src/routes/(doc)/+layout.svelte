@@ -6,6 +6,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Menu } from '@lucide/svelte';
 	import FundBox from './fund-box.svelte';
+	import LanguageSwitcher from './language-switcher.svelte';
 	import ProfileMenu from './profile-menu.svelte';
 	import { SidebarMenuStore } from './sidebar-menu-store.svelte';
 	import SidebarMenu from './sidebar-menu.svelte';
@@ -79,7 +80,10 @@
 					</a>
 				</div>
 
-				<VersionSwitcher />
+				<div class="flex gap-2">
+					<VersionSwitcher />
+					<LanguageSwitcher />
+				</div>
 
 				<div class="flex w-full items-center gap-4">
 					<!-- <div class="hidden w-full justify-start md:flex">
@@ -117,6 +121,7 @@
 					<div class="flex gap-2">
 						<ThemeToggle />
 						<VersionSwitcher />
+						<LanguageSwitcher />
 					</div>
 					<ProfileMenu />
 					<Button href={app.versionUrl('/fund')}>Fund wallet</Button>

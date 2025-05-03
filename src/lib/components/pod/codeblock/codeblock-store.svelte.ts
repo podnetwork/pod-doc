@@ -1,7 +1,8 @@
+import { App } from '$lib/app.svelte';
 import { getContext, setContext } from 'svelte';
 
 export interface CodeBlock {
-    id: string;
+	id: string;
 	lang: string;
 	code: string;
 	alias?: string;
@@ -18,11 +19,11 @@ export class CodeblockStore {
 		return getContext<CodeblockStore>(this.sid);
 	}
 
-	constructor() {}
+	app = App.get();
 
 	codeblocks = $state<CodeBlock[]>([]);
 
-    title = $state('')
+	title = $state('');
 
-    runCode?: () => Promise<Response>;
+	runCode?: () => Promise<Response>;
 }

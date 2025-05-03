@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { App } from '$lib/app.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import * as Tabs from '$lib/components/ui/tabs';
 	import { Copy, LucideCircleDashed, LucidePlay } from '@lucide/svelte';
@@ -9,6 +10,7 @@
 	import CodeblockSampleResponse from './codeblock-sample-response.svelte';
 	import { CodeblockStore } from './codeblock-store.svelte';
 
+	const app = App.get();
 	const store = CodeblockStore.get();
 
 	let { children } = $props();
@@ -59,6 +61,15 @@
 	let ids = $derived(store.codeblocks.map((i) => i.id)) as string[];
 
 	let selectedId = $state<string>();
+
+	$effect(() => {
+		if (app.codeSwitcher.current) {
+			const matched = store.codeblocks.find((i) => i.lang === app.codeSwitcher.current)?.id;
+			if (matched) {
+				selectedId = matched;
+			}
+		}
+	});
 
 	let selectedCodeblock = $derived(store.codeblocks.find((i) => i.id === selectedId));
 
