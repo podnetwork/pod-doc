@@ -18,7 +18,7 @@
 	});
 
 	$effect(() => {
-		if (code_languages) {
+		if (code_languages && Object.keys(code_languages).length) {
 			app.codeSwitcher.languages = code_languages;
 		}
 	});
