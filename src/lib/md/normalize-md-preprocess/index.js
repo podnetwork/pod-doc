@@ -19,11 +19,11 @@ const svelteMarkdown = () => {
 					const regex = /^!\s\w+(\s.*)?$/;
 					const matched = regex.test(line);
 
+					if (!matched) return;
+
 					// because idea is put empty line before and after the custom tag
 					// then we just remove double space on custom tag line.
 					lines[idx] = line.trim();
-
-					if (!matched) return;
 
 					// check prev line
 					const prevLine = lines[idx - 1];
