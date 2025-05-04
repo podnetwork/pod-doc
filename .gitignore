@@ -24,8 +24,10 @@ vite.config.ts.timestamp-*
 
 # ignore content of document
 .pull_cache
-src/routes/(doc)/v[0-9]*/**
-src/routes/(doc)/latest/**
+src/routes/(doc)/v[0-9]*
+src/routes/(doc)/latest
+src/routes/(doc)/local
+src/routes/(doc)/test
 
 src/routes/(doc)/menu.json
 
