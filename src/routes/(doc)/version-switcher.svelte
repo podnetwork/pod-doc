@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { App } from '$lib/app.svelte';
 	import { Badge } from '$lib/components/ui/badge';
@@ -41,8 +40,8 @@
 
 						const domain = version.domain;
 						const url = `${domain}${page.url.pathname}`;
-						console.log('sould go to',url);
-						goto(url);
+						// console.log('sould go to',url);
+						window.location.href = url;
 					}}
 				>
 					{#if app.isLocal}
