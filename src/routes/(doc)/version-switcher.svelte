@@ -41,6 +41,7 @@
 
 						const domain = version.domain;
 						const url = `${domain}${page.url.pathname}`;
+						console.log('sould go to',url);
 						goto(url);
 					}}
 				>
