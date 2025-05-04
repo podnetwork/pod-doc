@@ -2,6 +2,7 @@ import { PUBLIC_NODE_ENV } from '$env/static/public';
 import { getContext, setContext } from 'svelte';
 import { Auth } from './auth/auth.svelte';
 import { CodeSwitcher } from './code-switcher.svelte';
+import { DocSearchStore } from './components/docsearch/docsearch-store.svelte';
 import { Version2 } from './version2.svelte';
 
 export class App {
@@ -28,4 +29,7 @@ export class App {
 
 	// CODE SWITCHER
 	codeSwitcher = new CodeSwitcher(this);
+
+	// SEARCH STORE
+	searchStore = new DocSearchStore(this);
 }
