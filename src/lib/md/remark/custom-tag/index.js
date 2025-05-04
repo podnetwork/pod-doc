@@ -1,5 +1,5 @@
 /**
- * @import {Root, Paragraph, Text} from 'mdast'
+ * @import {Root, Paragraph, Text, Code} from 'mdast'
  */
 
 /**
@@ -12,19 +12,35 @@ import { CONTINUE, visit } from 'unist-util-visit';
 import { RemarkUtil } from '../util.js';
 
 /**
+ * @typedef {Object} Options
+ * @property {boolean} [dev]
+ */
+
+/**
  * extends markdown code with custom tags from pod network project
  *
+ * @param {Options} opts
  * @returns
  *   Transform.
  */
-export default function RemarkCustomTag() {
+export default function RemarkCustomTag(opts = {}) {
+	const isDev = !!opts.dev;
+
 	/**
 	 * @param {Root} tree
+	 * @param {any} file
 	 * @return {undefined}
 	 */
-	return function (tree) {
+	return function (tree, { filename }) {
+		// in dev mode, because we call mdsvex via `compile` function
+		// mdsvex will unknown the current file compiled
+		// we need override the filename to simulate
+		if (isDev) {
+			filename = `${import.meta.dirname}/anyname.md`;
+		}
+
 		// write tree to json file name test_tree.json in same folder
-		fs.writeFileSync(`${import.meta.dirname}/test_tree.json`, JSON.stringify(tree, null, 2));
+		// fs.writeFileSync(`${import.meta.dirname}/test_tree.json`, JSON.stringify(tree, null, 2));
 
 		// store lines of script want to add to content of page
 		/** @type {string[]} */
@@ -34,24 +50,14 @@ export default function RemarkCustomTag() {
 		visit(tree, (child) => {
 			// take nodes are code for codeblock code snippet
 			if (child.type === 'code') {
-				const lang = child.lang;
-				const meta = child.meta;
-				const code = child.value;
-
-				Object.assign(child, {
-					type: 'html',
-					value: `<Code.Code code={${json5.stringify(code)}} lang="${lang}" ${meta}></Code.Code>`,
-					children: void 0
-				});
-
-				return CONTINUE;
+				return transformCode(child);
 			}
 
 			if (child.type === 'inlineCode') {
 				// support custom break line of code
 				// usually we want use it inside table where not accept long text of code
 				if (child.value.startsWith('! break-all ')) {
-					console.log('start')
+					console.log('start');
 					Object.assign(child, {
 						type: 'html',
 						value: `<code class="inlinecode-break-all">${child.value.replace('! break-all ', '')}</code>`
@@ -107,7 +113,7 @@ export default function RemarkCustomTag() {
 				case 'content':
 					return Content(line, matched);
 				case 'codeblock':
-					return Codeblock(line, matched);
+					return Codeblock(line, matched, filename);
 				case 'gridstack':
 					return Gridstack(line, matched);
 				case 'grid':
@@ -221,9 +227,10 @@ function Content(child, match) {
  *
  * @param {Paragraph|Text} child
  * @param {Match} match
+ * @param {string} filename
  * @returns
  */
-function Codeblock(child, match) {
+function Codeblock(child, match, filename) {
 	const { modifier, attrs } = match;
 	switch (modifier) {
 		default: {
@@ -233,6 +240,39 @@ function Codeblock(child, match) {
 				children: void 0
 			});
 			return CONTINUE;
+		}
+		case 'import': {
+			let [lang, path, ...restAttrs] = attrs.split(' ');
+
+			const subAttrs = restAttrs.join(' ');
+
+			// get directory of current file
+			const base = filename.split('/').slice(0, -1).join('/') + '/';
+
+			// cleanup quotes in path
+			path = path.replace(/['"`]/g, '');
+
+			// remove ./ prefix from path
+			path = path.replace(/^\.\//, '');
+
+			// assume the path is relative to current file
+			path = `${base}${path}`;
+
+			// from path, read file content
+			const content = fs.readFileSync(path, 'utf-8');
+
+			// create new codeblock node
+			Object.assign(child, {
+				value: content,
+				type: 'code',
+				lang,
+				meta: subAttrs,
+				children: void 0
+			});
+
+			/** @type {any} */
+			const newChild = child;
+			return transformCode(newChild);
 		}
 		case 'end': {
 			Object.assign(child, {
@@ -362,6 +402,26 @@ function ImportComponent(child, match, scriptLines) {
 	Object.assign(child, {
 		type: 'html',
 		value: `<${camelCaseName} />`,
+		children: void 0
+	});
+
+	return CONTINUE;
+}
+
+/**
+ * transform code node to svelte code component
+ *
+ * @param {Code} child
+ * @returns
+ */
+function transformCode(child) {
+	const lang = child.lang;
+	const meta = child.meta;
+	const code = child.value;
+
+	Object.assign(child, {
+		type: 'html',
+		value: `<Code.Code code={${json5.stringify(code)}} lang="${lang}" ${meta}></Code.Code>`,
 		children: void 0
 	});
 
