@@ -4,10 +4,10 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
-		"build": "pnpm docsync && vite build",
+		"dev": "pnpm prebuild && vite dev",
+		"build": "pnpm docsync && pnpm prebuild && vite build",
 		"preview": "vite preview",
-		"prepare": "svelte-kit sync || echo ''",
+		"prepare": "svelte-kit sync",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
@@ -16,7 +16,9 @@
 		"remark:test": "node ./src/lib/md/remark/custom-tag/test.js",
 		"docsync:local": "sh ./doc-sync-local.sh",
 		"transform-yaml-data:test": "node ./transform-yaml-data.test.js",
-		"normalize-markdown:test": "node ./src/lib/md/normalize-md-preprocess/index.test.js"
+		"normalize-markdown:test": "node ./src/lib/md/normalize-md-preprocess/index.test.js",
+		"prebuild:test": "node ./src/lib/prebuild/index.test.js",
+		"prebuild": "node ./src/lib/prebuild/main.js"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.9",
