@@ -22,30 +22,6 @@ export interface NavHeading {
 }
 
 export class SidebarMenuStore {
-	constructor() {
-		$effect(() => {
-			if (this.pageVersion) {
-				this.itemsRaw = (transformedData as TransformedData)[
-					this.pageVersion as keyof TransformedData
-				].menu;
-			}
-		});
-
-		// auto update internal current url follow system page url
-		$effect(() => {
-			this.currentUrl = page.url;
-		});
-
-		// $effect(() => {
-		// 	if (document.body.querySelector('.a')) {
-		// 		document.body.removeChild(document.body.querySelector('.a')!);
-		// 	}
-		// 	const div = document.createElement('div');
-		// 	div.className = 'a bg-red-500 fixed top-[80px] bottom-[calc(100vh-180px)] w-full z-50';
-		// 	document.body.appendChild(div);
-		// });
-	}
-
 	static sid = Symbol.for('sidebar');
 
 	static create() {
@@ -56,14 +32,25 @@ export class SidebarMenuStore {
 		return getContext<SidebarMenuStore>(this.sid);
 	}
 
-	app = App.get();
+	constructor() {
+		$effect(() => {
+			const ver = this.app.version2.version as keyof TransformedData;
+			if (ver) {
+				this.itemsRaw = (transformedData as TransformedData)[ver]?.menu ?? [];
+			}
+		});
 
-	// version reference to url
-	pageVersion = $derived(this.app.version.version);
+		// sync with programatically page changes
+		$effect(() => {
+			this.curl = page.url;
+		});
+	}
+
+	readonly app = App.get();
 
 	// keep alternative current section/anchor point to, because limit of svelte page state
 	// not reactive when manual change url
-	currentUrl = $state<URL>(page.url);
+	curl = $state<URL>(page.url);
 
 	// TOC tracking
 	visibleId = $state<string>();
@@ -77,7 +64,8 @@ export class SidebarMenuStore {
 		if (!pageContentEl) return;
 
 		// listen dom, collect heading h2
-		const h2s = pageContentEl.querySelectorAll('h2');
+		// const hs = pageContentEl.querySelectorAll('h1, h2, h3, h4');
+		const hs = pageContentEl.querySelectorAll('.pod-anchor')
 
 		// use observable
 		const observer = new IntersectionObserver(
@@ -103,7 +91,7 @@ export class SidebarMenuStore {
 		);
 
 		// start observer
-		h2s.forEach((h2) => {
+		hs.forEach((h2) => {
 			observer.observe(h2);
 		});
 
@@ -121,14 +109,8 @@ export class SidebarMenuStore {
 		// history.replaceState(null, '', url.toString());
 
 		replaceState(url.toString(), {});
-		this.currentUrl = url;
+		this.curl = url;
 		tick().then(() => updated.check());
-
-		// const id = entry.target.id;
-		// const newUrl = new URL(window.location.href);
-		// newUrl.hash = `#${id}`;
-		// Use goto to update URL without page reload
-		// goto(`#${id}`, { replaceState: true, noScroll: true, keepFocus: true });
 	}
 
 	// items
@@ -138,38 +120,10 @@ export class SidebarMenuStore {
 		this.hashMap[url] = hashes;
 	}
 
-	u(p: string) {
-		return this.app.versionUrl(p);
-	}
-
 	itemsRaw = $state<SidebarItem[]>([]);
 
-	items = $derived.by(() => {
-		return this.itemsRaw.map((item) => {
-			if (item.href) {
-				return {
-					...item,
-					href: this.u(item.href)
-				};
-			}
-
-			return item;
-		});
-	});
-
-	makeItems() {
-		Object.entries(this.hashMap).forEach(([urlPartial, hashes]) => {
-			const url = this.u(urlPartial);
-			const itemIdx = this.items.findIndex((i) => i.href === url);
-
-			if (itemIdx !== -1) {
-				this.itemsRaw[itemIdx].children = Object.entries(hashes).map(([hash, label]) => ({
-					href: `${url}#${hash}`,
-					label: label
-				}));
-			}
-		});
-	}
+	// readonly
+	items = $derived(this.itemsRaw);
 
 	itemIDs = $derived(
 		this.items.flatMap((item) => {
@@ -212,17 +166,17 @@ export class SidebarMenuStore {
 	isActive(item: SidebarItem) {
 		if (item.heading) return false;
 
-		const home = this.app.versionUrl('');
+		const home = '';
 
 		const ihref = (item.href ?? '').trim().replace(/\/$/, '');
-		const phref = this.currentUrl.pathname.trim().replace(/\/$/, '');
+		const phref = this.curl.pathname.trim().replace(/\/$/, '');
 
 		if (ihref === home) {
 			return ihref === phref;
 		}
 
 		if (ihref.includes('#')) {
-			const str = `${phref}${this.currentUrl.hash}`;
+			const str = `${phref}${this.curl.hash}`;
 			return str.startsWith(ihref);
 		}
 

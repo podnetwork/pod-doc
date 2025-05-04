@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { App } from '$lib/app.svelte';
-	import DocsSearch from '$lib/components/docs-search.svelte';
+	import Docsearch from '$lib/components/docsearch/docsearch.svelte';
 	import ThemeToggle from '$lib/components/theme-toggle.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { Menu } from '@lucide/svelte';
@@ -11,8 +10,6 @@
 	import { SidebarMenuStore } from './sidebar-menu-store.svelte';
 	import SidebarMenu from './sidebar-menu.svelte';
 	import VersionSwitcher from './version-switcher.svelte';
-
-	const app = App.get();
 
 	let { children } = $props();
 
@@ -27,7 +24,6 @@
 
 	$effect(() => {
 		page.url.pathname; // Needed to track this as dependency
-
 		isMobileSidebarOpen = false;
 	});
 </script>
@@ -36,7 +32,7 @@
 	<div
 		class="fixed left-0 hidden h-screen w-72 flex-none flex-col overflow-y-auto border-r bg-secondary lg:flex"
 	>
-		<div class="hidden h-14 gap-3 pt-6 pb-0 px-8 md:flex">
+		<div class="hidden h-14 gap-3 px-8 pb-0 pt-6 md:flex">
 			<a href="/">
 				<img src="/pod.svg" alt="Pod network" class="w-14 dark:hidden" />
 				<img src="/pod-dark.svg" alt="Pod network" class="hidden w-14 dark:inline-block" />
@@ -107,7 +103,7 @@
 					<div class="flex-1"></div>
 
 					<div class="relative hidden md:block">
-						<DocsSearch />
+						<Docsearch />
 					</div>
 				</div>
 			</div>
