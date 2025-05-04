@@ -124,7 +124,7 @@
 						<LanguageSwitcher />
 					</div>
 					<ProfileMenu />
-					<Button href={app.versionUrl('/fund')}>Fund wallet</Button>
+					<Button href="/fund">Fund wallet</Button>
 				</div>
 			</div>
 		{/if}
