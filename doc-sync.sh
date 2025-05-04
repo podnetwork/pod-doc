@@ -49,9 +49,17 @@ IFS=',' read -ra VERSION_ARRAY <<< "$versions"
 for versionpair in "${VERSION_ARRAY[@]}"; do
   echo "Syncing doc $versionpair..."
 
-  # Split version pair into version and branch
-  IFS=':' read -r version branch <<< "$versionpair"
-  echo "Processing version: $version from branch: $branch"
+  # if the $versionpair is "local", then we should use the $clone_from as the source
+  # and version = local, branch = local
+  if [ "$versionpair" == "local" ]; then
+    echo "Syncing local doc..."
+    version="local"
+    branch="local"
+  else
+    # Split version pair into version and branch
+    IFS=':' read -r version branch <<< "$versionpair"
+    echo "Processing version: $version from branch: $branch"
+  fi
   
   rm -rf $CACHE_FOLDER 2>/dev/null || true # remove if exist
 
@@ -78,26 +86,28 @@ for versionpair in "${VERSION_ARRAY[@]}"; do
 done
 
 # find the highest version follow ALLVERSION
-HIGHEST_VERSION=""
-HIGHEST_VERSION_NUM=0
+if [ "$versions" != "local" ]; then
+  HIGHEST_VERSION=""
+  HIGHEST_VERSION_NUM=0
 
-for versionpair in "${VERSION_ARRAY[@]}"; do
-  IFS=':' read -r version branch <<< "$versionpair"
-  version_num=$(echo "$version" | sed 's/[^0-9]//g')
-  
-  if [ "$version_num" -gt "$HIGHEST_VERSION_NUM" ]; then
-    HIGHEST_VERSION_NUM=$version_num
-    HIGHEST_VERSION=$version
+  for versionpair in "${VERSION_ARRAY[@]}"; do
+    IFS=':' read -r version branch <<< "$versionpair"
+    version_num=$(echo "$version" | sed 's/[^0-9]//g')
+    
+    if [ "$version_num" -gt "$HIGHEST_VERSION_NUM" ]; then
+      HIGHEST_VERSION_NUM=$version_num
+      HIGHEST_VERSION=$version
+    fi
+  done
+
+  echo "Determined highest version: $HIGHEST_VERSION"
+
+  # copy folder name match HIGHEST_VERSION to new slibing folder named latest
+  if [ -d "$FOLDER_DOC/$HIGHEST_VERSION" ]; then
+    echo "Highest version: $HIGHEST_VERSION"
+    echo "Copy folder $FOLDER_DOC/$HIGHEST_VERSION to $FOLDER_DOC/latest"
+    rm -rf $FOLDER_DOC/latest
+    mkdir -p $FOLDER_DOC/latest
+    cp -rf $FOLDER_DOC/$HIGHEST_VERSION/* $FOLDER_DOC/latest/
   fi
-done
-
-echo "Determined highest version: $HIGHEST_VERSION"
-
-# copy folder name match HIGHEST_VERSION to new slibing folder named latest
-if [ -d "$FOLDER_DOC/$HIGHEST_VERSION" ]; then
-  echo "Highest version: $HIGHEST_VERSION"
-  echo "Copy folder $FOLDER_DOC/$HIGHEST_VERSION to $FOLDER_DOC/latest"
-  rm -rf $FOLDER_DOC/latest
-  mkdir -p $FOLDER_DOC/latest
-  cp -rf $FOLDER_DOC/$HIGHEST_VERSION/* $FOLDER_DOC/latest/
 fi
