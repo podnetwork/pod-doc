@@ -19,7 +19,7 @@ interface CodeInfo {
 export class CodeSwitcher {
 	constructor(private readonly app: App) {
 		$effect(() => {
-			const ver = this.app.version.version as keyof TransformedData;
+			const ver = this.app.version2.version as keyof TransformedData;
 			if (!ver || !t[ver].langs) return;
 			this.languages = t[ver].langs;
 		});

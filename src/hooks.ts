@@ -1,36 +1,31 @@
 import { PUBLIC_NODE_ENV } from '$env/static/public';
-import { Version } from '$lib/version.svelte';
+import { Version2 } from '$lib/version2.svelte';
 import type { Reroute } from '@sveltejs/kit';
 
+const isLocal = PUBLIC_NODE_ENV === 'local';
+
+// exclude from rewrite url if first segment of url match this list
+const whitelist = ['/api', '/internal'];
+
+// from 2025-05-04: subdomain strategy is only solution for separate version.
+// with local, fixed to version `local`
 export const reroute: Reroute = ({ url }) => {
-	// with local, use origin url
-	if (!PUBLIC_NODE_ENV || PUBLIC_NODE_ENV === 'local') {
-		return;
-	}
-
-	// catch route not doc
-	const whitelist = ['api', 'internal'];
-
-	const firstSegment = url.pathname.split('/')[1];
-
-	if (whitelist.includes(firstSegment)) {
-		return;
-	}
-
 	// console.log('## REROUTE HOOK ##');
 	// console.log('REROUTE HOOK href: ', url.href);
 	// console.log('REROUTE HOOK origin: ', url.origin);
 	// console.log('REROUTE HOOK pathname: ', url.pathname);
 
-	// match domain pod-doc-svelte-{version}.vercel.app
-	const version = Version.getFromSubdomain(url.origin);
-
-	if (version) {
-		// console.log('Rerouted to version: ', version);
-		return `/${version}${url.pathname}`;
+	if (whitelist.some((i) => url.pathname.startsWith(i))) {
+		return;
 	}
 
-	// uncatched, assume running on local
+	// with local, redirect all to version `local`
+	if (isLocal) {
+		return `/local${url.pathname}`;
+	}
 
-	console.log('Not rerouted');
+	// match domain pod-doc-svelte-{version}.vercel.app
+	const version = Version2.fromUrl(url.href);
+
+	return `/${version}${url.pathname}`;
 };

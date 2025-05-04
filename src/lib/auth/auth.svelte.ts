@@ -1,16 +1,8 @@
 import { goto } from '$app/navigation';
 import type { App } from '$lib/app.svelte';
 import { ClerkExternalProviderName } from '$lib/clerk/type';
-import {
-	catchError,
-	EMPTY,
-	finalize,
-	firstValueFrom,
-	from,
-	switchMap,
-	tap,
-	throwError
-} from 'rxjs';
+import { LocalVersion } from '$lib/version2.svelte';
+import { EmptyError, firstValueFrom, from, map, Subject, switchMap, takeUntil } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { untrack } from 'svelte';
 import { useClerkContext } from 'svelte-clerk';
@@ -21,12 +13,13 @@ export class Auth {
 	constructor(private readonly app: App) {
 		$effect(() => {
 			if (this.clerk.isLoaded) {
-				// fetch versions
-				// avoid unexpected reactive
-				const sub = untrack(() => {
-					return this.fetchUserFromSupabase().subscribe();
+				untrack(() => {
+					// fetch versions
+					// avoid unexpected reactive
+					this.fetchUserFromSupabase();
 				});
-				return () => sub.unsubscribe();
+
+				return () => this.cancelFetchUserFromSupabase.next();
 			}
 		});
 	}
@@ -58,66 +51,100 @@ export class Auth {
 	// store latest verion accessibility status
 	versionAccessStage = $state<string>();
 
-	// versions from supabase , which can access
-	versions = $state<AuthVerifyUser['versions']>([]);
-
 	fetchingUserFromSupabase = $state(true); // default = true to block loading
 
 	// send this request in both case: auth or not auth
 	// if authed then request resolve user in database and return versions user can access
 	// if not auth then request return all version enabled
-	private fetchUserFromSupabase() {
-		this.fetchingUserFromSupabase = true;
+	private cancelFetchUserFromSupabase = new Subject<void>();
 
-		// note: what the hell, clerk typescript types are so bad
-		type EAccounts = NonNullable<typeof this.user>['externalAccounts'][0][];
-		const eAccounts = (this.user?.externalAccounts ?? []) as EAccounts;
+	private async fetchUserFromSupabase() {
+		try {
+			this.fetchingUserFromSupabase = true;
 
-		const twitter = eAccounts.find((i) => i.provider === ClerkExternalProviderName.X);
+			// note: what the hell, clerk typescript types are so bad
+			type EAccounts = NonNullable<typeof this.user>['externalAccounts'][0][];
+			const eAccounts = (this.user?.externalAccounts ?? []) as EAccounts;
 
-		const firstName = this.user?.firstName;
-		const lastName = this.user?.lastName;
+			const twitter = eAccounts.find((i) => i.provider === ClerkExternalProviderName.X);
 
-		interface Payload {
-			clerk_id?: string;
-			twitter_id?: string;
-			github_id?: string;
-			access_version?: string;
+			const firstName = this.user?.firstName;
+			const lastName = this.user?.lastName;
 
-			first_name?: string;
-			last_name?: string;
-		}
+			interface Payload {
+				clerk_id?: string;
+				twitter_id?: string;
+				github_id?: string;
+				access_version?: string;
 
-		// get current version, remove any alphabetic character
-		let version = this.app.version.version;
-		if (!version) {
-			return throwError(() => new Error('Version not found'));
-		}
+				first_name?: string;
+				last_name?: string;
+			}
 
-		version = version.replace(/[a-zA-Z]/g, '');
+			// get current version, remove any alphabetic character
+			let version = this.app.version2.version;
 
-		const pull = ajax<AuthVerifyUser>({
-			method: 'POST',
-			url: '/api/user-verify',
-			body: JSON.stringify({
-				clerk_id: this.user?.id,
-				twitter_id: twitter?.providerUserId ?? void 0,
-				github_id: void 0,
-				access_version: version,
-				first_name: firstName ?? void 0,
-				last_name: lastName ?? void 0
-			} satisfies Payload)
-		});
+			if (!version) {
+				throw new Error('Version not found');
+			}
 
-		return pull.pipe(
-			tap((res) => {
-				this.userInternal = res.response.user;
-				this.versions = res.response.versions;
-			}),
-			catchError((e) => {
+			// in case working on local then skip fetching from database,
+			// making decoy version `local` and accept user to access local
+			if (this.app.isLocal) {
+				version = LocalVersion;
+				this.app.version2.versions = [
+					{
+						id: 1,
+						name: 'Local',
+						v_number: LocalVersion,
+						is_active: true,
+						is_locked: false,
+						created_at: new Date().toISOString(),
+						deleted_at: null,
+						updated_at: new Date().toISOString(),
+						released_at: new Date().toISOString(),
+						domain: 'http://localhost:5173',
+						domain_dev: 'http://localhost:5173',
+						is_latest: true
+					}
+				];
+
+				return;
+			}
+
+			// from here is production env
+			// using subdomain strategy
+
+			version = version.replace(/[a-zA-Z]/g, '');
+
+			const ask$ = ajax<AuthVerifyUser>({
+				method: 'POST',
+				url: '/api/user-verify',
+				body: JSON.stringify({
+					clerk_id: this.user?.id,
+					twitter_id: twitter?.providerUserId ?? void 0,
+					github_id: void 0,
+					access_version: version,
+					first_name: firstName ?? void 0,
+					last_name: lastName ?? void 0
+				} satisfies Payload)
+			});
+
+			const asked = await firstValueFrom(
+				ask$.pipe(
+					map((i) => i.response),
+					takeUntil(this.cancelFetchUserFromSupabase)
+				)
+			).catch((e) => e as Error);
+
+			if (asked instanceof EmptyError) {
+				return;
+			}
+
+			if (asked instanceof Error) {
 				let msg = 'Sorry, we are unable to load your profile right now.';
 
-				switch (e.message as AuthVerifyUserAccessVersionStage) {
+				switch (asked.message as AuthVerifyUserAccessVersionStage) {
 					case AuthVerifyUserAccessVersionStage.NOT_EXISTS:
 						this.versionAccessStage = AuthVerifyUserAccessVersionStage.NOT_EXISTS;
 						msg = 'The version you are trying to access does not exist.';
@@ -141,11 +168,17 @@ export class Auth {
 				}
 
 				toast.error(msg);
-				return EMPTY;
-			}),
-			finalize(() => {
-				this.fetchingUserFromSupabase = false;
-			})
-		);
+				return;
+			}
+
+			this.userInternal = asked.user;
+			this.app.version2.versions = asked.versions.toSorted(
+				(a, b) => Number(a.v_number) - Number(b.v_number)
+			);
+
+			this.app.version2.detail = asked.versions.find((i) => i.v_number === version);
+		} finally {
+			this.fetchingUserFromSupabase = false;
+		}
 	}
 }

@@ -1,11 +1,10 @@
+import { PUBLIC_NODE_ENV } from '$env/static/public';
 import { getContext, setContext } from 'svelte';
 import { Auth } from './auth/auth.svelte';
 import { CodeSwitcher } from './code-switcher.svelte';
-import { Version } from './version.svelte';
+import { Version2 } from './version2.svelte';
 
 export class App {
-	constructor() {}
-
 	static sid = Symbol.for('app');
 
 	static create() {
@@ -16,14 +15,13 @@ export class App {
 		return getContext<App>(this.sid);
 	}
 
-	version = new Version(this);
+	constructor() {}
 
-	// for mapping url
-	versionUrl(path: string) {
-		if (this.version.fromLatestDomain) return path; // support subdomain (online)
-		if (this.version.fromSubdomain) return path; // support subdomain (online)
-		return `/${this.version.fromUrl}${path}`; // support param (local)
+	get isLocal() {
+		return PUBLIC_NODE_ENV === 'local';
 	}
+
+	version2 = new Version2(this);
 
 	// AUTH
 	auth = new Auth(this);

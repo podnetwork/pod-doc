@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 	import { App } from '$lib/app.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import { buttonVariants } from '$lib/components/ui/button';
@@ -7,10 +9,7 @@
 
 	const app = App.get();
 
-	let versions = $derived.by(() => {
-		const versions = app.auth.versions.toSorted((a, b) => Number(a.v_number) - Number(b.v_number));
-		return versions;
-	});
+	let versions = $derived(app.version2.versions);
 </script>
 
 <DropdownMenu.Root>
@@ -21,10 +20,12 @@
 		})}
 	>
 		<span class="text-sm">
-			{#if app.version.versionDetail?.is_latest}
+			{#if app.isLocal}
+				Local
+			{:else if app.version2.detail?.is_latest}
 				Latest
 			{:else}
-				{app.version.versionDetail?.v_number ? `v${app.version.versionDetail.v_number}` : '-'}
+				{app.version2.detail?.v_number ? `v${app.version2.detail.v_number}` : '-'}
 			{/if}
 		</span>
 		<LucideChevronsUpDown size={14} class="ml-auto" />
@@ -36,11 +37,18 @@
 			{#each versions as version}
 				<DropdownMenu.Item
 					onclick={() => {
-						if (version.v_number === app.version.versionDetail?.v_number) return;
-						app.version.goToVersion(`v${version.v_number}`);
+						if (version.id === app.version2.detail?.id) return;
+
+						const domain = version.domain;
+						const url = `${domain}${page.url.pathname}`;
+						goto(url);
 					}}
 				>
-					v{version.v_number}
+					{#if app.isLocal}
+						Local
+					{:else}
+						v{version.v_number}
+					{/if}
 					<div class="ml-auto">
 						{#if version.is_latest}
 							<Badge variant="outline" class="ml-auto">Latest</Badge>
