@@ -13,7 +13,7 @@
 </script>
 
 <div class="gridstack-block">
-	<svelte:element this={dynamicTag as 'a' | 'div'} {href} class="h-full block">
+	<svelte:element this={dynamicTag as 'a' | 'div'} {href} class="block h-full">
 		{@render children()}
 		<div class="top">&nbsp;</div>
 		<div class="bottom">&nbsp;</div>
@@ -31,8 +31,19 @@
 		}
 
 		:global(> a) {
-			@apply cursor-pointer no-underline text-inherit;
-			@apply hover:opacity-70 transition-opacity duration-200;
+			@apply cursor-pointer text-inherit no-underline;
+			@apply transition-[opacity,border-color,background-color] duration-200;
+
+			&:hover {
+				@apply border-green-300 bg-green-50;
+
+				.top:before,
+				.top:after,
+				.bottom:before,
+				.bottom:after {
+					@apply border-green-300;
+				}
+			}
 		}
 
 		.top,
@@ -48,6 +59,7 @@
 			content: ' ';
 			@apply absolute;
 			@apply border border-border bg-background dark:border-background;
+			@apply transition-[opacity,border-color,background-color] duration-200;
 			width: 40px;
 			height: 40px;
 		}
@@ -77,6 +89,23 @@
 		:global(h1, h2, h3, h4, h5, h6) {
 			&:first-child {
 				@apply mb-2 mt-0;
+			}
+		}
+	}
+
+	:global(.dark) {
+		.gridstack-block {
+			:global(> a) {
+				&:hover {
+					@apply border-green-600 bg-green-900;
+
+					.top:before,
+					.top:after,
+					.bottom:before,
+					.bottom:after {
+						@apply border-green-600;
+					}
+				}
 			}
 		}
 	}
