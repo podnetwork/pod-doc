@@ -10,14 +10,14 @@
 
 	let versions = $derived(app.version2.versions);
 
-	const getName = (vnum?: string, name: string ='unknown') => {
+	const getName = (vnum?: string, name: string = 'unknown') => {
 		if (isNaN(+(vnum ?? '--'))) return name;
 		return `v${vnum}`;
 	};
 
 	$effect(() => {
 		$inspect(app.version2.detail);
-	})
+	});
 </script>
 
 <DropdownMenu.Root>
