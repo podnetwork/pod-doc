@@ -15,7 +15,7 @@ export class Version2 {
 	static domains = [
 		['latest', PUBLIC_LATEST_DOMAIN],
 		// production domains should be format {version}.pod-doc.com
-		['prod', /^https?:\/\/([\w-]+)\.pod-doc\.com/],
+		['prod', /^https?:\/\/([\w-]+)\.pod-doc\.network/],
 		// vercel domains should be format pod-doc-svelte-(v\d+)\.vercel\.app
 		['vercel', /^https?:\/\/pod-doc-svelte-(v\d+)\.vercel\.app/]
 	] as [string, string | RegExp][];
@@ -26,14 +26,17 @@ export class Version2 {
 
 		// get origin from url
 		const origin = new URL(url).origin;
+		console.log(origin)
 
 		for (const [type, str] of Version2.domains) {
 			if (typeof str === 'string') {
+				console.log('check as string', str, origin)
 				if (str === origin) return type;
 				continue;
 			}
 
 			const matched = str.exec(origin);
+			console.log('check as regex', str, origin, matched)
 			// if matched, return matche version from regex
 			if (matched) return matched[1];
 		}
@@ -44,7 +47,9 @@ export class Version2 {
 	constructor(private readonly app: App) {}
 
 	// in-app version check
-	version = $derived(Version2.fromUrl(page.url.href));
+	version = $derived.by(() => {
+		return Version2.fromUrl(page.url.href)
+	});
 
 	// versions from supabase , which can access
 	versions = $state<AuthVerifyUser['versions']>([]);
