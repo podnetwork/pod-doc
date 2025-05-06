@@ -18,7 +18,9 @@
 		"transform-yaml-data:test": "node ./transform-yaml-data.test.js",
 		"normalize-markdown:test": "node ./src/lib/md/normalize-md-preprocess/index.test.js",
 		"prebuild:test": "node ./src/lib/prebuild/index.test.js",
-		"prebuild": "node ./src/lib/prebuild/main.js"
+		"prebuild": "node ./src/lib/prebuild/main.js",
+		"deploy:main": "curl -X POST https://api.vercel.com/v1/integrations/deploy/prj_OmjAl7G5s7kt3X5o9zbUanmswKaj/UKKTD8zcXp",
+		"deploy:dev": "curl -X POST https://api.vercel.com/v1/integrations/deploy/prj_OmjAl7G5s7kt3X5o9zbUanmswKaj/r8n5uYju4w"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.9",
