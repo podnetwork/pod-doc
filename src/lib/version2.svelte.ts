@@ -28,6 +28,8 @@ export class Version2 {
 		const origin = new URL(url).origin;
 
 		for (const [type, str] of Version2.domains) {
+			console.log(type, str, origin)
+
 			if (typeof str === 'string') {
 				if (str === origin) return type;
 				continue;
@@ -46,6 +48,7 @@ export class Version2 {
 	// in-app version check
 	version = $derived.by(() => {
 		const v = Version2.fromUrl(page.url.href);
+		console.log('found v:', v)
 		if (v === 'local') return LocalVersion;
 		if (v === 'latest') return this.versions.find((i) => i.is_latest)?.v_number;
 		return v;
