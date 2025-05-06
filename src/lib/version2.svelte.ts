@@ -26,17 +26,14 @@ export class Version2 {
 
 		// get origin from url
 		const origin = new URL(url).origin;
-		console.log(origin)
 
 		for (const [type, str] of Version2.domains) {
 			if (typeof str === 'string') {
-				console.log('check as string', str, origin)
 				if (str === origin) return type;
 				continue;
 			}
 
 			const matched = str.exec(origin);
-			console.log('check as regex', str, origin, matched)
 			// if matched, return matche version from regex
 			if (matched) return matched[1];
 		}
@@ -48,7 +45,10 @@ export class Version2 {
 
 	// in-app version check
 	version = $derived.by(() => {
-		return Version2.fromUrl(page.url.href)
+		const v = Version2.fromUrl(page.url.href);
+		if (v === 'local') return LocalVersion;
+		if (v === 'latest') return this.versions.find((i) => i.is_latest)?.v_number;
+		return v;
 	});
 
 	// versions from supabase , which can access
