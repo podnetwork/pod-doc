@@ -9,6 +9,15 @@
 	const app = App.get();
 
 	let versions = $derived(app.version2.versions);
+
+	const getName = (vnum?: string, name: string ='unknown') => {
+		if (isNaN(+(vnum ?? '--'))) return name;
+		return `v${vnum}`;
+	};
+
+	$effect(() => {
+		$inspect(app.version2.detail);
+	})
 </script>
 
 <DropdownMenu.Root>
@@ -19,13 +28,7 @@
 		})}
 	>
 		<span class="text-sm">
-			{#if app.isLocal}
-				Local
-			{:else if app.version2.detail?.is_latest}
-				Latest
-			{:else}
-				{app.version2.detail?.v_number ? `v${app.version2.detail.v_number}` : '-'}
-			{/if}
+			{getName(app.version2.detail?.v_number, app.version2.detail?.name)}
 		</span>
 		<LucideChevronsUpDown size={14} class="ml-auto" />
 	</DropdownMenu.Trigger>
@@ -44,11 +47,7 @@
 						window.location.href = url;
 					}}
 				>
-					{#if app.isLocal}
-						Local
-					{:else}
-						v{version.v_number}
-					{/if}
+					{getName(version.v_number, version.name)}
 					<div class="ml-auto">
 						{#if version.is_latest}
 							<Badge variant="outline" class="ml-auto">Latest</Badge>

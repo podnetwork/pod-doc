@@ -81,17 +81,14 @@ export class Auth {
 				last_name?: string;
 			}
 
-			// get current version, remove any alphabetic character
-			let version = this.app.version2.version;
-
-			if (!version) {
+			// get current version
+			if (!this.app.version2.version) {
 				throw new Error('Version not found');
 			}
 
 			// in case working on local then skip fetching from database,
 			// making decoy version `local` and accept user to access local
-			if (this.app.isLocal) {
-				version = LocalVersion;
+			if (this.app.version2.version === LocalVersion) {
 				this.app.version2.versions = [
 					{
 						id: 1,
@@ -108,14 +105,11 @@ export class Auth {
 						is_latest: true
 					}
 				];
-
 				return;
 			}
 
 			// from here is production env
 			// using subdomain strategy
-
-			version = version.replace(/[a-zA-Z]/g, '');
 
 			const ask$ = ajax<AuthVerifyUser>({
 				method: 'POST',
@@ -124,7 +118,7 @@ export class Auth {
 					clerk_id: this.user?.id,
 					twitter_id: twitter?.providerUserId ?? void 0,
 					github_id: void 0,
-					access_version: version,
+					access_version: this.app.version2.version,
 					first_name: firstName ?? void 0,
 					last_name: lastName ?? void 0
 				} satisfies Payload)
@@ -172,11 +166,10 @@ export class Auth {
 			}
 
 			this.userInternal = asked.user;
+
 			this.app.version2.versions = asked.versions.toSorted(
 				(a, b) => Number(a.v_number) - Number(b.v_number)
 			);
-
-			this.app.version2.detail = asked.versions.find((i) => i.v_number === version);
 		} finally {
 			this.fetchingUserFromSupabase = false;
 		}

@@ -8,14 +8,15 @@ import type { App } from './app.svelte';
 import type { AuthVerifyUser } from './auth/verify-user';
 
 export const LocalVersion = 'local';
+export const LatestVersion = 'latest';
 
 export class Version2 {
 	// subdomain strategy
 	// this support online site
 	static domains = [
 		['latest', PUBLIC_LATEST_DOMAIN],
-		// production domains should be format {version}.pod-doc.com
-		['prod', /^https?:\/\/([\w-]+)\.pod-doc\.network/],
+		// production domains should be format {version}.docs.dev.pod.network
+		['subdomain', /^https?:\/\/(\d+)\.docs\.dev\.pod\.network/],
 		// vercel domains should be format pod-doc-svelte-(v\d+)\.vercel\.app
 		['vercel', /^https?:\/\/pod-doc-svelte-(v\d+)\.vercel\.app/]
 	] as [string, string | RegExp][];
@@ -28,8 +29,6 @@ export class Version2 {
 		const origin = new URL(url).origin;
 
 		for (const [type, str] of Version2.domains) {
-			console.log(type, str, origin)
-
 			if (typeof str === 'string') {
 				if (str === origin) return type;
 				continue;
@@ -48,9 +47,6 @@ export class Version2 {
 	// in-app version check
 	version = $derived.by(() => {
 		const v = Version2.fromUrl(page.url.href);
-		console.log('found v:', v)
-		if (v === 'local') return LocalVersion;
-		if (v === 'latest') return this.versions.find((i) => i.is_latest)?.v_number;
 		return v;
 	});
 
@@ -58,5 +54,10 @@ export class Version2 {
 	versions = $state<AuthVerifyUser['versions']>([]);
 
 	// current version object, this passed from auth class
-	detail = $derived.by(() => this.versions.find((i) => i.v_number === this.version));
+	detail = $derived.by(() => {
+		if (this.version === LocalVersion)
+			return this.versions.find((i) => i.v_number === LocalVersion);
+		if (this.version === LatestVersion) return this.versions.find((i) => i.is_latest);
+		return this.versions.find((i) => i.v_number === this.version);
+	});
 }
